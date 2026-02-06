@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, User } from "lucide-react"
+import { Menu } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ThemeSwitcher } from "@/components/theme/theme-switcher"
@@ -11,6 +11,7 @@ import { Container } from "@/components/layout/container"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { SearchDialog } from "@/components/search/search-dialog"
 import { SearchTrigger } from "@/components/search/search-trigger"
+import { UserMenu } from "@/components/auth/user-menu"
 
 const NAV_ITEMS = [
   { href: "/", label: "Home" },
@@ -80,13 +81,7 @@ export function TopBar() {
 
               <ThemeSwitcher />
 
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label="User menu"
-              >
-                <User className="size-4" />
-              </Button>
+              <UserMenu />
             </div>
           </div>
         </Container>

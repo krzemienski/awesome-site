@@ -368,7 +368,7 @@ Focus: Auth pages, favorites, bookmarks, submissions, profile, preferences.
   - _Requirements: US-10, US-11, AC-10.1 through AC-11.5_
   - _Design: Module: Auth_
 
-- [ ] 3.2 Build user menu and auth state UI
+- [x] 3.2 Build user menu and auth state UI
   - **Do**:
     1. Create `src/components/auth/user-menu.tsx` -- Avatar dropdown: profile link, favorites, bookmarks, history, admin (if admin), logout
     2. Update `src/components/layout/top-bar.tsx` -- Show UserMenu when authenticated, Login/Register buttons when not
