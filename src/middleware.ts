@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
+import {
+  checkRateLimit,
+  rateLimitHeaders,
+} from "@/lib/rate-limit"
 
 const PROTECTED_ROUTES = [
   "/profile",
@@ -12,6 +16,10 @@ const ADMIN_ROUTES = ["/admin"]
 
 const AUTH_ROUTES = ["/login", "/register"]
 
+/** Anonymous rate limit: 30 requests per minute per IP */
+const ANON_RATE_LIMIT = 30
+const ANON_RATE_WINDOW_MS = 60 * 1000
+
 function isProtectedRoute(pathname: string): boolean {
   return PROTECTED_ROUTES.some((route) => pathname.startsWith(route))
 }
@@ -22,6 +30,10 @@ function isAdminRoute(pathname: string): boolean {
 
 function isAuthRoute(pathname: string): boolean {
   return AUTH_ROUTES.some((route) => pathname.startsWith(route))
+}
+
+function isApiRoute(pathname: string): boolean {
+  return pathname.startsWith("/api/")
 }
 
 /**
@@ -44,10 +56,62 @@ function getSessionFromCookies(request: NextRequest): {
   return { hasSession: Boolean(sessionToken) }
 }
 
+/**
+ * Extract client IP from request headers.
+ * Falls back to "unknown" if no IP header is available.
+ */
+function getClientIp(request: NextRequest): string {
+  return (
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    request.headers.get("x-real-ip") ??
+    "unknown"
+  )
+}
+
 export default async function middleware(
   request: NextRequest
 ): Promise<NextResponse> {
   const { pathname } = request.nextUrl
+
+  // Anonymous rate limiting on API routes
+  if (isApiRoute(pathname)) {
+    // Skip rate limiting for auth endpoints (Better Auth catch-all)
+    if (pathname.startsWith("/api/auth/")) {
+      return NextResponse.next()
+    }
+
+    const ip = getClientIp(request)
+    const rateLimitKey = `anon:${ip}`
+    const result = checkRateLimit(rateLimitKey, ANON_RATE_LIMIT, ANON_RATE_WINDOW_MS)
+
+    if (!result.allowed) {
+      const retryAfterSeconds = Math.ceil((result.resetAt - Date.now()) / 1000)
+
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Rate limit exceeded",
+          code: "RATE_LIMITED",
+        },
+        {
+          status: 429,
+          headers: {
+            ...rateLimitHeaders(result),
+            "Retry-After": String(Math.max(1, retryAfterSeconds)),
+          },
+        }
+      )
+    }
+
+    // Attach rate limit headers to successful API responses
+    const response = NextResponse.next()
+    const headers = rateLimitHeaders(result)
+    for (const [key, value] of Object.entries(headers)) {
+      response.headers.set(key, value)
+    }
+    return response
+  }
+
   const { hasSession } = getSessionFromCookies(request)
 
   if (isAdminRoute(pathname)) {
@@ -84,5 +148,7 @@ export default async function middleware(
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico).*)",
+  ],
 }

@@ -888,7 +888,7 @@ Focus: Sitemap, OG images, JSON-LD, rate limiting, audit logging, mobile polish.
   - **Done when**: Zero errors
   - **Commit**: `chore(seo): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 7.5 Implement API key rate limiting and authentication
+- [x] 7.5 Implement API key rate limiting and authentication
   - **Do**:
     1. Update `src/features/auth/auth-middleware.ts` -- `withApiKey()`: validate `x-api-key` header via SHA-256 hash lookup, enforce rate limits per tier (free=60/hr, standard=1000/hr, premium=10000/hr), update last_used_at, log to api_usage_log
     2. Create rate limiting utility in `src/lib/rate-limit.ts` -- In-memory sliding window Map, 3 tiers: anonymous (30/min/IP), session (100/min/user), API key (tier-based/hr)

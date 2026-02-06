@@ -4,6 +4,12 @@ import type { ZodSchema, ZodError } from "zod"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { apiError, handleApiError } from "@/lib/api-response"
+import { RATE_LIMITS } from "@/lib/constants"
+import {
+  checkRateLimit,
+  rateLimitHeaders,
+  rateLimitExceededResponse,
+} from "@/lib/rate-limit"
 import type {
   RouteContext,
   RouteHandler,
@@ -137,6 +143,8 @@ export function withValidation<T>(
 /**
  * Validates x-api-key header via SHA-256 hash lookup in the ApiKey table.
  * Checks key is active and not expired.
+ * Enforces tier-based rate limits (free=60/hr, standard=1000/hr, premium=10000/hr).
+ * Logs usage to ApiUsageLog after request completes.
  * Attaches API key info to context.
  */
 export function withApiKey(
@@ -146,6 +154,8 @@ export function withApiKey(
   ) => Promise<Response>
 ): RouteHandler {
   return async (req: NextRequest, ctx: RouteContext): Promise<Response> => {
+    const startTime = Date.now()
+
     try {
       const apiKeyHeader = req.headers.get("x-api-key")
 
@@ -180,6 +190,21 @@ export function withApiKey(
         return apiError("API key has expired", 401, "API_KEY_EXPIRED")
       }
 
+      // Enforce tier-based rate limiting
+      const tier = apiKeyRecord.tier as keyof typeof RATE_LIMITS.apiKey
+      const tierConfig = RATE_LIMITS.apiKey[tier] ?? RATE_LIMITS.apiKey.free
+      const rateLimitKey = `apikey:${apiKeyRecord.id}`
+      const rateLimitResult = checkRateLimit(
+        rateLimitKey,
+        tierConfig.maxRequests,
+        tierConfig.windowMs
+      )
+
+      if (!rateLimitResult.allowed) {
+        return rateLimitExceededResponse(rateLimitResult)
+      }
+
+      // Update lastUsedAt
       await prisma.apiKey.update({
         where: { id: apiKeyRecord.id },
         data: { lastUsedAt: new Date() },
@@ -196,7 +221,37 @@ export function withApiKey(
         },
       }
 
-      return await handler(req, apiKeyCtx)
+      const response = await handler(req, apiKeyCtx)
+
+      // Log usage to ApiUsageLog (fire-and-forget)
+      const responseTimeMs = Date.now() - startTime
+      const endpoint = new URL(req.url).pathname
+      prisma.apiUsageLog
+        .create({
+          data: {
+            apiKeyId: apiKeyRecord.id,
+            endpoint,
+            method: req.method,
+            statusCode: response.status,
+            responseTime: responseTimeMs,
+          },
+        })
+        .catch(() => {
+          // Silently fail -- usage logging should not break the request
+        })
+
+      // Attach rate limit headers to response
+      const headers = rateLimitHeaders(rateLimitResult)
+      const enhancedResponse = new Response(response.body, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: new Headers([
+          ...Array.from(response.headers.entries()),
+          ...Object.entries(headers),
+        ]),
+      })
+
+      return enhancedResponse
     } catch (error) {
       return handleApiError(error)
     }
