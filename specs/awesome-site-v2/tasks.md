@@ -900,7 +900,7 @@ Focus: Sitemap, OG images, JSON-LD, rate limiting, audit logging, mobile polish.
   - _Requirements: FR-68, NFR-8 through NFR-10, NFR-15, AC-13.6, AC-13.7_
   - _Design: Security Considerations_
 
-- [ ] 7.6 Add audit logging to all admin mutations
+- [x] 7.6 Add audit logging to all admin mutations
   - **Do**:
     1. Update `src/features/admin/audit-service.ts` -- ensure all mutations (create, update, delete, approve, reject) across resources, categories, users, tags, settings call `createAuditLog()` with previous state, new state, user, timestamp
     2. Create `src/app/api/admin/audit/route.ts` -- GET (audit log with filters, pagination)
@@ -1016,7 +1016,7 @@ Focus: Real browser/cURL validation of every feature with evidence. No mocks, no
   - **Commit**: `chore(validate): verify user features end-to-end`
   - _Requirements: FR-20, FR-21, FR-23_
 
-- [ ] 8.6 Validate admin panel API endpoints
+- [x] 8.6 Validate admin panel API endpoints
   - **Do**:
     1. cURL GET `/api/admin/stats` to verify dashboard data
     2. cURL GET `/api/admin/users` to verify user list
@@ -1041,7 +1041,7 @@ Focus: Real browser/cURL validation of every feature with evidence. No mocks, no
   - **Commit**: `chore(validate): verify SEO implementation end-to-end`
   - _Requirements: FR-61 through FR-64_
 
-- [ ] 8.8 Validate API key system
+- [x] 8.8 Validate API key system
   - **Do**:
     1. cURL POST `/api/keys` to create API key (capture full key from response)
     2. cURL GET `/api/resources` with `x-api-key` header using created key
