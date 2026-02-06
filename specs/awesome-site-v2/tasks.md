@@ -669,7 +669,7 @@ Focus: AI enrichment, GitHub sync, learning journeys, link health.
   - _Requirements: US-14, AC-14.1 through AC-14.6, FR-34, FR-40_
   - _Design: Module: AI_
 
-- [ ] 5.2 Implement batch enrichment service
+- [x] 5.2 Implement batch enrichment service
   - **Do**:
     1. Create `src/features/ai/enrichment-service.ts` -- `startJob()`: create job record, query resources (all/unenriched filter), create queue items, start async processing loop. `processQueue()`: sequential with 2s batch delay, 1s item delay, max 3 retries with exponential backoff, update resource metadata on success, track progress counts. `cancelJob()`: set status cancelled. `getJobStatus()`: return progress.
     2. Create `src/app/api/admin/enrichment/route.ts` -- POST (start job, withAdmin)
