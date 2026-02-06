@@ -1,7 +1,7 @@
 "use client"
 
 import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+import { useSyncExternalStore } from "react"
 import { Paintbrush } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -18,13 +18,13 @@ const THEME_OPTIONS = [
   { value: "high-contrast", label: "High Contrast", color: "oklch(0.4 0.2 250)" },
 ] as const
 
+const emptySubscribe = () => () => {}
+const getClientSnapshot = () => true
+const getServerSnapshot = () => false
+
 export function ThemeSwitcher() {
   const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = useSyncExternalStore(emptySubscribe, getClientSnapshot, getServerSnapshot)
 
   if (!mounted) {
     return (
