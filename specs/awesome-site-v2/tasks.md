@@ -482,7 +482,7 @@ Focus: Auth pages, favorites, bookmarks, submissions, profile, preferences.
 
 Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflows.
 
-- [ ] 4.1 Build admin layout with sidebar and lazy tab routing
+- [x] 4.1 Build admin layout with sidebar and lazy tab routing
   - **Do**:
     1. Create `src/app/admin/layout.tsx` -- `"use client"` layout with AdminSidebar + content area
     2. Create `src/app/admin/page.tsx` -- Tab router: URL hash or state drives active tab, lazy loads tab components via `React.lazy` + `Suspense`
