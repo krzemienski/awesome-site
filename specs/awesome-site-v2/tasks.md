@@ -991,7 +991,7 @@ Focus: Real browser/cURL validation of every feature with evidence. No mocks, no
   - **Commit**: `chore(validate): verify category hierarchy end-to-end`
   - _Requirements: FR-15 through FR-19_
 
-- [ ] 8.4 Validate auth flows
+- [x] 8.4 Validate auth flows
   - **Do**:
     1. cURL POST `/api/auth/sign-up/email` to register
     2. cURL POST `/api/auth/sign-in/email` to login, capture session cookie
