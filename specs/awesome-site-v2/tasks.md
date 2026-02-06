@@ -979,7 +979,7 @@ Focus: Real browser/cURL validation of every feature with evidence. No mocks, no
   - **Commit**: `chore(validate): verify resource lifecycle end-to-end`
   - _Requirements: FR-5 through FR-14_
 
-- [ ] 8.3 Validate category hierarchy and navigation
+- [x] 8.3 Validate category hierarchy and navigation
   - **Do**:
     1. cURL POST to create category, subcategory, sub-subcategory
     2. cURL GET `/api/categories` to verify tree structure
