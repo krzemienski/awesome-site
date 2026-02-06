@@ -3,12 +3,14 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, Search, User } from "lucide-react"
+import { Menu, User } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ThemeSwitcher } from "@/components/theme/theme-switcher"
 import { Container } from "@/components/layout/container"
 import { MobileNav } from "@/components/layout/mobile-nav"
+import { SearchDialog } from "@/components/search/search-dialog"
+import { SearchTrigger } from "@/components/search/search-trigger"
 
 const NAV_ITEMS = [
   { href: "/", label: "Home" },
@@ -20,6 +22,7 @@ const NAV_ITEMS = [
 export function TopBar() {
   const pathname = usePathname()
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
 
   return (
     <>
@@ -73,27 +76,7 @@ export function TopBar() {
 
             {/* Right: search + theme + user */}
             <div className="flex items-center gap-1">
-              <Button
-                variant="outline"
-                size="sm"
-                className="hidden h-8 w-48 justify-start gap-2 text-muted-foreground lg:flex"
-                aria-label="Search"
-              >
-                <Search className="size-3.5" />
-                <span className="text-xs">Search...</span>
-                <kbd className="pointer-events-none ml-auto hidden h-5 select-none items-center gap-0.5 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground sm:flex">
-                  <span className="text-xs">&#8984;</span>K
-                </kbd>
-              </Button>
-
-              <Button
-                variant="ghost"
-                size="icon"
-                className="lg:hidden"
-                aria-label="Search"
-              >
-                <Search className="size-4" />
-              </Button>
+              <SearchTrigger onOpen={() => setSearchOpen(true)} />
 
               <ThemeSwitcher />
 
@@ -109,6 +92,7 @@ export function TopBar() {
         </Container>
       </header>
 
+      <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
       <MobileNav open={mobileNavOpen} onOpenChange={setMobileNavOpen} />
     </>
   )

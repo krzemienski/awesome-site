@@ -325,7 +325,7 @@ Focus: Resource and category services, API routes, public pages (home, categorie
   - _Requirements: US-1, US-2, AC-1.1 through AC-2.6_
   - _Design: File Structure > (public)/resources_
 
-- [ ] 2.10 Implement Cmd+K search dialog
+- [x] 2.10 Implement Cmd+K search dialog
   - **Do**:
     1. Create `src/features/search/search-index.ts` -- Fuse.js index builder: fetches resources/categories/tags via API, builds combined index, caches 10min via TanStack Query
     2. Create `src/features/search/search-types.ts` -- `SearchResult` type with kind (resource/category/tag), label, href
