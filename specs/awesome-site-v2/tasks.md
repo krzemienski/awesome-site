@@ -255,7 +255,7 @@ Focus: Resource and category services, API routes, public pages (home, categorie
   - _Requirements: FR-15 through FR-19_
   - _Design: File Structure > api/categories_
 
-- [ ] 2.5 [VERIFY] Quality checkpoint: lint + typecheck + build
+- [x] 2.5 [VERIFY] Quality checkpoint: lint + typecheck + build
   - **Do**: Run quality commands, fix any issues
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: Zero errors across all commands
