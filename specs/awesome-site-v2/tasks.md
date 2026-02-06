@@ -964,7 +964,7 @@ Focus: Real browser/cURL validation of every feature with evidence. No mocks, no
   - **Done when**: All cURL checks pass
   - **Commit**: `chore(validate): verify foundation end-to-end`
 
-- [ ] 8.2 Validate resource lifecycle (create, approve, edit, delete)
+- [x] 8.2 Validate resource lifecycle (create, approve, edit, delete)
   - **Do**:
     1. Seed a test admin user in database
     2. cURL POST `/api/resources` with auth to create pending resource
