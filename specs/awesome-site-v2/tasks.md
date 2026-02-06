@@ -928,7 +928,7 @@ Focus: Sitemap, OG images, JSON-LD, rate limiting, audit logging, mobile polish.
   - _Requirements: NFR-23, AC-46.2_
   - _Design: Performance Considerations_
 
-- [ ] 7.8 Update next.config.ts with production settings
+- [x] 7.8 Update next.config.ts with production settings
   - **Do**:
     1. Add image domains for OG images and external resource images
     2. Add security headers (CSP, X-Frame-Options, etc.)
