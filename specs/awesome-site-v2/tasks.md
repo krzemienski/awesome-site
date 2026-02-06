@@ -808,7 +808,7 @@ Focus: Research jobs, recommendations, export tools, awesome-lint.
   - _Requirements: US-17, US-18, FR-41 through FR-46_
   - _Design: Module: AI_
 
-- [ ] 6.2 Implement AI recommendations
+- [x] 6.2 Implement AI recommendations
   - **Do**:
     1. Create `src/features/ai/recommendation-engine.ts` -- Weighted scoring: category preference (30%), tag overlap (25%), co-viewed (20%), learning goal similarity (15%), recency (10%). Exclude viewed/favorited/completed. Filter by skill level. Return top 10 with confidence + explanations. Fallback: popular-in-category for minimal history.
     2. Create `src/app/api/ai/recommendations/route.ts` -- GET (authenticated, returns personalized recommendations)
