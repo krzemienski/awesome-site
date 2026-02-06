@@ -774,7 +774,7 @@ Focus: AI enrichment, GitHub sync, learning journeys, link health.
   - _Requirements: US-23 through US-25, AC-23.1 through AC-25.5_
   - _Design: File Structure > journeys_
 
-- [ ] 5.11 Implement link health checking
+- [x] 5.11 Implement link health checking
   - **Do**:
     1. Create `src/features/admin/link-health-service.ts` -- `checkLinks()`: concurrent URL checking (Promise.allSettled with concurrency limit), retry once on timeout, record status code + response time + error. `getResults()`: return broken links with filters.
     2. Create `src/app/api/admin/link-health/route.ts` -- POST (trigger check, withAdmin), GET (results with filter/sort)
