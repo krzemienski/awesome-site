@@ -442,7 +442,7 @@ Focus: Auth pages, favorites, bookmarks, submissions, profile, preferences.
   - _Requirements: FR-25, US-7, AC-7.1 through AC-7.5_
   - _Design: Module: Edits_
 
-- [ ] 3.8 Implement user preferences and profile page
+- [x] 3.8 Implement user preferences and profile page
   - **Do**:
     1. Create `src/features/user/preference-service.ts` -- `getPreferences()`, `updatePreferences()`
     2. Create `src/features/user/user-schemas.ts` -- Zod: preferences (skillLevel, preferredCategories, learningGoals, timeCommitment, theme, viewMode, emailNotifications)
