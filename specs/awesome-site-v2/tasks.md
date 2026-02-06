@@ -843,7 +843,7 @@ Focus: Research jobs, recommendations, export tools, awesome-lint.
 
 Focus: Sitemap, OG images, JSON-LD, rate limiting, audit logging, mobile polish.
 
-- [ ] 7.1 Implement dynamic sitemap.xml and robots.txt
+- [x] 7.1 Implement dynamic sitemap.xml and robots.txt
   - **Do**:
     1. Create `src/app/sitemap.ts` -- Dynamic XML sitemap from DB: all categories (with nested slugs), all approved resources, all published journeys. Proper `lastmod`, `changefreq`, `priority`.
     2. Create `src/app/robots.ts` -- Disallow: /admin, /profile, /bookmarks, /favorites, /history, /api/. Allow: /api/resources (public), /api/categories (public).
