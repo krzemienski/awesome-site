@@ -496,7 +496,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
   - _Requirements: FR-60, NFR-18_
   - _Design: Admin Layout Tree_
 
-- [ ] 4.2 Build reusable DataTable component
+- [x] 4.2 Build reusable DataTable component
   - **Do**:
     1. Install `@tanstack/react-table` (already in deps) and `@tanstack/react-virtual` (add if missing)
     2. Create `src/components/admin/data-table.tsx` -- Generic TanStack Table wrapper: sortable columns, row selection with checkboxes, server-side pagination, column visibility toggle, responsive
