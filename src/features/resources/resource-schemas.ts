@@ -73,3 +73,25 @@ export const resourceFiltersSchema = z.object({
 })
 
 export type ResourceFiltersInput = z.infer<typeof resourceFiltersSchema>
+
+/**
+ * Schema for the multi-step resource submission form.
+ * Validates data collected across all 4 steps before final submission.
+ */
+export const submitResourceSchema = z.object({
+  url: z.string().url("Must be a valid URL"),
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(200, "Title must be 200 characters or less"),
+  categoryId: z.coerce.number().int().positive("Category is required"),
+  subcategoryId: z.coerce.number().int().positive().nullable().optional(),
+  subSubcategoryId: z.coerce.number().int().positive().nullable().optional(),
+  tags: z.array(z.string().min(1).max(50)).max(20).optional(),
+  description: z
+    .string()
+    .min(1, "Description is required")
+    .max(2000, "Description must be 2000 characters or less"),
+})
+
+export type SubmitResourceInput = z.infer<typeof submitResourceSchema>

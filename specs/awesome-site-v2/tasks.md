@@ -415,7 +415,7 @@ Focus: Auth pages, favorites, bookmarks, submissions, profile, preferences.
   - **Done when**: Zero errors
   - **Commit**: `chore(user): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 3.6 Implement resource submission flow
+- [x] 3.6 Implement resource submission flow
   - **Do**:
     1. Create `src/features/resources/resource-schemas.ts` -- extend with `submitResourceSchema` (multi-step validation)
     2. Create `src/components/resources/submission-form.tsx` -- Multi-step form: Step 1 (URL + title), Step 2 (category cascade 3-level), Step 3 (tags + description), Step 4 (review + submit). URL uniqueness check on blur. "Analyze with AI" button (calls `/api/ai/analyze`).
@@ -428,7 +428,7 @@ Focus: Auth pages, favorites, bookmarks, submissions, profile, preferences.
   - _Requirements: US-3, AC-3.1 through AC-3.6, FR-8, FR-9_
   - _Design: Component Architecture_
 
-- [ ] 3.7 Implement edit suggestion flow
+- [x] 3.7 Implement edit suggestion flow
   - **Do**:
     1. Create `src/features/edits/edit-service.ts` -- `submitEdit()`, `getEdits()`, `approveEdit()`, `rejectEdit()`, `applyDiff()`
     2. Create `src/features/edits/edit-schemas.ts` -- Zod: edit suggestion (editType, proposedChanges, justification)
