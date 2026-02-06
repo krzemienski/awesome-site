@@ -180,7 +180,7 @@ Focus: Database schema, auth, theme system, layout, middleware chain. Validate c
   - **Done when**: All commands pass with zero errors
   - **Commit**: `chore(foundation): pass Phase 1 quality checkpoint` (only if fixes needed)
 
-- [ ] 1.12 POC Checkpoint: Verify foundation works end-to-end
+- [x] 1.12 POC Checkpoint: Verify foundation works end-to-end
   - **Do**:
     1. Start dev server: `npm run dev`
     2. cURL the home page to verify it renders with layout
