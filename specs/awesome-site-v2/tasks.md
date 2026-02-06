@@ -797,7 +797,7 @@ Focus: AI enrichment, GitHub sync, learning journeys, link health.
 
 Focus: Research jobs, recommendations, export tools, awesome-lint.
 
-- [ ] 6.1 Implement AI research job system
+- [x] 6.1 Implement AI research job system
   - **Do**:
     1. Create `src/features/ai/research-service.ts` -- `startResearchJob()`: create job, process based on type (validation/enrichment/discovery/trend_analysis/comprehensive), generate findings. `applyFinding()`: execute suggested change. `dismissFinding()`: mark dismissed.
     2. Create research API routes: `src/app/api/admin/research/jobs/route.ts` (GET list, POST start), `jobs/[id]/route.ts` (GET detail, DELETE cancel), `jobs/[id]/report/route.ts` (GET report), `findings/[id]/apply/route.ts` (POST), `findings/[id]/dismiss/route.ts` (POST), `costs/route.ts` (GET cost breakdown)
@@ -819,7 +819,7 @@ Focus: Research jobs, recommendations, export tools, awesome-lint.
   - _Requirements: US-29, AC-29.1 through AC-29.5, FR-39_
   - _Design: Module: AI_
 
-- [ ] 6.3 Implement export tools (markdown, JSON, CSV)
+- [x] 6.3 Implement export tools (markdown, JSON, CSV)
   - **Do**:
     1. Create `src/features/admin/export-service.ts` -- `exportMarkdown()`: generate awesome-list formatted markdown. `exportJson()`: full DB backup as JSON. `exportCsv()`: selected resources as CSV. `validateAwesomeLint()`: validate markdown.
     2. Create `src/app/api/admin/export/route.ts` -- POST (markdown), GET (JSON full backup)
