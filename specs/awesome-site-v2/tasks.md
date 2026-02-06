@@ -127,7 +127,7 @@ Focus: Database schema, auth, theme system, layout, middleware chain. Validate c
   - _Requirements: FR-72 through FR-77, US-45_
   - _Design: Theme mechanism_
 
-- [ ] 1.8 Update root layout with providers, fonts, and metadata
+- [x] 1.8 Update root layout with providers, fonts, and metadata
   - **Do**:
     1. Update `src/app/layout.tsx`:
        - Replace Geist fonts with JetBrains Mono (next/font/google) + Inter (next/font/google)
