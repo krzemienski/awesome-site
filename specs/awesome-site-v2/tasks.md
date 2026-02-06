@@ -831,7 +831,7 @@ Focus: Research jobs, recommendations, export tools, awesome-lint.
   - _Requirements: US-38, AC-38.1 through AC-38.5, FR-55_
   - _Design: Module: Admin_
 
-- [ ] 6.4 [VERIFY] Quality checkpoint
+- [x] 6.4 [VERIFY] Quality checkpoint
   - **Do**: Run quality commands
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: Zero errors
