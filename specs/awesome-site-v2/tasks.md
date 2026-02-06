@@ -744,7 +744,7 @@ Focus: AI enrichment, GitHub sync, learning journeys, link health.
   - **Done when**: Zero errors
   - **Commit**: `chore(github): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 5.9 Implement learning journeys (service + API)
+- [x] 5.9 Implement learning journeys (service + API)
   - **Do**:
     1. Create `src/features/journeys/journey-service.ts` -- `listPublished()`, `getJourney()`, `createJourney()`, `updateJourney()`, `deleteJourney()`, `addStep()`, `removeStep()`, `reorderSteps()`, `enrollUser()`, `completeStep()`, `getUserProgress()`, `getUserJourneys()`
     2. Create `src/features/journeys/journey-schemas.ts` -- Zod: create/update journey, step completion (rating 1-5, timeSpent, notes)
