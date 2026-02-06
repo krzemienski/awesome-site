@@ -145,7 +145,7 @@ Focus: Database schema, auth, theme system, layout, middleware chain. Validate c
   - _Requirements: FR-3, FR-78_
   - _Design: Root Layout Tree_
 
-- [ ] 1.9 Build layout shell (TopBar, Footer, Container)
+- [x] 1.9 Build layout shell (TopBar, Footer, Container)
   - **Do**:
     1. Create `src/components/layout/container.tsx` -- 1400px max-width centered wrapper with responsive padding
     2. Create `src/components/layout/top-bar.tsx` -- 64px fixed header with logo text, nav links (Home, Resources, Categories, Journeys), search trigger button (Cmd+K hint), theme switcher, user menu placeholder, mobile hamburger

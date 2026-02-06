@@ -4,6 +4,8 @@ import { ThemeScript } from "@/components/theme/theme-script"
 import { ThemeProvider } from "@/components/theme/theme-provider"
 import { QueryProvider } from "@/providers/query-provider"
 import { AuthProvider } from "@/providers/auth-provider"
+import { TopBar } from "@/components/layout/top-bar"
+import { Footer } from "@/components/layout/footer"
 import "./globals.css"
 
 const jetbrainsMono = JetBrains_Mono({
@@ -56,7 +58,11 @@ export default function RootLayout({
       >
         <QueryProvider>
           <AuthProvider>
-            <ThemeProvider>{children}</ThemeProvider>
+            <ThemeProvider>
+              <TopBar />
+              <main className="min-h-screen pt-16">{children}</main>
+              <Footer />
+            </ThemeProvider>
           </AuthProvider>
         </QueryProvider>
       </body>
