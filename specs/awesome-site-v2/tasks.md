@@ -632,7 +632,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
   - _Requirements: US-39, AC-39.1 through AC-39.6_
   - _Design: Admin Layout Tree > SettingsTab_
 
-- [ ] 4.13 Build admin analytics tab
+- [x] 4.13 Build admin analytics tab
   - **Do**:
     1. Create `src/app/api/admin/analytics/route.ts` -- GET with query params for time window (7/30/90 days). Returns: top viewed resources, most favorited, user growth data, submission trends, category distribution, API usage by endpoint
     2. Create `src/components/admin/tabs/analytics-tab.tsx` -- Charts using Recharts: TopViewedChart (bar), UserGrowthChart (line), CategoryDistributionChart (pie), SubmissionTrendChart (area). Time window selector.
