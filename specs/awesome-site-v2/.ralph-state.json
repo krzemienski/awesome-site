@@ -3,7 +3,7 @@
   "name": "awesome-site-v2",
   "basePath": "./specs/awesome-site-v2",
   "phase": "execution",
-  "taskIndex": 65,
+  "taskIndex": 70,
   "totalTasks": 85,
   "taskIteration": 1,
   "maxTaskIterations": 5,

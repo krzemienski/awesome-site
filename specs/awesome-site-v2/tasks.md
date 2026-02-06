@@ -941,7 +941,7 @@ Focus: Sitemap, OG images, JSON-LD, rate limiting, audit logging, mobile polish.
   - _Requirements: NFR-13_
   - _Design: Security Considerations_
 
-- [ ] 7.9 [VERIFY] Quality checkpoint + full build
+- [x] 7.9 [VERIFY] Quality checkpoint + full build
   - **Do**: Run full quality suite
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: All pass
