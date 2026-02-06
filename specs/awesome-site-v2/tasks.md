@@ -683,7 +683,7 @@ Focus: AI enrichment, GitHub sync, learning journeys, link health.
   - _Requirements: US-15, AC-15.1 through AC-15.9, FR-35 through FR-38_
   - _Design: Batch Enrichment Flow_
 
-- [ ] 5.3 Build admin enrichment tab
+- [x] 5.3 Build admin enrichment tab
   - **Do**:
     1. Create `src/components/admin/tabs/enrichment-tab.tsx` -- Start job form (filter: all/unenriched, batch size), active job progress card (progress bar, processed/failed/skipped counts, cancel button), job history DataTable (status, totals, cost, duration), expandable error logs per job, cost summary section
     2. Create `src/components/admin/dialogs/enrichment-start-dialog.tsx` -- Start enrichment dialog with filter and batch size options
