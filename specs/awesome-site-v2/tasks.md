@@ -174,7 +174,7 @@ Focus: Database schema, auth, theme system, layout, middleware chain. Validate c
   - _Requirements: US-12, AC-12.4_
   - _Design: Middleware_
 
-- [ ] 1.11 [VERIFY] Quality checkpoint + build verification
+- [x] 1.11 [VERIFY] Quality checkpoint + build verification
   - **Do**: Run full local CI suite
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: All commands pass with zero errors
