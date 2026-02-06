@@ -557,7 +557,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
   - _Requirements: US-6, AC-6.1 through AC-6.6, FR-16 through FR-19_
   - _Design: Admin Layout Tree > CategoriesTab_
 
-- [ ] 4.7 Build admin users tab
+- [x] 4.7 Build admin users tab
   - **Do**:
     1. Create `src/features/admin/user-management-service.ts` -- `listUsers()`, `changeRole()`, `banUser()`, `unbanUser()`
     2. Create `src/app/api/admin/users/route.ts` -- GET (paginated user list)
@@ -571,7 +571,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
   - _Requirements: US-33, AC-33.1 through AC-33.5, FR-58, FR-59_
   - _Design: Admin Layout Tree > UsersTab_
 
-- [ ] 4.8 Build admin edit suggestions tab
+- [x] 4.8 Build admin edit suggestions tab
   - **Do**:
     1. Create `src/app/api/admin/edits/route.ts` -- GET (pending edits list)
     2. Create `src/app/api/admin/edits/[id]/approve/route.ts` -- PUT (approve, apply changes)
@@ -584,7 +584,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
   - _Requirements: US-8, AC-8.1 through AC-8.6, FR-26 through FR-28_
   - _Design: Admin Layout Tree > EditsTab_
 
-- [ ] 4.9 Build admin tags tab
+- [x] 4.9 Build admin tags tab
   - **Do**:
     1. Create `src/app/api/admin/tags/route.ts` -- GET (all tags with usage counts)
     2. Create `src/app/api/admin/tags/[id]/route.ts` -- PUT (rename), DELETE (delete unused)
