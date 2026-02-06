@@ -5,6 +5,7 @@ import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { prisma } from "@/lib/prisma"
 import { createCategorySchema } from "@/features/categories/category-schemas"
 import { createCategory } from "@/features/categories/category-service"
+import { logAdminAction } from "@/features/admin/audit-service"
 
 export const GET = withAdmin(
   async (_req: NextRequest, _ctx: AuthenticatedRouteContext) => {
@@ -24,7 +25,7 @@ export const GET = withAdmin(
 )
 
 export const POST = withAdmin(
-  async (req: NextRequest, _ctx: AuthenticatedRouteContext) => {
+  async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
     try {
       let body: unknown
       try {
@@ -54,6 +55,13 @@ export const POST = withAdmin(
       }
 
       const category = await createCategory(parseResult.data)
+
+      await logAdminAction({
+        action: "category_create",
+        performedById: ctx.user.id,
+        newState: { id: category.id, name: category.name, slug: category.slug },
+      })
+
       return apiSuccess(category, 201)
     } catch (error) {
       return handleApiError(error)

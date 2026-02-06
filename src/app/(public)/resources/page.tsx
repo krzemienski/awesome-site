@@ -27,22 +27,24 @@ function ResourceBrowseContent() {
   const router = useRouter()
   const [viewMode, setViewMode] = useViewMode()
 
+  const sp = searchParams ?? new URLSearchParams()
+
   const [filtersValue, setFiltersValue] = useState<ResourceFiltersValue>(() => ({
-    search: searchParams.get("search") ?? undefined,
-    categoryId: parseIntParam(searchParams.get("categoryId")),
+    search: sp.get("search") ?? undefined,
+    categoryId: parseIntParam(sp.get("categoryId")),
     status: undefined,
-    tags: searchParams.getAll("tags").length > 0
-      ? searchParams.getAll("tags")
+    tags: sp.getAll("tags").length > 0
+      ? sp.getAll("tags")
       : undefined,
   }))
 
   const [sort, setSort] = useState<SortValue>(() => ({
-    field: (searchParams.get("sort") as SortValue["field"]) ?? "createdAt",
-    order: (searchParams.get("order") as SortValue["order"]) ?? "desc",
+    field: (sp.get("sort") as SortValue["field"]) ?? "createdAt",
+    order: (sp.get("order") as SortValue["order"]) ?? "desc",
   }))
 
-  const [page, setPage] = useState(() => parseIntParam(searchParams.get("page")) ?? 1)
-  const [limit, setLimit] = useState(() => parseIntParam(searchParams.get("limit")) ?? 20)
+  const [page, setPage] = useState(() => parseIntParam(sp.get("page")) ?? 1)
+  const [limit, setLimit] = useState(() => parseIntParam(sp.get("limit")) ?? 20)
 
   const debouncedSearch = useDebounce(filtersValue.search ?? "", 500)
 

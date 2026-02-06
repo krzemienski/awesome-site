@@ -3,6 +3,7 @@ import { withAdmin } from "@/features/auth/auth-middleware"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { changeRole } from "@/features/admin/user-management-service"
+import { logAdminAction } from "@/features/admin/audit-service"
 
 const VALID_ROLES = ["user", "admin"] as const
 
@@ -33,6 +34,14 @@ export const PUT = withAdmin(
       }
 
       const user = await changeRole(id, role)
+
+      await logAdminAction({
+        action: "user_role_change",
+        performedById: ctx.user.id,
+        previousState: { userId: id },
+        newState: { userId: id, role },
+      })
+
       return apiSuccess(user)
     } catch (error) {
       return handleApiError(error)

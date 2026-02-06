@@ -7,6 +7,7 @@ import {
   updateSubSubcategory,
   deleteSubSubcategory,
 } from "@/features/categories/category-service"
+import { logAdminAction } from "@/features/admin/audit-service"
 
 export const PATCH = withAdmin(
   async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -46,6 +47,14 @@ export const PATCH = withAdmin(
       }
 
       const subSubcategory = await updateSubSubcategory(numericId, parseResult.data)
+
+      await logAdminAction({
+        action: "sub_subcategory_update",
+        performedById: ctx.user.id,
+        previousState: { id: numericId },
+        newState: { id: subSubcategory.id, name: subSubcategory.name, slug: subSubcategory.slug },
+      })
+
       return apiSuccess(subSubcategory)
     } catch (error) {
       return handleApiError(error)
@@ -64,6 +73,13 @@ export const DELETE = withAdmin(
       }
 
       await deleteSubSubcategory(numericId)
+
+      await logAdminAction({
+        action: "sub_subcategory_delete",
+        performedById: ctx.user.id,
+        previousState: { id: numericId },
+      })
+
       return apiSuccess({ deleted: true })
     } catch (error) {
       return handleApiError(error)

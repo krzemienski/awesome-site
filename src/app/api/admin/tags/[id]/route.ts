@@ -3,6 +3,7 @@ import { withAdmin } from "@/features/auth/auth-middleware"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { prisma } from "@/lib/prisma"
+import { logAdminAction } from "@/features/admin/audit-service"
 
 export const PUT = withAdmin(
   async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -59,6 +60,13 @@ export const PUT = withAdmin(
         include: { _count: { select: { resources: true } } },
       })
 
+      await logAdminAction({
+        action: "tag_update",
+        performedById: ctx.user.id,
+        previousState: { id: existing.id, name: existing.name, slug: existing.slug },
+        newState: { id: tag.id, name: tag.name, slug: tag.slug },
+      })
+
       return apiSuccess(tag)
     } catch (error) {
       return handleApiError(error)
@@ -91,6 +99,13 @@ export const DELETE = withAdmin(
       }
 
       await prisma.tag.delete({ where: { id: numericId } })
+
+      await logAdminAction({
+        action: "tag_delete",
+        performedById: ctx.user.id,
+        previousState: { id: existing.id, name: existing.name, slug: existing.slug },
+      })
+
       return apiSuccess({ deleted: true })
     } catch (error) {
       return handleApiError(error)

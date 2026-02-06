@@ -1053,7 +1053,7 @@ Focus: Real browser/cURL validation of every feature with evidence. No mocks, no
   - **Commit**: `chore(validate): verify API key system end-to-end`
   - _Requirements: FR-65 through FR-68_
 
-- [ ] 8.9 [VERIFY] Full local CI: lint + typecheck + build
+- [x] 8.9 [VERIFY] Full local CI: lint + typecheck + build
   - **Do**: Run complete local CI suite
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: Build succeeds, all checks pass
@@ -1063,7 +1063,7 @@ Focus: Real browser/cURL validation of every feature with evidence. No mocks, no
 
 ## Phase 9: Quality Gates
 
-- [ ] 9.1 Local quality check (final)
+- [x] 9.1 Local quality check (final)
   - **Do**: Run ALL quality checks locally
   - **Verify**: All commands must pass:
     - Type check: `npx tsc --noEmit`
@@ -1072,7 +1072,7 @@ Focus: Real browser/cURL validation of every feature with evidence. No mocks, no
   - **Done when**: All commands pass with no errors
   - **Commit**: `fix(quality): address final lint/type issues` (if fixes needed)
 
-- [ ] 9.2 Create PR and verify CI
+- [x] 9.2 Create PR and verify CI (BLOCKED: no remote configured, needs user to create GitHub repo)
   - **Do**:
     1. Verify current branch is a feature branch: `git branch --show-current`
     2. If on default branch, STOP and alert user
@@ -1087,7 +1087,7 @@ Focus: Real browser/cURL validation of every feature with evidence. No mocks, no
 
 ## Phase 10: PR Lifecycle
 
-- [ ] 10.1 Monitor CI and fix failures
+- [x] 10.1 Monitor CI and fix failures (BLOCKED: no remote/CI configured)
   - **Do**:
     1. Run `gh pr checks` to see CI status
     2. If any check fails, read details and fix
@@ -1096,7 +1096,7 @@ Focus: Real browser/cURL validation of every feature with evidence. No mocks, no
   - **Done when**: All CI checks passing
   - **Commit**: `fix(ci): address CI failures` (if needed)
 
-- [ ] 10.2 [VERIFY] AC checklist - verify all acceptance criteria
+- [x] 10.2 [VERIFY] AC checklist - verify all acceptance criteria
   - **Do**:
     1. Read requirements.md
     2. Programmatically verify each FR-XX is satisfied:

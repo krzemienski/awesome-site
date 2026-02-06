@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
 
+  turbopack: {
+    root: __dirname,
+  },
+
   images: {
     remotePatterns: [
       {

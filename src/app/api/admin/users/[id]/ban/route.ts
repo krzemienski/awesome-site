@@ -3,6 +3,7 @@ import { withAdmin } from "@/features/auth/auth-middleware"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { banUser, unbanUser } from "@/features/admin/user-management-service"
+import { logAdminAction } from "@/features/admin/audit-service"
 
 export const PUT = withAdmin(
   async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -37,10 +38,24 @@ export const PUT = withAdmin(
       if (action === "ban") {
         const expiresDate = expires ? new Date(expires) : undefined
         const user = await banUser(id, reason, expiresDate)
+
+        await logAdminAction({
+          action: "user_ban",
+          performedById: ctx.user.id,
+          newState: { userId: id, reason, expires },
+        })
+
         return apiSuccess(user)
       }
 
       const user = await unbanUser(id)
+
+      await logAdminAction({
+        action: "user_unban",
+        performedById: ctx.user.id,
+        newState: { userId: id },
+      })
+
       return apiSuccess(user)
     } catch (error) {
       return handleApiError(error)
