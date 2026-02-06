@@ -198,7 +198,7 @@ Focus: Database schema, auth, theme system, layout, middleware chain. Validate c
 
 Focus: Resource and category services, API routes, public pages (home, categories, resources, search).
 
-- [ ] 2.1 Create resource feature module (service, schemas, types)
+- [x] 2.1 Create resource feature module (service, schemas, types)
   - **Do**:
     1. Create `src/features/resources/resource-types.ts` -- `Resource`, `ResourceWithRelations`, `ResourceFilters`, `PaginatedResponse<T>`, `ResourceStatus` enum
     2. Create `src/features/resources/resource-schemas.ts` -- Zod schemas: `createResourceSchema` (title 1-200, url valid, description max 2000), `updateResourceSchema`, `resourceFiltersSchema`
