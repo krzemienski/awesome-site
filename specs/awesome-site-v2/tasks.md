@@ -1003,7 +1003,7 @@ Focus: Real browser/cURL validation of every feature with evidence. No mocks, no
   - **Commit**: `chore(validate): verify auth flows end-to-end`
   - _Requirements: FR-2, US-10, US-12_
 
-- [ ] 8.5 Validate user features (favorites, bookmarks, preferences)
+- [x] 8.5 Validate user features (favorites, bookmarks, preferences)
   - **Do**:
     1. cURL POST to add favorite (with auth)
     2. cURL GET favorites list to verify
