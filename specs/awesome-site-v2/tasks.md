@@ -694,7 +694,7 @@ Focus: AI enrichment, GitHub sync, learning journeys, link health.
   - _Requirements: US-15, AC-15.1 through AC-15.9_
   - _Design: Admin Layout Tree > EnrichmentTab_
 
-- [ ] 5.4 [VERIFY] Quality checkpoint
+- [x] 5.4 [VERIFY] Quality checkpoint
   - **Do**: Run quality commands
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: Zero errors
