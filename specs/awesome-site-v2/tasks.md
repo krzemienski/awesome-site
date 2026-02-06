@@ -379,7 +379,7 @@ Focus: Auth pages, favorites, bookmarks, submissions, profile, preferences.
   - _Requirements: FR-78, AC-12.1 through AC-12.3_
   - _Design: Root Layout Tree_
 
-- [ ] 3.3 Implement favorites service and UI
+- [x] 3.3 Implement favorites service and UI
   - **Do**:
     1. Create `src/features/user/favorite-service.ts` -- `toggleFavorite()`, `listFavorites()`, `isFavorited()`
     2. Create `src/app/api/favorites/route.ts` -- GET (list user favorites)
@@ -394,7 +394,7 @@ Focus: Auth pages, favorites, bookmarks, submissions, profile, preferences.
   - _Requirements: FR-20, US-26, AC-26.1 through AC-26.4_
   - _Design: Module: User_
 
-- [ ] 3.4 Implement bookmarks service and UI (with notes)
+- [x] 3.4 Implement bookmarks service and UI (with notes)
   - **Do**:
     1. Create `src/features/user/bookmark-service.ts` -- `toggleBookmark()`, `updateBookmarkNotes()`, `listBookmarks()`
     2. Create `src/app/api/bookmarks/route.ts` -- GET (list bookmarks with notes)
