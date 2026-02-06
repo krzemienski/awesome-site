@@ -700,7 +700,7 @@ Focus: AI enrichment, GitHub sync, learning journeys, link health.
   - **Done when**: Zero errors
   - **Commit**: `chore(ai): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 5.5 Implement GitHub sync service (import)
+- [x] 5.5 Implement GitHub sync service (import)
   - **Do**:
     1. Create `src/features/github/github-client.ts` -- Octokit wrapper: `getRepoContent()`, `getReadme()`, `searchAwesomeLists()`, `createCommit()`
     2. Create `src/features/github/markdown-parser.ts` -- Parse awesome-list markdown: `##` = category, `###` = subcategory, `####` = sub-subcategory, `- [Title](URL) - Description` = resources. Handle edge cases.
