@@ -211,7 +211,7 @@ Focus: Resource and category services, API routes, public pages (home, categorie
   - _Requirements: FR-5 through FR-14_
   - _Design: Module: Resources_
 
-- [ ] 2.2 Create category feature module (service, schemas, types)
+- [x] 2.2 Create category feature module (service, schemas, types)
   - **Do**:
     1. Create `src/features/categories/category-types.ts` -- `Category`, `CategoryWithChildren`, `SubcategoryWithChildren`, `CategoryTree`
     2. Create `src/features/categories/category-schemas.ts` -- Zod: create/update for each level (name, slug auto-gen, description, icon, displayOrder, parentId)
