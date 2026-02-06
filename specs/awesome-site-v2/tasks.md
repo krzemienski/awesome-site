@@ -757,7 +757,7 @@ Focus: AI enrichment, GitHub sync, learning journeys, link health.
   - _Requirements: FR-29 through FR-33, US-23 through US-25_
   - _Design: Module: Journeys_
 
-- [ ] 5.10 Build journey pages and admin tab
+- [x] 5.10 Build journey pages and admin tab
   - **Do**:
     1. Create `src/app/(public)/journeys/page.tsx` -- Journey list: cards with title, description, difficulty badge, duration, step count, progress (if enrolled). Filter by difficulty/category. Featured highlighted.
     2. Create `src/app/(public)/journeys/[id]/page.tsx` -- Journey detail: title, description, ordered steps with completion status, linked resources, "Start Journey"/"Complete Step" buttons, progress percentage
