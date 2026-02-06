@@ -224,7 +224,7 @@ Focus: Resource and category services, API routes, public pages (home, categorie
   - _Requirements: FR-15 through FR-19_
   - _Design: Module: Categories_
 
-- [ ] 2.3 Implement resource API routes (CRUD + filters + pagination)
+- [x] 2.3 Implement resource API routes (CRUD + filters + pagination)
   - **Do**:
     1. Create `src/app/api/resources/route.ts` -- GET (paginated list with filters), POST (authenticated submission, status: pending)
     2. Create `src/app/api/resources/check-url/route.ts` -- GET (URL uniqueness check)
