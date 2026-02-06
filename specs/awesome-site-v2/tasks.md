@@ -620,7 +620,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
   - _Requirements: US-13, US-36, AC-13.1 through AC-13.7, FR-65 through FR-68_
   - _Design: Module: API Keys_
 
-- [ ] 4.12 Build admin settings tab
+- [x] 4.12 Build admin settings tab
   - **Do**:
     1. Create `src/features/admin/settings-service.ts` -- `getSetting()`, `setSetting()`, `getAllSettings()`
     2. Create `src/app/api/admin/settings/route.ts` -- GET, PUT
