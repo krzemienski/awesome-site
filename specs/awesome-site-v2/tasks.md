@@ -738,7 +738,7 @@ Focus: AI enrichment, GitHub sync, learning journeys, link health.
   - _Requirements: US-19 through US-22, FR-47 through FR-56_
   - _Design: Admin Layout Tree > GithubTab_
 
-- [ ] 5.8 [VERIFY] Quality checkpoint
+- [x] 5.8 [VERIFY] Quality checkpoint
   - **Do**: Run quality commands
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: Zero errors
