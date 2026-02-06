@@ -854,7 +854,7 @@ Focus: Sitemap, OG images, JSON-LD, rate limiting, audit logging, mobile polish.
   - _Requirements: FR-61, FR-64, AC-43.1, AC-43.4_
   - _Design: File Structure_
 
-- [ ] 7.2 Implement dynamic OG images
+- [x] 7.2 Implement dynamic OG images
   - **Do**:
     1. Create `src/app/opengraph-image.tsx` -- Default OG image: cyberpunk-styled with site name, tagline
     2. Create `src/app/(public)/resources/[id]/opengraph-image.tsx` -- Per-resource OG: resource title, category, tags on cyberpunk background
