@@ -352,7 +352,7 @@ Focus: Resource and category services, API routes, public pages (home, categorie
 
 Focus: Auth pages, favorites, bookmarks, submissions, profile, preferences.
 
-- [ ] 3.1 Build auth pages (login, register, forgot-password)
+- [x] 3.1 Build auth pages (login, register, forgot-password)
   - **Do**:
     1. Create `src/components/auth/login-form.tsx` -- Email/password fields + "Sign in with GitHub" + "Sign in with Google" buttons using Better Auth client, Zod validation, error display
     2. Create `src/components/auth/register-form.tsx` -- Name, email, password fields + OAuth buttons
