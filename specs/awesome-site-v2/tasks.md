@@ -159,7 +159,7 @@ Focus: Database schema, auth, theme system, layout, middleware chain. Validate c
   - _Requirements: FR-78, FR-79, FR-81, NFR-23_
   - _Design: Component Architecture > Root Layout Tree_
 
-- [ ] 1.10 Set up Next.js middleware for auth redirects
+- [x] 1.10 Set up Next.js middleware for auth redirects
   - **Do**:
     1. Create `src/middleware.ts`:
        - Protected routes (`/profile`, `/favorites`, `/bookmarks`, `/history`, `/submit`) redirect to `/login` if no session
