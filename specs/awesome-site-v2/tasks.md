@@ -643,7 +643,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
   - _Requirements: US-37, AC-37.1 through AC-37.6_
   - _Design: Admin Layout Tree > AnalyticsTab_
 
-- [ ] 4.14 [VERIFY] Quality checkpoint + full build
+- [x] 4.14 [VERIFY] Quality checkpoint + full build
   - **Do**: Run full quality suite
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: All pass
