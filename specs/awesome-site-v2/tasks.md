@@ -109,7 +109,7 @@ Focus: Database schema, auth, theme system, layout, middleware chain. Validate c
   - **Done when**: Zero lint errors, zero type errors
   - **Commit**: `chore(foundation): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.7 Set up 4-theme OKLCH system with flash prevention
+- [x] 1.7 Set up 4-theme OKLCH system with flash prevention
   - **Do**:
     1. Replace `src/app/globals.css` with 4-theme system:
        - `:root` / `[data-theme="cyberpunk"]` -- pure black bg (#000), hot pink primary (oklch 0.75 0.3225 328.36), cyan accent (oklch 0.7072 0.1679 242.04), JetBrains Mono, 0px radius, no shadows
