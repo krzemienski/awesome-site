@@ -655,7 +655,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
 
 Focus: AI enrichment, GitHub sync, learning journeys, link health.
 
-- [ ] 5.1 Implement Claude AI analysis service
+- [x] 5.1 Implement Claude AI analysis service
   - **Do**:
     1. Create `src/features/ai/claude-service.ts` -- `analyzeUrl(url)`: validate URL against domain allowlist, scrape URL metadata (title, description, OG image), call Claude haiku-4-5 for suggestions (title, description, tags, category, difficulty, confidence, keyTopics), generate blurhash from OG image, return `AiAnalysisResult`
     2. Create `src/features/ai/ai-cache-service.ts` -- Content-hash keyed cache: `getCachedResponse()`, `cacheResponse()`, increment hit counter on cache hit
