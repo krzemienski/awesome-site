@@ -88,7 +88,7 @@ Focus: Database schema, auth, theme system, layout, middleware chain. Validate c
   - _Requirements: FR-2, US-10, US-11_
   - _Design: Module: Auth_
 
-- [ ] 1.5 Create auth middleware chain (withAuth, withAdmin, withValidation)
+- [x] 1.5 Create auth middleware chain (withAuth, withAdmin, withValidation)
   - **Do**:
     1. Create `src/features/auth/auth-middleware.ts` with:
        - `withAuth(handler)` -- validates session cookie via Better Auth, attaches user to context, returns 401 if missing
