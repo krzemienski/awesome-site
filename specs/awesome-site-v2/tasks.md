@@ -310,7 +310,7 @@ Focus: Resource and category services, API routes, public pages (home, categorie
   - _Requirements: US-5, AC-5.1 through AC-5.6_
   - _Design: File Structure > (public)/categories_
 
-- [ ] 2.9 Build resource browse and detail pages
+- [x] 2.9 Build resource browse and detail pages
   - **Do**:
     1. Create `src/app/(public)/resources/page.tsx` -- Browse all resources: client component wrapping resource-grid + filters + pagination, URL state via query params
     2. Create `src/app/(public)/resources/[id]/page.tsx` -- Resource detail: server component, full description, category breadcrumb, all tags, AI metadata (if enriched), related resources section (placeholder), favorite/bookmark buttons, "Suggest Edit" button
