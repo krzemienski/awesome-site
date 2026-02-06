@@ -280,7 +280,7 @@ Focus: Resource and category services, API routes, public pages (home, categorie
   - _Requirements: US-1, US-42, AC-1.1 through AC-1.6, AC-42.1 through AC-42.5_
   - _Design: Component Architecture_
 
-- [ ] 2.7 Build home page with category grid
+- [x] 2.7 Build home page with category grid
   - **Do**:
     1. Replace `src/app/page.tsx` with home page:
        - Hero section: site title, description, search CTA
