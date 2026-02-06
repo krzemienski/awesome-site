@@ -714,7 +714,7 @@ Focus: AI enrichment, GitHub sync, learning journeys, link health.
   - _Requirements: US-19, AC-19.1 through AC-19.7, FR-48, FR-56_
   - _Design: Module: GitHub_
 
-- [ ] 5.6 Implement GitHub sync service (export + lint)
+- [x] 5.6 Implement GitHub sync service (export + lint)
   - **Do**:
     1. Create `src/features/github/markdown-formatter.ts` -- Generate awesome-lint compliant markdown: TOC, alphabetical resources per section, proper heading hierarchy
     2. Create `src/features/github/awesome-lint.ts` -- Validate generated markdown: check TOC, heading hierarchy, link format, alphabetical order, no dead sections

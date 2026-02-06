@@ -39,3 +39,11 @@ export interface GithubSearchResult {
   stars: number
   topics: string[]
 }
+
+export interface ExportResult {
+  success: boolean
+  commitSha?: string
+  resourceCount: number
+  lintErrors: number
+  historyId: number
+}

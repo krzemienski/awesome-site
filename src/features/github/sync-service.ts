@@ -1,10 +1,12 @@
 import { prisma } from "@/lib/prisma"
 import { Prisma } from "@/generated/prisma/client"
 import { AppError, Errors } from "@/lib/api-error"
-import { getReadme, getRepoContent } from "./github-client"
+import { getReadme, getRepoContent, createCommit } from "./github-client"
 import { parseAwesomeListMarkdown } from "./markdown-parser"
+import { formatAwesomeListMarkdown } from "./markdown-formatter"
+import { lintAwesomeList } from "./awesome-lint"
 import type { ParsedResource } from "./markdown-parser"
-import type { ConflictStrategy, ImportResult } from "./github-types"
+import type { ConflictStrategy, ImportResult, ExportResult } from "./github-types"
 
 /**
  * Generate a URL-friendly slug from a name.
@@ -426,6 +428,164 @@ export async function importFromGithub(config: {
     success: true,
     ...stats,
     errors,
+    historyId: history.id,
+  }
+}
+
+/**
+ * Export resources to a GitHub awesome-list repository.
+ *
+ * 1. Fetch the AwesomeList record from DB
+ * 2. Generate markdown via formatAwesomeListMarkdown
+ * 3. Lint the markdown via lintAwesomeList
+ * 4. If lint has errors, store them and return failure
+ * 5. Create commit via createCommit from github-client
+ * 6. Create GithubSyncHistory record with "export" action
+ * 7. Update AwesomeList.lastSyncAt
+ * 8. Return ExportResult
+ */
+export async function exportToGithub(config: {
+  listId: number
+}): Promise<ExportResult> {
+  const list = await prisma.awesomeList.findUnique({
+    where: { id: config.listId },
+  })
+
+  if (!list) {
+    throw Errors.NOT_FOUND("AwesomeList")
+  }
+
+  // Generate markdown from database
+  const { markdown, resourceCount, categoryCount } =
+    await formatAwesomeListMarkdown({
+      listId: list.id,
+      title: list.name,
+    })
+
+  // Lint the generated markdown
+  const lintResult = lintAwesomeList(markdown)
+
+  // If lint has errors, record failure and return
+  if (!lintResult.valid) {
+    const history = await prisma.githubSyncHistory.create({
+      data: {
+        listId: list.id,
+        action: "export",
+        status: "failed",
+        itemsAdded: 0,
+        itemsUpdated: 0,
+        itemsSkipped: 0,
+        conflicts: 0,
+        errorLog: lintResult.errors.map((e) => ({
+          rule: e.rule,
+          line: e.line,
+          message: e.message,
+        })) as unknown as Prisma.InputJsonValue,
+        snapshot: {
+          markdown,
+          resourceCount,
+          categoryCount,
+          lintErrors: lintResult.errors.length,
+          lintWarnings: lintResult.warnings.length,
+        } as unknown as Prisma.InputJsonValue,
+      },
+    })
+
+    return {
+      success: false,
+      resourceCount,
+      lintErrors: lintResult.errors.length,
+      historyId: history.id,
+    }
+  }
+
+  // Push to GitHub via commit
+  const listConfig = (list.config ?? {}) as Record<string, unknown>
+  const token = (listConfig.token as string) ?? undefined
+
+  let commitSha: string
+  try {
+    commitSha = await createCommit(
+      list.repoOwner,
+      list.repoName,
+      list.branch,
+      list.filePath,
+      markdown,
+      `chore: update awesome list (${resourceCount} resources, ${categoryCount} categories)`,
+      token
+    )
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error"
+
+    const history = await prisma.githubSyncHistory.create({
+      data: {
+        listId: list.id,
+        action: "export",
+        status: "failed",
+        itemsAdded: 0,
+        itemsUpdated: 0,
+        itemsSkipped: 0,
+        conflicts: 0,
+        errorLog: [
+          { error: message, timestamp: new Date().toISOString() },
+        ] as unknown as Prisma.InputJsonValue,
+        snapshot: {
+          markdown,
+          resourceCount,
+          categoryCount,
+        } as unknown as Prisma.InputJsonValue,
+      },
+    })
+
+    return {
+      success: false,
+      resourceCount,
+      lintErrors: 0,
+      historyId: history.id,
+    }
+  }
+
+  // Create sync history record
+  const history = await prisma.githubSyncHistory.create({
+    data: {
+      listId: list.id,
+      action: "export",
+      status: "completed",
+      itemsAdded: resourceCount,
+      itemsUpdated: 0,
+      itemsSkipped: 0,
+      conflicts: 0,
+      errorLog: [] as unknown as Prisma.InputJsonValue,
+      snapshot: {
+        markdown,
+        resourceCount,
+        categoryCount,
+        commitSha,
+        lintWarnings: lintResult.warnings.length,
+      } as unknown as Prisma.InputJsonValue,
+    },
+  })
+
+  // Update AwesomeList last sync timestamp
+  await prisma.awesomeList.update({
+    where: { id: list.id },
+    data: { lastSyncAt: new Date() },
+  })
+
+  // Mark all approved resources as synced
+  await prisma.resource.updateMany({
+    where: { status: "approved" },
+    data: {
+      githubSynced: true,
+      lastSyncedAt: new Date(),
+    },
+  })
+
+  return {
+    success: true,
+    commitSha,
+    resourceCount,
+    lintErrors: 0,
     historyId: history.id,
   }
 }
