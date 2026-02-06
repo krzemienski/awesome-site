@@ -537,7 +537,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
   - _Requirements: US-34, AC-34.1 through AC-34.7, US-9, FR-10 through FR-14, US-40_
   - _Design: Admin Layout Tree > ResourcesTab_
 
-- [ ] 4.5 [VERIFY] Quality checkpoint
+- [x] 4.5 [VERIFY] Quality checkpoint
   - **Do**: Run quality commands
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: Zero errors

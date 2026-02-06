@@ -171,145 +171,142 @@ export function ResourcesTab() {
     setDialogOpen(true)
   }
 
-  const columns: ColumnDef<AdminResource>[] = React.useMemo(
-    () => [
-      {
-        accessorKey: "title",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Name" />
-        ),
-        cell: ({ row }) => (
-          <div className="max-w-[200px] truncate font-medium">
-            {row.original.title}
+  const columns: ColumnDef<AdminResource>[] = [
+    {
+      accessorKey: "title",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Name" />
+      ),
+      cell: ({ row }) => (
+        <div className="max-w-[200px] truncate font-medium">
+          {row.original.title}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "url",
+      header: "URL",
+      cell: ({ row }) => (
+        <a
+          href={row.original.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex max-w-[150px] items-center gap-1 truncate text-sm text-muted-foreground hover:text-foreground"
+        >
+          {new URL(row.original.url).hostname}
+          <ExternalLink className="size-3 shrink-0" />
+        </a>
+      ),
+    },
+    {
+      accessorKey: "category",
+      header: "Category",
+      cell: ({ row }) => (
+        <span className="text-sm">{row.original.category.name}</span>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => (
+        <Badge
+          variant={statusBadgeVariant(row.original.status)}
+          className={statusColor(row.original.status)}
+        >
+          {row.original.status}
+        </Badge>
+      ),
+    },
+    {
+      id: "tags",
+      header: "Tags",
+      cell: ({ row }) => {
+        const tags = row.original.tags
+        if (tags.length === 0) return <span className="text-muted-foreground text-sm">-</span>
+        return (
+          <div className="flex max-w-[200px] flex-wrap gap-1">
+            {tags.slice(0, 3).map((t) => (
+              <Badge key={t.tag.id} variant="outline" className="text-xs">
+                {t.tag.name}
+              </Badge>
+            ))}
+            {tags.length > 3 && (
+              <Badge variant="outline" className="text-xs">
+                +{tags.length - 3}
+              </Badge>
+            )}
           </div>
-        ),
+        )
       },
-      {
-        accessorKey: "url",
-        header: "URL",
-        cell: ({ row }) => (
-          <a
-            href={row.original.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex max-w-[150px] items-center gap-1 truncate text-sm text-muted-foreground hover:text-foreground"
-          >
-            {new URL(row.original.url).hostname}
-            <ExternalLink className="size-3 shrink-0" />
-          </a>
-        ),
-      },
-      {
-        accessorKey: "category",
-        header: "Category",
-        cell: ({ row }) => (
-          <span className="text-sm">{row.original.category.name}</span>
-        ),
-      },
-      {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ row }) => (
-          <Badge
-            variant={statusBadgeVariant(row.original.status)}
-            className={statusColor(row.original.status)}
-          >
-            {row.original.status}
+    },
+    {
+      id: "enriched",
+      header: "Enriched",
+      cell: ({ row }) =>
+        isEnriched(row.original.metadata) ? (
+          <Badge variant="default" className="bg-green-500/15 text-green-700 text-xs dark:text-green-400">
+            Yes
           </Badge>
+        ) : (
+          <span className="text-muted-foreground text-sm">No</span>
         ),
-      },
-      {
-        id: "tags",
-        header: "Tags",
-        cell: ({ row }) => {
-          const tags = row.original.tags
-          if (tags.length === 0) return <span className="text-muted-foreground text-sm">-</span>
-          return (
-            <div className="flex max-w-[200px] flex-wrap gap-1">
-              {tags.slice(0, 3).map((t) => (
-                <Badge key={t.tag.id} variant="outline" className="text-xs">
-                  {t.tag.name}
-                </Badge>
-              ))}
-              {tags.length > 3 && (
-                <Badge variant="outline" className="text-xs">
-                  +{tags.length - 3}
-                </Badge>
+    },
+    {
+      accessorKey: "createdAt",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Created" />
+      ),
+      cell: ({ row }) => (
+        <span className="text-sm text-muted-foreground">
+          {new Date(row.original.createdAt).toLocaleDateString()}
+        </span>
+      ),
+    },
+    {
+      id: "actions",
+      header: "",
+      enableHiding: false,
+      enableSorting: false,
+      cell: ({ row }) => {
+        const r = row.original
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon-sm">
+                <MoreHorizontal className="size-4" />
+                <span className="sr-only">Actions</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => handleEdit(r)}>
+                <Pencil className="mr-2 size-4" />
+                Edit
+              </DropdownMenuItem>
+              {r.status === "pending" && (
+                <DropdownMenuItem onClick={() => handleApprove(r.id)}>
+                  <CheckCircle className="mr-2 size-4" />
+                  Approve
+                </DropdownMenuItem>
               )}
-            </div>
-          )
-        },
-      },
-      {
-        id: "enriched",
-        header: "Enriched",
-        cell: ({ row }) =>
-          isEnriched(row.original.metadata) ? (
-            <Badge variant="default" className="bg-green-500/15 text-green-700 text-xs dark:text-green-400">
-              Yes
-            </Badge>
-          ) : (
-            <span className="text-muted-foreground text-sm">No</span>
-          ),
-      },
-      {
-        accessorKey: "createdAt",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Created" />
-        ),
-        cell: ({ row }) => (
-          <span className="text-sm text-muted-foreground">
-            {new Date(row.original.createdAt).toLocaleDateString()}
-          </span>
-        ),
-      },
-      {
-        id: "actions",
-        header: "",
-        enableHiding: false,
-        enableSorting: false,
-        cell: ({ row }) => {
-          const r = row.original
-          return (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon-sm">
-                  <MoreHorizontal className="size-4" />
-                  <span className="sr-only">Actions</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => handleEdit(r)}>
-                  <Pencil className="mr-2 size-4" />
-                  Edit
+              {r.status === "pending" && (
+                <DropdownMenuItem onClick={() => handleReject(r.id)}>
+                  <XCircle className="mr-2 size-4" />
+                  Reject
                 </DropdownMenuItem>
-                {r.status === "pending" && (
-                  <DropdownMenuItem onClick={() => handleApprove(r.id)}>
-                    <CheckCircle className="mr-2 size-4" />
-                    Approve
-                  </DropdownMenuItem>
-                )}
-                {r.status === "pending" && (
-                  <DropdownMenuItem onClick={() => handleReject(r.id)}>
-                    <XCircle className="mr-2 size-4" />
-                    Reject
-                  </DropdownMenuItem>
-                )}
-                <DropdownMenuItem
-                  onClick={() => handleDelete(r.id)}
-                  className="text-destructive"
-                >
-                  <Trash2 className="mr-2 size-4" />
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )
-        },
+              )}
+              <DropdownMenuItem
+                onClick={() => handleDelete(r.id)}
+                className="text-destructive"
+              >
+                <Trash2 className="mr-2 size-4" />
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
       },
-    ],
-    []
-  )
+    },
+  ]
 
   const toolbarContent = (
     <div className="flex flex-wrap items-center gap-2">
