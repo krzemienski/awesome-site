@@ -726,7 +726,7 @@ Focus: AI enrichment, GitHub sync, learning journeys, link health.
   - _Requirements: US-20, AC-20.1 through AC-20.5, FR-49, FR-55_
   - _Design: Module: GitHub_
 
-- [ ] 5.7 Build GitHub sync API routes and admin tab
+- [x] 5.7 Build GitHub sync API routes and admin tab
   - **Do**:
     1. Create API routes: `src/app/api/admin/github/config/route.ts` (GET, PUT), `import/route.ts` (POST), `export/route.ts` (POST), `history/route.ts` (GET), `status/route.ts` (GET), `process-queue/route.ts` (POST), `awesome-lists/route.ts` (GET), `search/route.ts` (GET)
     2. Create `src/components/admin/tabs/github-tab.tsx` -- Config form (username, repo, branch, file path, token, direction, auto-sync toggle), import button with dialog, export button, sync history DataTable, current status display
