@@ -510,7 +510,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
   - _Requirements: NFR-22_
   - _Design: Admin Layout Tree_
 
-- [ ] 4.3 Build admin overview tab (stats + activity feed)
+- [x] 4.3 Build admin overview tab (stats + activity feed)
   - **Do**:
     1. Create `src/features/admin/stats-service.ts` -- `getDashboardStats()`: total resources, pending, total users, active users (30d), pending edits, enriched count
     2. Create `src/app/api/admin/stats/route.ts` -- GET (dashboard stats, withAdmin)
