@@ -295,7 +295,7 @@ Focus: Resource and category services, API routes, public pages (home, categorie
   - _Requirements: US-5, AC-5.1, FR-78_
   - _Design: Home page_
 
-- [ ] 2.8 Build category pages (3-level navigation with breadcrumbs)
+- [x] 2.8 Build category pages (3-level navigation with breadcrumbs)
   - **Do**:
     1. Create `src/app/(public)/categories/page.tsx` -- All categories grid (server component)
     2. Create `src/app/(public)/categories/[slug]/page.tsx` -- Category detail showing subcategories + resources
