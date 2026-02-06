@@ -12,6 +12,11 @@ import {
   LayoutGrid,
   List,
   Rows3,
+  Copy,
+  Eye,
+  EyeOff,
+  Trash2,
+  AlertTriangle,
 } from "lucide-react"
 import { useAuth } from "@/providers/auth-provider"
 import { useCategories } from "@/hooks/use-categories"
@@ -38,6 +43,26 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogDescription,
+} from "@/components/ui/dialog"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import {
+  Alert,
+  AlertDescription,
+} from "@/components/ui/alert"
 
 interface UserPreferences {
   readonly skillLevel: string | null
@@ -57,6 +82,331 @@ const DEFAULT_PREFERENCES: UserPreferences = {
   theme: "cyberpunk",
   viewMode: "grid",
   emailNotifications: true,
+}
+
+interface UserApiKey {
+  readonly id: string
+  readonly keyPrefix: string
+  readonly name: string
+  readonly tier: string
+  readonly scopes: string[]
+  readonly lastUsedAt: string | null
+  readonly expiresAt: string | null
+  readonly revokedAt: string | null
+  readonly createdAt: string
+}
+
+function getApiKeyStatus(key: UserApiKey): "active" | "revoked" | "expired" {
+  if (key.revokedAt) return "revoked"
+  if (key.expiresAt && new Date(key.expiresAt) < new Date()) return "expired"
+  return "active"
+}
+
+function formatApiKeyDate(dateStr: string | null): string {
+  if (!dateStr) return "Never"
+  return new Date(dateStr).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  })
+}
+
+function ApiKeyManagementSection() {
+  const [keys, setKeys] = useState<UserApiKey[]>([])
+  const [keysLoading, setKeysLoading] = useState(true)
+  const [createDialogOpen, setCreateDialogOpen] = useState(false)
+  const [newKeyName, setNewKeyName] = useState("")
+  const [creating, setCreating] = useState(false)
+  const [createdKey, setCreatedKey] = useState<string | null>(null)
+  const [keyCopied, setKeyCopied] = useState(false)
+  const [showFullKey, setShowFullKey] = useState(false)
+  const [revoking, setRevoking] = useState<string | null>(null)
+
+  const fetchKeys = useCallback(async () => {
+    try {
+      const res = await fetch("/api/keys")
+      if (res.ok) {
+        const json = await res.json()
+        setKeys(json.data ?? [])
+      }
+    } catch {
+      // Silently fail
+    } finally {
+      setKeysLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchKeys()
+  }, [fetchKeys])
+
+  async function handleCreate() {
+    if (!newKeyName.trim()) return
+    setCreating(true)
+    try {
+      const res = await fetch("/api/keys", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newKeyName.trim() }),
+      })
+      if (res.ok) {
+        const json = await res.json()
+        setCreatedKey(json.data.rawKey)
+        setNewKeyName("")
+        fetchKeys()
+      }
+    } catch {
+      // Silently fail
+    } finally {
+      setCreating(false)
+    }
+  }
+
+  async function handleRevoke(keyId: string) {
+    setRevoking(keyId)
+    try {
+      const res = await fetch(`/api/keys/${keyId}`, { method: "DELETE" })
+      if (res.ok) {
+        fetchKeys()
+      }
+    } catch {
+      // Silently fail
+    } finally {
+      setRevoking(null)
+    }
+  }
+
+  function handleCopyKey() {
+    if (createdKey) {
+      navigator.clipboard.writeText(createdKey)
+      setKeyCopied(true)
+      setTimeout(() => setKeyCopied(false), 2000)
+    }
+  }
+
+  function closeCreateDialog() {
+    setCreateDialogOpen(false)
+    setCreatedKey(null)
+    setNewKeyName("")
+    setShowFullKey(false)
+    setKeyCopied(false)
+  }
+
+  const activeKeys = keys.filter((k) => getApiKeyStatus(k) === "active")
+
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="flex items-center gap-2">
+              <Key className="size-5" />
+              API Key Management
+            </CardTitle>
+            <CardDescription>
+              Manage your API keys for programmatic access to the platform.
+            </CardDescription>
+          </div>
+          <Button
+            size="sm"
+            onClick={() => setCreateDialogOpen(true)}
+          >
+            <Plus className="mr-1 size-4" />
+            Create Key
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent>
+        {keysLoading ? (
+          <div className="flex items-center gap-2 py-4">
+            <Loader2 className="size-4 animate-spin" />
+            <span className="text-sm text-muted-foreground">Loading keys...</span>
+          </div>
+        ) : keys.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-8 text-center">
+            <Key className="text-muted-foreground mb-3 size-10" />
+            <p className="text-muted-foreground text-sm">
+              No API keys yet. Create one to access the platform programmatically.
+            </p>
+          </div>
+        ) : (
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Prefix</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Tier</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Last Used</TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {keys.map((key) => {
+                  const status = getApiKeyStatus(key)
+                  return (
+                    <TableRow key={key.id}>
+                      <TableCell>
+                        <code className="rounded bg-muted px-1.5 py-0.5 text-xs font-mono">
+                          {key.keyPrefix}...
+                        </code>
+                      </TableCell>
+                      <TableCell className="font-medium">{key.name}</TableCell>
+                      <TableCell>
+                        <Badge variant="secondary">{key.tier}</Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant={
+                            status === "active"
+                              ? "default"
+                              : status === "revoked"
+                                ? "destructive"
+                                : "secondary"
+                          }
+                        >
+                          {status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {formatApiKeyDate(key.lastUsedAt)}
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {formatApiKeyDate(key.createdAt)}
+                      </TableCell>
+                      <TableCell>
+                        {status === "active" && (
+                          <Button
+                            variant="ghost"
+                            size="icon-sm"
+                            onClick={() => handleRevoke(key.id)}
+                            disabled={revoking === key.id}
+                            title="Revoke key"
+                          >
+                            {revoking === key.id ? (
+                              <Loader2 className="size-4 animate-spin" />
+                            ) : (
+                              <Trash2 className="size-4 text-destructive" />
+                            )}
+                          </Button>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </div>
+        )}
+      </CardContent>
+
+      {/* Create API Key Dialog */}
+      <Dialog open={createDialogOpen} onOpenChange={closeCreateDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {createdKey ? "API Key Created" : "Create API Key"}
+            </DialogTitle>
+            <DialogDescription>
+              {createdKey
+                ? "Your API key has been created. Copy it now — it will not be shown again."
+                : "Create a new API key for programmatic access."}
+            </DialogDescription>
+          </DialogHeader>
+
+          {createdKey ? (
+            <div className="space-y-4 py-2">
+              <Alert>
+                <AlertTriangle className="size-4" />
+                <AlertDescription>
+                  This is the only time you will see this key. Copy it now and
+                  store it securely.
+                </AlertDescription>
+              </Alert>
+              <div className="flex items-center gap-2">
+                <code className="flex-1 rounded-md border bg-muted p-3 text-sm font-mono break-all">
+                  {showFullKey
+                    ? createdKey
+                    : `${createdKey.slice(0, 12)}${"*".repeat(20)}`}
+                </code>
+                <div className="flex flex-col gap-1">
+                  <Button
+                    variant="outline"
+                    size="icon-sm"
+                    onClick={() => setShowFullKey(!showFullKey)}
+                    title={showFullKey ? "Hide key" : "Show key"}
+                  >
+                    {showFullKey ? (
+                      <EyeOff className="size-4" />
+                    ) : (
+                      <Eye className="size-4" />
+                    )}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon-sm"
+                    onClick={handleCopyKey}
+                    title="Copy key"
+                  >
+                    <Copy className="size-4" />
+                  </Button>
+                </div>
+              </div>
+              {keyCopied && (
+                <p className="text-sm text-green-600">Copied to clipboard!</p>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-4 py-2">
+              <div className="space-y-2">
+                <Label htmlFor="key-name">Key Name</Label>
+                <Input
+                  id="key-name"
+                  value={newKeyName}
+                  onChange={(e) => setNewKeyName(e.target.value)}
+                  placeholder="e.g., My CLI Tool"
+                  maxLength={100}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault()
+                      handleCreate()
+                    }
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            {createdKey ? (
+              <Button onClick={closeCreateDialog}>Done</Button>
+            ) : (
+              <>
+                <Button
+                  variant="outline"
+                  onClick={closeCreateDialog}
+                  disabled={creating}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleCreate}
+                  disabled={!newKeyName.trim() || creating}
+                >
+                  {creating && (
+                    <Loader2 className="mr-1 size-4 animate-spin" />
+                  )}
+                  Create Key
+                </Button>
+              </>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </Card>
+  )
 }
 
 export default function ProfilePage() {
@@ -482,27 +832,8 @@ export default function ProfilePage() {
         </CardContent>
       </Card>
 
-      {/* API Key Management Placeholder */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Key className="size-5" />
-            API Key Management
-          </CardTitle>
-          <CardDescription>
-            Manage your API keys for programmatic access to the platform.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col items-center justify-center py-8 text-center">
-            <Key className="text-muted-foreground mb-3 size-10" />
-            <p className="text-muted-foreground text-sm">
-              API key management is coming soon. You will be able to create and
-              manage API keys for accessing the platform programmatically.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+      {/* API Key Management */}
+      <ApiKeyManagementSection />
     </div>
   )
 }

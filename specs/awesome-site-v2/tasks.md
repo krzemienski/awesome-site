@@ -603,7 +603,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
   - **Done when**: Zero errors
   - **Commit**: `chore(admin): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 4.11 Build admin API keys tab
+- [x] 4.11 Build admin API keys tab
   - **Do**:
     1. Create `src/features/api-keys/api-key-service.ts` -- `createKey()` (generate, SHA-256 hash, store prefix), `revokeKey()`, `validateKey()`, `listKeys()`, `getKeyUsage()`
     2. Create `src/features/api-keys/api-key-schemas.ts` -- Zod: create (name, tier, expiry, scopes)
