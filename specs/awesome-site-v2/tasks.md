@@ -912,7 +912,7 @@ Focus: Sitemap, OG images, JSON-LD, rate limiting, audit logging, mobile polish.
   - _Requirements: US-40, AC-40.1 through AC-40.4_
   - _Design: Error Handling_
 
-- [ ] 7.7 Mobile responsive polish
+- [x] 7.7 Mobile responsive polish
   - **Do**:
     1. Review and fix all public pages at sm(640), md(768), lg(1024) breakpoints
     2. Ensure TopBar hamburger menu works on mobile

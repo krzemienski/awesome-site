@@ -46,7 +46,11 @@ const NAV_ITEMS: readonly AdminNavItem[] = [
   { key: "settings", label: "Settings", icon: Settings },
 ] as const
 
-export function AdminSidebar() {
+interface AdminSidebarProps {
+  readonly onNavigate?: () => void
+}
+
+export function AdminSidebar({ onNavigate }: AdminSidebarProps = {}) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const activeTab = searchParams.get("tab") ?? "overview"
@@ -55,6 +59,7 @@ export function AdminSidebar() {
     const params = new URLSearchParams(searchParams.toString())
     params.set("tab", key)
     router.push(`/admin?${params.toString()}`)
+    onNavigate?.()
   }
 
   return (
