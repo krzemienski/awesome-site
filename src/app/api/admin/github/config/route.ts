@@ -1,9 +1,11 @@
 import type { NextRequest } from "next/server"
 import { z } from "zod"
 import { withAdmin } from "@/features/auth/auth-middleware"
+import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { apiSuccess, handleApiError } from "@/lib/api-response"
 import { prisma } from "@/lib/prisma"
 import { Prisma } from "@/generated/prisma/client"
+import { logAdminAction } from "@/features/admin/audit-service"
 
 const configUpdateSchema = z.object({
   repoOwner: z.string().min(1),
@@ -50,7 +52,7 @@ export const GET = withAdmin(async () => {
   }
 })
 
-export const PUT = withAdmin(async (req: NextRequest) => {
+export const PUT = withAdmin(async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
   try {
     const body = await req.json()
     const parsed = configUpdateSchema.safeParse(body)
@@ -98,6 +100,18 @@ export const PUT = withAdmin(async (req: NextRequest) => {
         config: configJson,
       },
     })
+
+    logAdminAction({
+      action: "github_config_update",
+      performedById: ctx.user.id,
+      newState: {
+        repoOwner,
+        repoName,
+        branch,
+        filePath,
+        syncEnabled,
+      },
+    }).catch(() => {})
 
     return apiSuccess({
       id: list.id,

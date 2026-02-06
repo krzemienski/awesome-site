@@ -1,11 +1,13 @@
 import type { NextRequest } from "next/server"
 import { withAdmin } from "@/features/auth/auth-middleware"
+import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { apiSuccess, handleApiError } from "@/lib/api-response"
 import {
   listJobs,
   startResearchJob,
 } from "@/features/ai/research-service"
 import type { ResearchJobType } from "@/generated/prisma/client"
+import { logAdminAction } from "@/features/admin/audit-service"
 
 const VALID_TYPES: ResearchJobType[] = [
   "validation",
@@ -24,7 +26,7 @@ export const GET = withAdmin(async () => {
   }
 })
 
-export const POST = withAdmin(async (req: NextRequest) => {
+export const POST = withAdmin(async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
   try {
     const body = await req.json()
     const type = body.type as string
@@ -42,6 +44,13 @@ export const POST = withAdmin(async (req: NextRequest) => {
 
     const config = body.config as Record<string, unknown> | undefined
     const jobId = await startResearchJob(type as ResearchJobType, config)
+
+    logAdminAction({
+      action: "research_start",
+      performedById: ctx.user.id,
+      newState: { jobId, type, config },
+    }).catch(() => {})
+
     return apiSuccess({ jobId }, 201)
   } catch (error) {
     return handleApiError(error)

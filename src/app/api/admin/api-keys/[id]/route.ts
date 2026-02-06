@@ -7,6 +7,7 @@ import {
   updateKeyTier,
   revokeKey,
 } from "@/features/api-keys/api-key-service"
+import { logAdminAction } from "@/features/admin/audit-service"
 
 export const PUT = withAdmin(
   async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -32,6 +33,12 @@ export const PUT = withAdmin(
 
       const updated = await updateKeyTier(id, parsed.data.tier)
 
+      logAdminAction({
+        action: "api_key_tier_change",
+        performedById: ctx.user.id,
+        newState: { keyId: updated.id, tier: updated.tier },
+      }).catch(() => {})
+
       return apiSuccess({
         id: updated.id,
         keyPrefix: updated.keyPrefix,
@@ -50,6 +57,12 @@ export const DELETE = withAdmin(
       const { id } = (await ctx.params) as { id: string }
 
       await revokeKey(id)
+
+      logAdminAction({
+        action: "api_key_revoke",
+        performedById: ctx.user.id,
+        newState: { keyId: id },
+      }).catch(() => {})
 
       return apiSuccess({ message: "API key revoked" })
     } catch (error) {

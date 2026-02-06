@@ -7,6 +7,7 @@ import {
   deleteJourney,
 } from "@/features/journeys/journey-service"
 import { updateJourneySchema } from "@/features/journeys/journey-schemas"
+import { logAdminAction } from "@/features/admin/audit-service"
 
 /**
  * PUT /api/admin/journeys/[id]
@@ -39,6 +40,13 @@ export const PUT = withAdmin(
       }
 
       const journey = await updateJourney(numericId, parsed.data)
+
+      logAdminAction({
+        action: "journey_update",
+        performedById: ctx.user.id,
+        newState: { journeyId: journey.id, updates: parsed.data },
+      }).catch(() => {})
+
       return apiSuccess(journey)
     } catch (error) {
       return handleApiError(error)
@@ -61,6 +69,13 @@ export const DELETE = withAdmin(
       }
 
       await deleteJourney(numericId)
+
+      logAdminAction({
+        action: "journey_delete",
+        performedById: ctx.user.id,
+        newState: { journeyId: numericId },
+      }).catch(() => {})
+
       return apiSuccess({ deleted: true })
     } catch (error) {
       return handleApiError(error)

@@ -4,6 +4,7 @@ import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { createJourney } from "@/features/journeys/journey-service"
 import { createJourneySchema } from "@/features/journeys/journey-schemas"
+import { logAdminAction } from "@/features/admin/audit-service"
 
 /**
  * POST /api/admin/journeys
@@ -29,6 +30,13 @@ export const POST = withAdmin(
       }
 
       const journey = await createJourney(parsed.data, ctx.user.id)
+
+      logAdminAction({
+        action: "journey_create",
+        performedById: ctx.user.id,
+        newState: { journeyId: journey.id, title: journey.title },
+      }).catch(() => {})
+
       return apiSuccess(journey, 201)
     } catch (error) {
       return handleApiError(error)

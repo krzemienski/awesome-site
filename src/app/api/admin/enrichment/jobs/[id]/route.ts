@@ -6,6 +6,7 @@ import {
   getJobStatus,
   cancelJob,
 } from "@/features/ai/enrichment-service"
+import { logAdminAction } from "@/features/admin/audit-service"
 
 export const GET = withAdmin(
   async (_req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -41,6 +42,13 @@ export const DELETE = withAdmin(
       }
 
       await cancelJob(jobId)
+
+      logAdminAction({
+        action: "enrichment_cancel",
+        performedById: ctx.user.id,
+        newState: { jobId },
+      }).catch(() => {})
+
       return apiSuccess({ message: "Job cancelled" })
     } catch (error) {
       return handleApiError(error)

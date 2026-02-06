@@ -3,6 +3,7 @@ import { withAdmin } from "@/features/auth/auth-middleware"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { getJob, cancelJob } from "@/features/ai/research-service"
+import { logAdminAction } from "@/features/admin/audit-service"
 
 export const GET = withAdmin(
   async (_req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -33,6 +34,13 @@ export const DELETE = withAdmin(
       }
 
       await cancelJob(jobId)
+
+      logAdminAction({
+        action: "research_cancel",
+        performedById: ctx.user.id,
+        newState: { jobId },
+      }).catch(() => {})
+
       return apiSuccess({ message: "Research job cancelled" })
     } catch (error) {
       return handleApiError(error)
