@@ -75,7 +75,7 @@ Focus: Database schema, auth, theme system, layout, middleware chain. Validate c
   - _Requirements: NFR-24_
   - _Design: Shared Infrastructure section_
 
-- [ ] 1.4 Configure Better Auth server and client
+- [x] 1.4 Configure Better Auth server and client
   - **Do**:
     1. Create `src/lib/auth.ts` -- Better Auth server config with Prisma adapter, email/password enabled, GitHub + Google social providers from env vars, session config (7-day expiry)
     2. Create `src/lib/auth-client.ts` -- Better Auth client for browser-side hooks
