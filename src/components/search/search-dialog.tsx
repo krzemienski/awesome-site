@@ -49,24 +49,28 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const [query, setQuery] = useState("")
   const { results } = useSearch(query)
 
-  // Reset query when dialog closes
-  useEffect(() => {
-    if (!open) {
-      setQuery("")
-    }
-  }, [open])
+  // Wrap onOpenChange to reset query when dialog closes
+  const handleOpenChange = useCallback(
+    (nextOpen: boolean) => {
+      if (!nextOpen) {
+        setQuery("")
+      }
+      onOpenChange(nextOpen)
+    },
+    [onOpenChange]
+  )
 
   // Cmd+K keyboard shortcut
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
-        onOpenChange(!open)
+        handleOpenChange(!open)
       }
     }
     document.addEventListener("keydown", down)
     return () => document.removeEventListener("keydown", down)
-  }, [open, onOpenChange])
+  }, [open, handleOpenChange])
 
   const handleSelect = useCallback(
     (href: string) => {
@@ -86,7 +90,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   return (
     <CommandDialog
       open={open}
-      onOpenChange={onOpenChange}
+      onOpenChange={handleOpenChange}
       title="Search"
       description="Search resources, categories, and tags"
     >

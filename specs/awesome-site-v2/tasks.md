@@ -340,7 +340,7 @@ Focus: Resource and category services, API routes, public pages (home, categorie
   - _Requirements: US-41, AC-41.1 through AC-41.6, NFR-20_
   - _Design: Module: Search_
 
-- [ ] 2.11 [VERIFY] Quality checkpoint + build
+- [x] 2.11 [VERIFY] Quality checkpoint + build
   - **Do**: Run full quality suite
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: All pass, zero errors
