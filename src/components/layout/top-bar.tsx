@@ -46,7 +46,7 @@ export function TopBar() {
                 href="/"
                 className="font-heading text-lg font-bold tracking-tight transition-colors hover:text-primary"
               >
-                Awesome Videos
+                Awesome Video
               </Link>
             </div>
 

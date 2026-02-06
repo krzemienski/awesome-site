@@ -11,7 +11,9 @@ import {
   Trash2,
   Pencil,
   ExternalLink,
+  Download,
 } from "lucide-react"
+import { toast } from "sonner"
 
 import { DataTable, DataTableColumnHeader } from "@/components/admin/data-table"
 import { Badge } from "@/components/ui/badge"
@@ -30,6 +32,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import { ResourceDialog } from "@/components/admin/dialogs/resource-dialog"
 import { useCategories } from "@/hooks/use-categories"
 
@@ -107,6 +119,8 @@ export function ResourcesTab() {
   const [editResource, setEditResource] = React.useState<AdminResource | null>(
     null
   )
+  const [selectedRows, setSelectedRows] = React.useState<AdminResource[]>([])
+  const [bulkDeleteOpen, setBulkDeleteOpen] = React.useState(false)
 
   React.useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(search), 500)
@@ -169,6 +183,54 @@ export function ResourcesTab() {
   function handleCreate() {
     setEditResource(null)
     setDialogOpen(true)
+  }
+
+  async function handleBulkDelete() {
+    const ids = selectedRows.map((r) => r.id)
+    const results = await Promise.allSettled(
+      ids.map((id) =>
+        fetch(`/api/admin/resources/${id}`, { method: "DELETE" })
+      )
+    )
+    const failed = results.filter((r) => r.status === "rejected").length
+    if (failed > 0) {
+      toast.error(`${failed} of ${ids.length} deletions failed`)
+    } else {
+      toast.success(`Deleted ${ids.length} resource${ids.length === 1 ? "" : "s"}`)
+    }
+    setSelectedRows([])
+    setBulkDeleteOpen(false)
+    invalidateResources()
+  }
+
+  function handleExportCsv() {
+    const rows = selectedRows.length > 0 ? selectedRows : resources
+    if (rows.length === 0) {
+      toast.error("No resources to export")
+      return
+    }
+    const header = "ID,Title,URL,Category,Status,Tags,Created"
+    const csvRows = rows.map((r) => {
+      const tags = r.tags.map((t) => t.tag.name).join("; ")
+      return [
+        r.id,
+        `"${r.title.replace(/"/g, '""')}"`,
+        `"${r.url}"`,
+        `"${r.category.name}"`,
+        r.status,
+        `"${tags}"`,
+        new Date(r.createdAt).toISOString().split("T")[0],
+      ].join(",")
+    })
+    const csv = [header, ...csvRows].join("\n")
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `resources-${new Date().toISOString().split("T")[0]}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+    toast.success(`Exported ${rows.length} resource${rows.length === 1 ? "" : "s"}`)
   }
 
   const columns: ColumnDef<AdminResource>[] = [
@@ -351,7 +413,11 @@ export function ResourcesTab() {
           <SelectItem value="false">Not enriched</SelectItem>
         </SelectContent>
       </Select>
-      <Button onClick={handleCreate} size="sm" className="ml-auto">
+      <Button variant="outline" size="sm" onClick={handleExportCsv} className="ml-auto">
+        <Download className="mr-1 size-4" />
+        Export CSV
+      </Button>
+      <Button onClick={handleCreate} size="sm">
         <Plus className="mr-1 size-4" />
         Add Resource
       </Button>
@@ -367,6 +433,26 @@ export function ResourcesTab() {
         </p>
       </div>
 
+      {selectedRows.length > 0 && (
+        <div className="flex items-center gap-2 rounded-md border border-primary/20 bg-primary/5 px-4 py-2">
+          <span className="text-sm font-medium">
+            {selectedRows.length} selected
+          </span>
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => setBulkDeleteOpen(true)}
+          >
+            <Trash2 className="mr-1 size-4" />
+            Delete Selected
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleExportCsv}>
+            <Download className="mr-1 size-4" />
+            Export CSV
+          </Button>
+        </div>
+      )}
+
       <DataTable
         columns={columns}
         data={resources}
@@ -379,9 +465,27 @@ export function ResourcesTab() {
           setPage(0)
         }}
         enableRowSelection
+        onSelectionChange={setSelectedRows}
         isLoading={isLoading}
         toolbarContent={toolbarContent}
       />
+
+      <AlertDialog open={bulkDeleteOpen} onOpenChange={setBulkDeleteOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete {selectedRows.length} resources?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. The selected resources will be permanently removed.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleBulkDelete}>
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <ResourceDialog
         open={dialogOpen}

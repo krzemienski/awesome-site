@@ -32,7 +32,7 @@ export function MobileNav({ open, onOpenChange }: MobileNavProps) {
       <SheetContent side="left" className="w-72">
         <SheetHeader>
           <SheetTitle className="font-heading text-lg">
-            Awesome Videos
+            Awesome Video
           </SheetTitle>
           <SheetDescription className="sr-only">
             Site navigation menu

@@ -1,18 +1,14 @@
 import { notFound } from "next/navigation"
-import Link from "next/link"
 import type { Metadata } from "next"
 import {
   ExternalLink,
   Heart,
-  Bookmark,
   Calendar,
   Tag as TagIcon,
-  Pencil,
   Brain,
   Star,
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import {
@@ -20,7 +16,9 @@ import {
   type BreadcrumbEntry,
 } from "@/components/categories/category-breadcrumb"
 import { getResource } from "@/features/resources/resource-service"
+import { prisma } from "@/lib/prisma"
 import { ViewTracker } from "@/components/resources/view-tracker"
+import { ResourceDetailActions } from "@/components/resources/resource-detail-actions"
 import { JsonLdScript, articleJsonLd } from "@/lib/json-ld"
 
 interface PageProps {
@@ -65,6 +63,23 @@ export default async function ResourceDetailPage({ params }: PageProps) {
   } catch {
     notFound()
   }
+
+  const relatedResources = await prisma.resource.findMany({
+    where: {
+      categoryId: resource.categoryId,
+      id: { not: resource.id },
+      status: "approved",
+    },
+    select: {
+      id: true,
+      title: true,
+      url: true,
+      category: { select: { name: true, slug: true } },
+      _count: { select: { favorites: true } },
+    },
+    take: 6,
+    orderBy: { createdAt: "desc" },
+  })
 
   const breadcrumbItems: BreadcrumbEntry[] = [
     {
@@ -194,22 +209,7 @@ export default async function ResourceDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2">
-        <Button variant="outline" size="sm">
-          <Heart className="mr-1.5 size-4" />
-          Favorite
-        </Button>
-        <Button variant="outline" size="sm">
-          <Bookmark className="mr-1.5 size-4" />
-          Bookmark
-        </Button>
-        <Button variant="outline" size="sm" asChild>
-          <Link href={`/resources/${resource.id}/suggest-edit`}>
-            <Pencil className="mr-1.5 size-4" />
-            Suggest Edit
-          </Link>
-        </Button>
-      </div>
+      <ResourceDetailActions resourceId={resource.id} />
 
       {isEnriched && (
         <Card>
@@ -255,16 +255,37 @@ export default async function ResourceDetailPage({ params }: PageProps) {
         </Card>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Related Resources</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground text-sm">
-            Related resources will appear here based on shared categories and tags.
-          </p>
-        </CardContent>
-      </Card>
+      {relatedResources.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Related Resources</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {relatedResources.map((r) => (
+                <a
+                  key={r.id}
+                  href={`/resources/${r.id}`}
+                  className="flex flex-col gap-1 rounded-md border p-3 transition-colors hover:bg-accent/50"
+                >
+                  <span className="text-sm font-medium leading-tight">
+                    {r.title}
+                  </span>
+                  <span className="text-muted-foreground flex items-center gap-2 text-xs">
+                    <Badge variant="secondary" className="text-xs">
+                      {r.category.name}
+                    </Badge>
+                    <span className="flex items-center gap-0.5">
+                      <Heart className="size-3" />
+                      {r._count.favorites}
+                    </span>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }
