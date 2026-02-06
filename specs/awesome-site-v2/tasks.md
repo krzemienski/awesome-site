@@ -522,7 +522,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
   - _Requirements: US-32, AC-32.1 through AC-32.4, FR-57_
   - _Design: Admin Layout Tree > OverviewTab_
 
-- [ ] 4.4 Build admin resources tab (DataTable + CRUD + approval)
+- [x] 4.4 Build admin resources tab (DataTable + CRUD + approval)
   - **Do**:
     1. Create `src/app/api/admin/resources/route.ts` -- GET (all resources, admin view), POST (create auto-approved)
     2. Create `src/app/api/admin/resources/pending/route.ts` -- GET (pending queue)
