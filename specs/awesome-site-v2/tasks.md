@@ -455,7 +455,7 @@ Focus: Auth pages, favorites, bookmarks, submissions, profile, preferences.
   - _Requirements: FR-23, US-28, AC-28.1 through AC-28.7_
   - _Design: Module: User_
 
-- [ ] 3.9 Implement view history tracking
+- [x] 3.9 Implement view history tracking
   - **Do**:
     1. Create `src/features/user/history-service.ts` -- `recordView()`, `getHistory()`
     2. Create `src/features/user/interaction-service.ts` -- `trackInteraction()` for view/click/bookmark/rate/complete events

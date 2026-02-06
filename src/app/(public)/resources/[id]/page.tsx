@@ -20,6 +20,7 @@ import {
   type BreadcrumbEntry,
 } from "@/components/categories/category-breadcrumb"
 import { getResource } from "@/features/resources/resource-service"
+import { ViewTracker } from "@/components/resources/view-tracker"
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -101,6 +102,7 @@ export default async function ResourceDetailPage({ params }: PageProps) {
 
   return (
     <div className="container mx-auto max-w-4xl space-y-6 px-4 py-8">
+      <ViewTracker resourceId={resource.id} />
       <CategoryBreadcrumb items={breadcrumbItems} />
 
       <div className="space-y-4">
