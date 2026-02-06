@@ -14,6 +14,7 @@ import {
 import { Container } from "@/components/layout/container"
 import { JourneySteps } from "@/components/journeys/journey-steps"
 import { StepCompletionDialog } from "@/components/journeys/step-completion-dialog"
+import { JsonLdScript, courseJsonLd } from "@/lib/json-ld"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
@@ -148,18 +149,20 @@ export default function JourneyDetailPage() {
   })
 
   // Merge steps with completion status
+  const steps = journey?.steps
+  const completions = progress?.completions
   const stepsWithCompletion = React.useMemo(() => {
-    if (!journey?.steps) return []
+    if (!steps) return []
     const completedStepIds = new Set(
-      (progress?.completions ?? []).map((c) => c.stepId)
+      (completions ?? []).map((c) => c.stepId)
     )
-    return journey.steps.map((step) => ({
+    return steps.map((step) => ({
       ...step,
       completion: completedStepIds.has(step.id)
-        ? (progress?.completions.find((c) => c.stepId === step.id) ?? null)
+        ? (completions?.find((c) => c.stepId === step.id) ?? null)
         : null,
     }))
-  }, [journey?.steps, progress?.completions])
+  }, [steps, completions])
 
   if (isJourneyLoading) {
     return (
@@ -194,6 +197,21 @@ export default function JourneyDetailPage() {
   return (
     <main className="py-8">
       <Container className="max-w-4xl">
+        <JsonLdScript
+          data={courseJsonLd({
+            title: journey.title,
+            description: journey.description,
+            difficulty: journey.difficulty,
+            category: journey.category,
+            estimatedDuration: journey.estimatedDuration,
+            journeyId: journey.id,
+            steps: journey.steps.map((s) => ({
+              title: s.title,
+              stepOrder: s.stepOrder,
+              description: s.description,
+            })),
+          })}
+        />
         {/* Back link */}
         <Button
           variant="ghost"

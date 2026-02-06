@@ -5,6 +5,7 @@ import { CategoryBreadcrumb } from "@/components/categories/category-breadcrumb"
 import { ResourceGrid } from "@/components/resources/resource-grid"
 import { prisma } from "@/lib/prisma"
 import { listResources } from "@/features/resources/resource-service"
+import { JsonLdScript, collectionPageJsonLd } from "@/lib/json-ld"
 
 interface PageProps {
   params: Promise<{ slug: string; subSlug: string; subSubSlug: string }>
@@ -68,6 +69,14 @@ export default async function SubSubcategoryPage({ params }: PageProps) {
 
   return (
     <main className="flex flex-col gap-8 py-8">
+      <JsonLdScript
+        data={collectionPageJsonLd({
+          name: subSub.name,
+          description: subSub.description,
+          url: `/categories/${slug}/${subSlug}/${subSubSlug}`,
+          resourceCount: subSub._count.resources,
+        })}
+      />
       <Container>
         <CategoryBreadcrumb
           items={[

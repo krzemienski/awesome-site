@@ -13,6 +13,7 @@ import { useResources } from "@/hooks/use-resources"
 import { useCategories } from "@/hooks/use-categories"
 import { useDebounce } from "@/hooks/use-debounce"
 import { useViewMode } from "@/hooks/use-view-mode"
+import { JsonLdScript, collectionPageJsonLd } from "@/lib/json-ld"
 import type { ResourceFilters as ResourceFiltersType } from "@/features/resources/resource-types"
 
 function parseIntParam(value: string | null): number | undefined {
@@ -130,6 +131,14 @@ function ResourceBrowseContent() {
 
   return (
     <div className="container mx-auto max-w-7xl space-y-6 px-4 py-8">
+      <JsonLdScript
+        data={collectionPageJsonLd({
+          name: "Browse Resources",
+          description: "Browse and discover curated video resources.",
+          url: "/resources",
+          resourceCount: data?.meta.total ?? 0,
+        })}
+      />
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Browse Resources</h1>
         <ViewModeToggle value={viewMode} onChange={setViewMode} />

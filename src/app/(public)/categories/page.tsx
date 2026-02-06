@@ -6,6 +6,7 @@ import { Container } from "@/components/layout/container"
 import { CategoryCard } from "@/components/categories/category-card"
 import { CategoryBreadcrumb } from "@/components/categories/category-breadcrumb"
 import { getCategoryTree } from "@/features/categories/category-service"
+import { JsonLdScript, collectionPageJsonLd } from "@/lib/json-ld"
 
 export const metadata: Metadata = {
   title: "All Categories | Awesome Video Dashboard",
@@ -23,6 +24,14 @@ export default async function CategoriesPage() {
 
   return (
     <main className="flex flex-col gap-8 py-8">
+      <JsonLdScript
+        data={collectionPageJsonLd({
+          name: "All Categories",
+          description: "Browse all resource categories organized by topic.",
+          url: "/categories",
+          resourceCount: categories.length,
+        })}
+      />
       <Container>
         <CategoryBreadcrumb items={[]} />
 

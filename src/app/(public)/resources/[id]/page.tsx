@@ -21,6 +21,7 @@ import {
 } from "@/components/categories/category-breadcrumb"
 import { getResource } from "@/features/resources/resource-service"
 import { ViewTracker } from "@/components/resources/view-tracker"
+import { JsonLdScript, articleJsonLd } from "@/lib/json-ld"
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -102,6 +103,18 @@ export default async function ResourceDetailPage({ params }: PageProps) {
 
   return (
     <div className="container mx-auto max-w-4xl space-y-6 px-4 py-8">
+      <JsonLdScript
+        data={articleJsonLd({
+          title: resource.title,
+          description: resource.description,
+          url: resource.url,
+          createdAt: resource.createdAt,
+          updatedAt: resource.updatedAt,
+          tags: resource.tags.map(({ tag }) => tag.name),
+          categoryName: resource.category.name,
+          resourceId: resource.id,
+        })}
+      />
       <ViewTracker resourceId={resource.id} />
       <CategoryBreadcrumb items={breadcrumbItems} />
 

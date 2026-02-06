@@ -8,6 +8,7 @@ import { CategoryBreadcrumb } from "@/components/categories/category-breadcrumb"
 import { ResourceGrid } from "@/components/resources/resource-grid"
 import { getCategoryBySlug } from "@/features/categories/category-service"
 import { listResources } from "@/features/resources/resource-service"
+import { JsonLdScript, collectionPageJsonLd } from "@/lib/json-ld"
 import type { SubcategoryWithChildren } from "@/features/categories/category-types"
 
 interface PageProps {
@@ -68,6 +69,14 @@ export default async function CategoryDetailPage({ params }: PageProps) {
 
   return (
     <main className="flex flex-col gap-8 py-8">
+      <JsonLdScript
+        data={collectionPageJsonLd({
+          name: category.name,
+          description: category.description,
+          url: `/categories/${slug}`,
+          resourceCount: totalResources,
+        })}
+      />
       <Container>
         <CategoryBreadcrumb items={[{ label: category.name }]} />
 

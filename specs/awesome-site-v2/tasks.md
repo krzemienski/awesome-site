@@ -867,7 +867,7 @@ Focus: Sitemap, OG images, JSON-LD, rate limiting, audit logging, mobile polish.
   - _Requirements: FR-62, AC-43.2_
   - _Design: SEO_
 
-- [ ] 7.3 Add JSON-LD structured data and generateMetadata to all public pages
+- [x] 7.3 Add JSON-LD structured data and generateMetadata to all public pages
   - **Do**:
     1. Add JSON-LD to home page: `Organization` schema
     2. Add JSON-LD to resource detail: `Article` schema with author, date, tags

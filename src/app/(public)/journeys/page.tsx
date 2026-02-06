@@ -1,10 +1,12 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { BookOpen } from "lucide-react"
 
 import { Container } from "@/components/layout/container"
 import { JourneyCard } from "@/components/journeys/journey-card"
 import { Badge } from "@/components/ui/badge"
 import { listPublished } from "@/features/journeys/journey-service"
+import { JsonLdScript, collectionPageJsonLd } from "@/lib/json-ld"
 import type { JourneyDifficulty } from "@/generated/prisma/client"
 
 export const metadata: Metadata = {
@@ -32,9 +34,7 @@ export default async function JourneysPage({ searchParams }: PageProps) {
   ])
 
   const journeys = allResult.items
-  const featured = featuredResult.items.filter(
-    (f) => !difficulty && !category
-  )
+  const featured = !difficulty && !category ? featuredResult.items : []
 
   const difficulties: JourneyDifficulty[] = [
     "beginner",
@@ -44,6 +44,14 @@ export default async function JourneysPage({ searchParams }: PageProps) {
 
   return (
     <main className="flex flex-col gap-8 py-8">
+      <JsonLdScript
+        data={collectionPageJsonLd({
+          name: "Learning Journeys",
+          description: "Explore guided learning paths with step-by-step progress tracking.",
+          url: "/journeys",
+          resourceCount: journeys.length,
+        })}
+      />
       <Container>
         <div className="flex items-center gap-3">
           <BookOpen className="text-primary size-8" />
@@ -60,15 +68,15 @@ export default async function JourneysPage({ searchParams }: PageProps) {
         {/* Filters */}
         <div className="mt-6 flex flex-wrap items-center gap-2">
           <span className="text-muted-foreground text-sm">Difficulty:</span>
-          <a href="/journeys">
+          <Link href="/journeys">
             <Badge variant={!difficulty ? "default" : "outline"}>All</Badge>
-          </a>
+          </Link>
           {difficulties.map((d) => (
-            <a key={d} href={`/journeys?difficulty=${d}${category ? `&category=${category}` : ""}`}>
+            <Link key={d} href={`/journeys?difficulty=${d}${category ? `&category=${category}` : ""}`}>
               <Badge variant={difficulty === d ? "default" : "outline"}>
                 {d}
               </Badge>
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -107,12 +115,12 @@ export default async function JourneysPage({ searchParams }: PageProps) {
                 No journeys found.
               </p>
               {(difficulty || category) && (
-                <a
+                <Link
                   href="/journeys"
                   className="text-primary mt-2 text-sm hover:underline"
                 >
                   Clear filters
-                </a>
+                </Link>
               )}
             </div>
           )}
