@@ -882,7 +882,7 @@ Focus: Sitemap, OG images, JSON-LD, rate limiting, audit logging, mobile polish.
   - _Requirements: FR-63, AC-43.3, AC-43.5, AC-43.6_
   - _Design: SEO_
 
-- [ ] 7.4 [VERIFY] Quality checkpoint
+- [x] 7.4 [VERIFY] Quality checkpoint
   - **Do**: Run quality commands
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: Zero errors
