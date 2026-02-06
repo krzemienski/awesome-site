@@ -261,7 +261,7 @@ Focus: Resource and category services, API routes, public pages (home, categorie
   - **Done when**: Zero errors across all commands
   - **Commit**: `chore(core): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 2.6 Build shared resource UI components
+- [x] 2.6 Build shared resource UI components
   - **Do**:
     1. Create `src/components/resources/resource-card.tsx` -- Grid card: title, URL, description (2-line clamp), tags (max 3), category badge, favorite count, favorite/bookmark buttons
     2. Create `src/components/resources/resource-list-item.tsx` -- Horizontal card for list view
