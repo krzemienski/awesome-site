@@ -409,7 +409,7 @@ Focus: Auth pages, favorites, bookmarks, submissions, profile, preferences.
   - _Requirements: FR-21, US-27, AC-27.1 through AC-27.5_
   - _Design: Module: User_
 
-- [ ] 3.5 [VERIFY] Quality checkpoint
+- [x] 3.5 [VERIFY] Quality checkpoint
   - **Do**: Run quality commands
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: Zero errors
