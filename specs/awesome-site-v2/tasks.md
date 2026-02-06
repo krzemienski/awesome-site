@@ -62,7 +62,7 @@ Focus: Database schema, auth, theme system, layout, middleware chain. Validate c
   - _Requirements: FR-1_
   - _Design: Database Schema_
 
-- [ ] 1.3 Create Prisma client singleton and shared API utilities
+- [x] 1.3 Create Prisma client singleton and shared API utilities
   - **Do**:
     1. Create `src/lib/prisma.ts` -- Prisma client singleton with global caching for dev hot-reload
     2. Create `src/lib/api-response.ts` -- `apiSuccess()`, `apiError()`, `apiPaginated()` helpers returning `Response` objects with `ApiResponse<T>` shape
