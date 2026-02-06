@@ -64,7 +64,7 @@ export default function JourneyDetailPage() {
   const params = useParams()
   const router = useRouter()
   const queryClient = useQueryClient()
-  const journeyId = Number(params.id)
+  const journeyId = Number(params?.id)
 
   const [completingStepId, setCompletingStepId] = React.useState<number | null>(
     null

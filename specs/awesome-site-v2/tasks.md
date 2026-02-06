@@ -1029,7 +1029,7 @@ Focus: Real browser/cURL validation of every feature with evidence. No mocks, no
   - **Commit**: `chore(validate): verify admin panel APIs end-to-end`
   - _Requirements: FR-57 through FR-60_
 
-- [ ] 8.7 Validate SEO (sitemap, robots, OG, metadata)
+- [x] 8.7 Validate SEO (sitemap, robots, OG, metadata)
   - **Do**:
     1. cURL GET `/sitemap.xml` to verify valid XML with categories + resources
     2. cURL GET `/robots.txt` to verify disallow rules
