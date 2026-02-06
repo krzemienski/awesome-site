@@ -543,7 +543,7 @@ Focus: 14 lazy-loaded admin tabs with DataTables, CRUD dialogs, approval workflo
   - **Done when**: Zero errors
   - **Commit**: `chore(admin): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 4.6 Build admin category tabs (3 levels)
+- [x] 4.6 Build admin category tabs (3 levels)
   - **Do**:
     1. Create `src/components/admin/tabs/categories-tab.tsx` -- DataTable: name, slug, description, icon, resource count, display order. CRUD via dialog.
     2. Create `src/components/admin/tabs/subcategories-tab.tsx` -- DataTable: name, slug, parent category, resource count, display order.
