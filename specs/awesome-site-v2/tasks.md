@@ -785,7 +785,7 @@ Focus: AI enrichment, GitHub sync, learning journeys, link health.
   - _Requirements: US-44, AC-44.1 through AC-44.4, FR-69_
   - _Design: Module: Admin_
 
-- [ ] 5.12 [VERIFY] Quality checkpoint + full build
+- [x] 5.12 [VERIFY] Quality checkpoint + full build
   - **Do**: Run full quality suite
   - **Verify**: `npm run lint && npx tsc --noEmit && npm run build`
   - **Done when**: All pass
