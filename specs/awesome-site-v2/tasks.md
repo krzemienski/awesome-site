@@ -953,7 +953,7 @@ Focus: Sitemap, OG images, JSON-LD, rate limiting, audit logging, mobile polish.
 
 Focus: Real browser/cURL validation of every feature with evidence. No mocks, no unit tests.
 
-- [ ] 8.1 Validate foundation: dev server, database, themes
+- [x] 8.1 Validate foundation: dev server, database, themes
   - **Do**:
     1. Start dev server
     2. cURL home page, verify HTML renders with TopBar + Footer
