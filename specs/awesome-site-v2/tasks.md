@@ -103,7 +103,7 @@ Focus: Database schema, auth, theme system, layout, middleware chain. Validate c
   - _Requirements: FR-2, US-12, NFR-11_
   - _Design: API Middleware Chain_
 
-- [ ] 1.6 [VERIFY] Quality checkpoint: lint + typecheck
+- [x] 1.6 [VERIFY] Quality checkpoint: lint + typecheck
   - **Do**: Run quality commands, fix any issues
   - **Verify**: `npm run lint && npx tsc --noEmit`
   - **Done when**: Zero lint errors, zero type errors
