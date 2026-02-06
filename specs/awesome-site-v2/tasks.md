@@ -239,7 +239,7 @@ Focus: Resource and category services, API routes, public pages (home, categorie
   - _Requirements: FR-5 through FR-14, NFR-11_
   - _Design: File Structure > api/resources_
 
-- [ ] 2.4 Implement category API routes (hierarchy + admin CRUD)
+- [x] 2.4 Implement category API routes (hierarchy + admin CRUD)
   - **Do**:
     1. Create `src/app/api/categories/route.ts` -- GET (hierarchical tree with counts)
     2. Create `src/app/api/categories/[id]/route.ts` -- PUT, DELETE (admin)
