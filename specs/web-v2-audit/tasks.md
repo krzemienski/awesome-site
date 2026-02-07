@@ -84,7 +84,7 @@ created: 2026-02-06T22:57:00-05:00
   - **Done when**: Zero errors on new files
   - **Commit**: `chore(quality): pass Phase 1 quality checkpoint` (only if fixes needed)
 
-- [ ] 1.7 Create seed data fixtures
+- [x] 1.7 Create seed data fixtures
   - **Do**:
     1. Create `prisma/seed-data/categories.json` with 10+ categories matching legacy structure (e.g., "Video Streaming", "Video Editing", "Live Streaming", "Media Servers", etc.), each with `name`, `slug`, `description`, `icon`, `displayOrder`
     2. Create `prisma/seed-data/resources.json` with 10+ sample resources with real URLs, each with `title`, `url`, `description`, `categorySlug` (for linking), `status: "approved"`
