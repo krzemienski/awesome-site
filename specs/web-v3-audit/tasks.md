@@ -150,7 +150,7 @@ Focus: Build AppSidebar for public pages, create CategoryTree with API, create p
   - _Requirements: FR-14, AC-1.3_
   - _Design: CategoryTree_
 
-- [ ] 2.5 Create public route group layout with SidebarProvider
+- [x] 2.5 Create public route group layout with SidebarProvider
   - **Do**:
     1. Create `src/app/(public)/layout.tsx`: Server component
     2. Import `SidebarProvider`, `SidebarInset`, `SidebarTrigger` from `@/components/ui/sidebar`
