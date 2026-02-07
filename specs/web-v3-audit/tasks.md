@@ -365,7 +365,7 @@ Focus: Build 6 new admin tab UIs consuming existing APIs, register them in admin
   - _Requirements: FR-13, AC-2.7_
   - _Design: TAB_COMPONENTS registry_
 
-- [ ] 3.9 [VERIFY] Quality checkpoint: all 20 admin tabs
+- [x] 3.9 [VERIFY] Quality checkpoint: all 20 admin tabs
   - **Do**: Run full quality suite. Verify all 20 tab keys resolve to components in the TAB_COMPONENTS record.
   - **Verify**: `npx eslint src/ && npx tsc --noEmit && npm run build`
   - **Done when**: All commands pass. All 20 admin tabs compile and build successfully.
@@ -375,7 +375,7 @@ Focus: Build 6 new admin tab UIs consuming existing APIs, register them in admin
 
 Focus: Build Variation B first (fastest path). Apply shadcn cyberpunk theme, compose sidebar from blocks, ensure all pages render correctly with variation-b tokens.
 
-- [ ] 4.1 Apply shadcn cyberpunk theme tokens to Variation B CSS
+- [x] 4.1 Apply shadcn cyberpunk theme tokens to Variation B CSS
   - **Do**:
     1. Use shadcn MCP `get_theme` tool to fetch cyberpunk theme CSS
     2. Merge any additional theme tokens into `src/styles/variation-b.css` beyond the layout tokens already defined
