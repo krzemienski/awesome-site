@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
+import { withCacheHeaders } from "@/lib/api-cache"
 import { auth } from "@/lib/auth"
 import { getRelatedResources } from "@/features/resources/related-resources"
 
@@ -33,7 +34,7 @@ export async function GET(
 
     const results = await getRelatedResources(resourceId, userId)
 
-    return apiSuccess(results)
+    return withCacheHeaders(apiSuccess(results), 120, 600)
   } catch (error) {
     return handleApiError(error)
   }

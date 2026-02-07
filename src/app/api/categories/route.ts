@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server"
 import { apiSuccess, handleApiError } from "@/lib/api-response"
+import { withCacheHeaders } from "@/lib/api-cache"
 import { withAdmin } from "@/features/auth/auth-middleware"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import {
@@ -17,7 +18,7 @@ import {
 export async function GET(): Promise<Response> {
   try {
     const tree = await getCategoryTree()
-    return apiSuccess(tree)
+    return withCacheHeaders(apiSuccess(tree), 300, 3600)
   } catch (error) {
     return handleApiError(error)
   }

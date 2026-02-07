@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
+import { withCacheHeaders } from "@/lib/api-cache"
 import { withAdmin } from "@/features/auth/auth-middleware"
 import type {
   RouteContext,
@@ -41,7 +42,7 @@ export async function GET(
 
     const resource = await getResource(resourceId)
 
-    return apiSuccess(resource)
+    return withCacheHeaders(apiSuccess(resource), 60, 300)
   } catch (error) {
     return handleApiError(error)
   }

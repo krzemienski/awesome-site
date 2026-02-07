@@ -235,13 +235,13 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-12, AC-7.1, AC-7.2, AC-7.3_
   - _Design: WS-2 Recommendation Feedback_
 
-- [ ] 3.6 [VERIFY] Quality checkpoint: lint + typecheck
+- [x] 3.6 [VERIFY] Quality checkpoint: lint + typecheck
   - **Do**: Run lint and typecheck on all new endpoint files
   - **Verify**: `npx eslint src/features/resources/related-resources.ts src/app/api/resources/[id]/related/route.ts src/app/api/user/submissions/route.ts src/app/api/user/progress/route.ts src/app/api/recommendations/feedback/route.ts 2>&1 | tail -5 && npx tsc --noEmit 2>&1 | tail -5`
   - **Done when**: Zero lint warnings/errors, zero type errors
   - **Commit**: `chore(quality): pass Phase 3a quality checkpoint` (only if fixes needed)
 
-- [ ] 3.7 Create Cache-Control header helper and apply to public API routes
+- [x] 3.7 Create Cache-Control header helper and apply to public API routes
   - **Do**:
     1. Create `src/lib/api-cache.ts` with `withCacheHeaders(response: Response, maxAge = 60, staleWhileRevalidate = 300): Response` function
     2. Function clones response with added `Cache-Control: public, s-maxage=${maxAge}, stale-while-revalidate=${staleWhileRevalidate}` header

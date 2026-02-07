@@ -4,6 +4,7 @@ import {
   apiPaginated,
   handleApiError,
 } from "@/lib/api-response"
+import { withCacheHeaders } from "@/lib/api-cache"
 import { withAuth } from "@/features/auth/auth-middleware"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import {
@@ -48,7 +49,7 @@ export async function GET(req: NextRequest): Promise<Response> {
     const filters = parseResult.data
     const result = await listResources(filters)
 
-    return apiPaginated(result.items, result.meta)
+    return withCacheHeaders(apiPaginated(result.items, result.meta), 60, 300)
   } catch (error) {
     return handleApiError(error)
   }

@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
+import { withCacheHeaders } from "@/lib/api-cache"
 import { withAdmin } from "@/features/auth/auth-middleware"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { updateCategorySchema } from "@/features/categories/category-schemas"
@@ -36,7 +37,7 @@ export async function GET(
     }
 
     const category = await getCategory(categoryId)
-    return apiSuccess(category)
+    return withCacheHeaders(apiSuccess(category), 300, 3600)
   } catch (error) {
     return handleApiError(error)
   }
