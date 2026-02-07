@@ -312,7 +312,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-12.1, AC-12.2, AC-12.3, AC-12.4_
   - _Design: Audit User Resolution Detail_
 
-- [ ] 1.23 Fix validation tab "View" action to copy line number
+- [x] 1.23 Fix validation tab "View" action to copy line number
   - **Do**:
     1. In `src/components/admin/tabs/validation-tab.tsx`, update the actions column cell:
     2. Replace `<a href={#line-${row.original.line}}>` with a `<Button>` that calls `navigator.clipboard.writeText(String(row.original.line))` and shows `toast.success(\`Line ${row.original.line} copied to clipboard\`)`

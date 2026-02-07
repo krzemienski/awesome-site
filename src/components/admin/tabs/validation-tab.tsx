@@ -10,7 +10,7 @@ import {
   ShieldCheck,
   AlertTriangle,
   XCircle,
-  ExternalLink,
+  Copy,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -139,14 +139,17 @@ const columns: ColumnDef<ValidationIssue, unknown>[] = [
     id: "actions",
     header: "Action",
     cell: ({ row }) => (
-      <Button variant="ghost" size="sm" asChild>
-        <a
-          href={`#line-${row.original.line}`}
-          title={`Go to line ${row.original.line}`}
-        >
-          <ExternalLink className="mr-1 size-3" />
-          View
-        </a>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => {
+          navigator.clipboard.writeText(String(row.original.line))
+          toast.success(`Line ${row.original.line} copied to clipboard`)
+        }}
+        title={`Copy line ${row.original.line} to clipboard`}
+      >
+        <Copy className="mr-1 size-3" />
+        Copy Line
       </Button>
     ),
     enableSorting: false,
