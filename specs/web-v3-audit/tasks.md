@@ -48,7 +48,7 @@ Focus: Install shadcn sidebar primitives, create variation switching infrastruct
   - _Requirements: FR-3, AC-13.1, AC-13.4_
   - _Design: VariationProvider, VariationScript_
 
-- [ ] 1.4 Wire VariationProvider into root layout
+- [x] 1.4 Wire VariationProvider into root layout
   - **Do**:
     1. In `src/app/layout.tsx`: import `VariationProvider` from `@/components/variation/variation-provider` and `VariationScript` from `@/components/variation/variation-script`
     2. Add `<VariationScript />` inside `<head>` after `<ThemeScript />`

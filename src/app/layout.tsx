@@ -1,7 +1,10 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
 import { JetBrains_Mono, Inter } from "next/font/google"
 import { ThemeScript } from "@/components/theme/theme-script"
 import { ThemeProvider } from "@/components/theme/theme-provider"
+import { VariationScript } from "@/components/variation/variation-script"
+import { VariationProvider } from "@/components/variation/variation-provider"
 import { QueryProvider } from "@/providers/query-provider"
 import { AuthProvider } from "@/providers/auth-provider"
 import { TopBar } from "@/components/layout/top-bar"
@@ -52,6 +55,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <ThemeScript />
+        <VariationScript />
       </head>
       <body
         className={`${jetbrainsMono.variable} ${inter.variable} antialiased`}
@@ -59,9 +63,13 @@ export default function RootLayout({
         <QueryProvider>
           <AuthProvider>
             <ThemeProvider>
-              <TopBar />
-              <main className="min-h-screen pt-16">{children}</main>
-              <Footer />
+              <Suspense>
+                <VariationProvider>
+                  <TopBar />
+                  <main className="min-h-screen pt-16">{children}</main>
+                  <Footer />
+                </VariationProvider>
+              </Suspense>
             </ThemeProvider>
           </AuthProvider>
         </QueryProvider>
