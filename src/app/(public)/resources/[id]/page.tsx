@@ -20,6 +20,7 @@ import { getRelatedResources } from "@/features/resources/related-resources"
 import { ViewTracker } from "@/components/resources/view-tracker"
 import { ResourceDetailActions } from "@/components/resources/resource-detail-actions"
 import { JsonLdScript, articleJsonLd } from "@/lib/json-ld"
+import { RecommendationsPanel } from "@/components/resources/recommendations-panel"
 
 export const revalidate = 300
 
@@ -273,6 +274,8 @@ export default async function ResourceDetailPage({ params }: PageProps) {
           </CardContent>
         </Card>
       )}
+
+      <RecommendationsPanel resourceId={resource.id} />
     </div>
   )
 }

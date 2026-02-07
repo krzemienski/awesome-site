@@ -491,7 +491,7 @@ Focus: Generate screens via Stitch MCP, extract design tokens, apply to Variatio
 
 Focus: Add AI recommendations panel to public resource detail pages, consuming existing recommendation API.
 
-- [ ] 7.1 Add AI Recommendations panel to resource pages
+- [x] 7.1 Add AI Recommendations panel to resource pages
   - **Do**:
     1. Create `src/components/resources/recommendations-panel.tsx`: `"use client"` component
     2. Fetch recommendations via `useQuery(["recommendations", resourceId])` calling existing recommendation API endpoint
