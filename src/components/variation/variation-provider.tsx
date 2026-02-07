@@ -5,7 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useState,
+  useRef,
   type ReactNode,
 } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -35,26 +35,21 @@ export function VariationProvider({ children }: VariationProviderProps) {
   const router = useRouter()
 
   const paramValue = searchParams.get("variation")
-  const initialVariation = isValidVariation(paramValue)
+  const variation: VariationId = isValidVariation(paramValue)
     ? paramValue
     : DEFAULT_VARIATION
 
-  const [variation, setVariationState] = useState<VariationId>(initialVariation)
+  const prevVariation = useRef(variation)
 
   useEffect(() => {
+    if (prevVariation.current !== variation) {
+      prevVariation.current = variation
+    }
     document.documentElement.dataset.variation = variation
   }, [variation])
 
-  useEffect(() => {
-    const paramVal = searchParams.get("variation")
-    if (isValidVariation(paramVal) && paramVal !== variation) {
-      setVariationState(paramVal)
-    }
-  }, [searchParams, variation])
-
   const setVariation = useCallback(
     (v: VariationId) => {
-      setVariationState(v)
       document.documentElement.dataset.variation = v
 
       const params = new URLSearchParams(searchParams.toString())
