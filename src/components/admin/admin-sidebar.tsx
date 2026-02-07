@@ -10,7 +10,7 @@ import {
   Users,
   GitPullRequest,
   Sparkles,
-  Github,
+  GitBranch,
   Key,
   BarChart3,
   Tag,
@@ -99,7 +99,7 @@ const NAV_GROUPS: readonly AdminNavGroup[] = [
     defaultOpen: false,
     collapsible: true,
     items: [
-      { key: "github-sync", label: "GitHub Sync", icon: Github },
+      { key: "github-sync", label: "GitHub Sync", icon: GitBranch },
       { key: "export", label: "Export", icon: Download },
       { key: "validation", label: "Validation", icon: CheckCircle },
       { key: "link-health", label: "Link Health", icon: Link },
