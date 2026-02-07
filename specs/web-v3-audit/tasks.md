@@ -114,7 +114,7 @@ Focus: Build AppSidebar for public pages, create CategoryTree with API, create p
   - _Requirements: FR-14_
   - _Design: CategoryTree_
 
-- [ ] 2.3 Create AppSidebar component
+- [x] 2.3 Create AppSidebar component
   - **Do**:
     1. Create `src/components/sidebar/app-sidebar.tsx`: `"use client"` component
     2. Use shadcn Sidebar primitives: `Sidebar`, `SidebarContent`, `SidebarGroup`, `SidebarGroupLabel`, `SidebarGroupContent`, `SidebarMenu`, `SidebarMenuItem`, `SidebarMenuButton`, `SidebarHeader`, `SidebarFooter`, `SidebarSeparator`
