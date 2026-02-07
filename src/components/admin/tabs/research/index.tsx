@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/resizable"
 import { StatCard } from "@/components/admin/stat-card"
 
-import type { ApiResponse, ResearchJob, ResearchJobType } from "./types"
+import type { ApiResponse } from "@/lib/api-response"
+import type { ResearchJob, ResearchJobType } from "./types"
 import { JobListItem } from "./helpers"
 import { CostDashboard } from "./cost-dashboard"
 import { JobCreationDialog } from "./job-creation-dialog"

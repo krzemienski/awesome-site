@@ -38,6 +38,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import type { ApiResponse } from "@/lib/api-response"
 import type { LinkHealthHistoryEntry } from "@/features/admin/link-health-service"
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -65,11 +66,6 @@ interface LinkHealthReport {
 
 interface LinkHealthReportWithHistory extends LinkHealthReport {
   readonly history?: readonly LinkHealthHistoryEntry[]
-}
-
-interface ApiResponse<T> {
-  readonly success: boolean
-  readonly data: T
 }
 
 type StatusFilter = "all" | "healthy" | "broken" | "timeout" | "redirect"
@@ -290,6 +286,7 @@ export function LinkHealthTab() {
       const res = await fetch("/api/admin/link-health?includeHistory=true")
       if (!res.ok) throw new Error("Failed to fetch link health results")
       const json = (await res.json()) as ApiResponse<LinkHealthReportWithHistory>
+      if (!json.data) throw new Error("No link health data returned")
       return json.data
     },
     refetchInterval: isChecking ? 5000 : false,
@@ -301,6 +298,7 @@ export function LinkHealthTab() {
       const res = await fetch("/api/admin/link-health", { method: "POST" })
       if (!res.ok) throw new Error("Failed to start link health check")
       const json = (await res.json()) as ApiResponse<LinkHealthReport>
+      if (!json.data) throw new Error("No link health check data returned")
       return json.data
     },
     onMutate: () => {

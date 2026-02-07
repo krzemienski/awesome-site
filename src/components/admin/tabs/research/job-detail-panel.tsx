@@ -16,8 +16,8 @@ import {
 } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
+import type { ApiResponse } from "@/lib/api-response"
 import type {
-  ApiResponse,
   ResearchJob,
   ResearchFinding,
   JobReport,

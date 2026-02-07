@@ -358,7 +358,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - **Commit**: `refactor(admin): enforce immutable patterns and error handling`
   - _Design: Existing Patterns to Follow_
 
-- [ ] 2.2 Extract shared types and consolidate API response handling
+- [x] 2.2 Extract shared types and consolidate API response handling
   - **Do**:
     1. Check if `ApiResponse<T>` type is duplicated across files -- consolidate to a shared location if needed
     2. Ensure research types are all imported from `research/types.ts` (no inline re-declarations)

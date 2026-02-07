@@ -22,7 +22,8 @@ import { StatCard } from "@/components/admin/stat-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
-import type { ApiResponse, CostBreakdownResponse, DailyCostEntry } from "./types"
+import type { ApiResponse } from "@/lib/api-response"
+import type { CostBreakdownResponse, DailyCostEntry } from "./types"
 
 // ── Chart Config ─────────────────────────────────────────────────────────
 

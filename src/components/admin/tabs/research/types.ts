@@ -68,8 +68,3 @@ export interface JobReport {
   readonly completedAt: string
   readonly error?: string
 }
-
-export interface ApiResponse<T> {
-  readonly success: boolean
-  readonly data: T
-}
