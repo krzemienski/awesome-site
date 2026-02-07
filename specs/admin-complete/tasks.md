@@ -376,7 +376,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
 
 ## Phase 3: Testing
 
-- [ ] 3.1 Create Playwright E2E test suite for admin tab navigation
+- [x] 3.1 Create Playwright E2E test suite for admin tab navigation
   - **Do**:
     1. Create `e2e/admin-tabs.spec.ts` (or extend existing E2E setup if present)
     2. Install Playwright if not already: `npx playwright install chromium`
