@@ -21,6 +21,8 @@ import { ViewTracker } from "@/components/resources/view-tracker"
 import { ResourceDetailActions } from "@/components/resources/resource-detail-actions"
 import { JsonLdScript, articleJsonLd } from "@/lib/json-ld"
 
+export const revalidate = 300
+
 interface PageProps {
   params: Promise<{ id: string }>
 }

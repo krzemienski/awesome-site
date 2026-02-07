@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   },
 }
 
+export const revalidate = 600
+
 interface PageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>
 }

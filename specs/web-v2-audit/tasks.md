@@ -257,7 +257,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-20, AC-10.1_
   - _Design: WS-4 Cache-Control Headers_
 
-- [ ] 3.8 Add ISR revalidate exports to server-rendered pages
+- [x] 3.8 Add ISR revalidate exports to server-rendered pages
   - **Do**:
     1. Add `export const revalidate = 300` to `src/app/(public)/categories/[slug]/page.tsx`
     2. Add `export const revalidate = 300` to `src/app/(public)/resources/[id]/page.tsx`

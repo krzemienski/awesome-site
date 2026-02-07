@@ -26,6 +26,8 @@ export const metadata: Metadata = {
   },
 }
 
+export const revalidate = 600
+
 export default async function HomePage() {
   const categories = await getCategoryTree()
 

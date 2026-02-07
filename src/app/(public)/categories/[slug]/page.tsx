@@ -11,6 +11,8 @@ import { listResources } from "@/features/resources/resource-service"
 import { JsonLdScript, collectionPageJsonLd } from "@/lib/json-ld"
 import type { SubcategoryWithChildren } from "@/features/categories/category-types"
 
+export const revalidate = 300
+
 interface PageProps {
   params: Promise<{ slug: string }>
 }
