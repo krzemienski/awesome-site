@@ -73,7 +73,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-1.1, AC-1.2, AC-1.3, AC-1.4, AC-1.5_
   - _Design: CostDashboard component_
 
-- [ ] 1.6 Create JobCreationDialog component
+- [x] 1.6 Create JobCreationDialog component
   - **Do**:
     1. Create `src/components/admin/tabs/research/job-creation-dialog.tsx`
     2. Import Dialog, Select, Button, Input from shadcn
