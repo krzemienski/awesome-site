@@ -207,7 +207,7 @@ Focus: Build AppSidebar for public pages, create CategoryTree with API, create p
   - _Requirements: FR-2, AC-2.1, AC-2.2, AC-2.3, AC-2.4, AC-2.6_
   - _Design: AdminSidebar (Upgraded)_
 
-- [ ] 2.9 Update AdminLayoutWrapper to use SidebarProvider
+- [x] 2.9 Update AdminLayoutWrapper to use SidebarProvider
   - **Do**:
     1. Rewrite `src/components/admin/admin-layout.tsx`
     2. Replace custom `Sheet` + `div.hidden.md:block` pattern with `SidebarProvider` + `Sidebar` + `SidebarInset`
