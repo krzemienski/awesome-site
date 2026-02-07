@@ -38,6 +38,9 @@
     "tailwind-merge": "^3.4.0",
     "zod": "^4.3.6"
   },
+  "prisma": {
+    "seed": "npx tsx prisma/seed.ts"
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

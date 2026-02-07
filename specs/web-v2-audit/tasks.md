@@ -96,7 +96,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-18, AC-9.1, AC-9.2_
   - _Design: WS-4 Seed Script_
 
-- [ ] 1.8 Create idempotent seed script
+- [x] 1.8 Create idempotent seed script
   - **Do**:
     1. Create `prisma/seed.ts` importing `PrismaClient` from `@/generated/prisma/client`
     2. Read category and resource JSON fixtures from `prisma/seed-data/`
