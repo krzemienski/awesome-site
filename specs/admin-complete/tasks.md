@@ -163,7 +163,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: FR-1, FR-2, FR-3, FR-4, FR-5, AC-4.2, AC-4.4_
   - _Design: Research Tab Decomposition_
 
-- [ ] 1.12 [VERIFY] Quality checkpoint: lint + typecheck + build
+- [x] 1.12 [VERIFY] Quality checkpoint: lint + typecheck + build
   - **Do**: Run full quality suite
   - **Verify**: `npx eslint && npx tsc --noEmit && npm run build`
   - **Done when**: Zero errors across all three commands
