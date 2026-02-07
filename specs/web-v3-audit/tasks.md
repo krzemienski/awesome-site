@@ -426,7 +426,7 @@ Focus: Build Variation B first (fastest path). Apply shadcn cyberpunk theme, com
 
 Focus: Expert design refinements to Variation A tokens - improved hierarchy, typography, whitespace, interaction states. Same components, different visual treatment via CSS tokens.
 
-- [ ] 5.1 Refine Variation A CSS tokens for pro design
+- [x] 5.1 Refine Variation A CSS tokens for pro design
   - **Do**:
     1. Update `src/styles/variation-a.css` with enhanced design tokens:
        - Larger heading scale (1.333 Perfect Fourth) for stronger hierarchy
