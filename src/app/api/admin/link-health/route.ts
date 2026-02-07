@@ -6,7 +6,9 @@ import {
   checkLinks,
   getResults,
   type LinkHealthFilter,
+  type LinkHealthHistoryEntry,
 } from "@/features/admin/link-health-service"
+import { getSetting } from "@/features/admin/settings-service"
 import { logAdminAction } from "@/features/admin/audit-service"
 
 export const POST = withAdmin(async (_req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -38,21 +40,27 @@ export const GET = withAdmin(async (req: NextRequest) => {
     const validFilters: LinkHealthFilter[] = ["broken", "healthy", "all"]
     const safeFilter = validFilters.includes(filter) ? filter : "all"
 
+    const includeHistory = searchParams.get("includeHistory") === "true"
+
     const results = await getResults(safeFilter)
 
-    if (!results) {
-      return apiSuccess({
-        totalChecked: 0,
-        healthy: 0,
-        broken: 0,
-        timeout: 0,
-        results: [],
-        startedAt: null,
-        completedAt: null,
-      })
+    const baseReport = results ?? {
+      totalChecked: 0,
+      healthy: 0,
+      broken: 0,
+      timeout: 0,
+      results: [] as const,
+      startedAt: null,
+      completedAt: null,
     }
 
-    return apiSuccess(results)
+    if (includeHistory) {
+      const history =
+        (await getSetting<LinkHealthHistoryEntry[]>("linkHealth.history")) ?? []
+      return apiSuccess({ ...baseReport, history })
+    }
+
+    return apiSuccess(baseReport)
   } catch (error) {
     return handleApiError(error)
   }

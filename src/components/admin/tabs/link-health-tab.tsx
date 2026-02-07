@@ -19,6 +19,8 @@ import { formatDistanceToNow } from "date-fns"
 
 import { StatCard } from "@/components/admin/stat-card"
 import { DataTable } from "@/components/admin/data-table"
+import { TrendChart } from "./link-health/trend-chart"
+import { JobHistory } from "./link-health/job-history"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -36,6 +38,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import type { LinkHealthHistoryEntry } from "@/features/admin/link-health-service"
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -58,6 +61,10 @@ interface LinkHealthReport {
   readonly results: readonly LinkCheckResult[]
   readonly startedAt: string | null
   readonly completedAt: string | null
+}
+
+interface LinkHealthReportWithHistory extends LinkHealthReport {
+  readonly history?: readonly LinkHealthHistoryEntry[]
 }
 
 interface ApiResponse<T> {
@@ -245,25 +252,47 @@ function LinkHealthSkeleton() {
   )
 }
 
+// ── Button Label Helper ────────────────────────────────────────────────────
+
+function getCheckButtonLabel(
+  isPending: boolean,
+  report: LinkHealthReportWithHistory | undefined
+): string {
+  if (!isPending) return "Check All Links"
+
+  const checked = report?.results?.length ?? 0
+  const total = report?.totalChecked ?? 0
+
+  if (total > 0 && checked > 0) {
+    return `Checking ${checked}/${total}...`
+  }
+
+  return "Checking..."
+}
+
 // ── Main Component ─────────────────────────────────────────────────────────
 
 export function LinkHealthTab() {
   const queryClient = useQueryClient()
   const [statusFilter, setStatusFilter] = React.useState<StatusFilter>("all")
 
-  // Fetch existing results
+  // Track whether a check is in progress for polling
+  const [isChecking, setIsChecking] = React.useState(false)
+
+  // Fetch existing results with history
   const {
     data: report,
     isLoading,
     isError,
-  } = useQuery<LinkHealthReport>({
+  } = useQuery<LinkHealthReportWithHistory>({
     queryKey: ["admin", "link-health"],
     queryFn: async () => {
-      const res = await fetch("/api/admin/link-health")
+      const res = await fetch("/api/admin/link-health?includeHistory=true")
       if (!res.ok) throw new Error("Failed to fetch link health results")
-      const json = (await res.json()) as ApiResponse<LinkHealthReport>
+      const json = (await res.json()) as ApiResponse<LinkHealthReportWithHistory>
       return json.data
     },
+    refetchInterval: isChecking ? 5000 : false,
   })
 
   // Trigger check mutation
@@ -274,10 +303,20 @@ export function LinkHealthTab() {
       const json = (await res.json()) as ApiResponse<LinkHealthReport>
       return json.data
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin", "link-health"] })
+    onMutate: () => {
+      setIsChecking(true)
     },
-    onError: () => toast.error("Link check failed"),
+    onSuccess: (data) => {
+      setIsChecking(false)
+      queryClient.invalidateQueries({ queryKey: ["admin", "link-health"] })
+      toast.success(
+        `Check complete: ${data.healthy} healthy, ${data.broken} broken`
+      )
+    },
+    onError: () => {
+      setIsChecking(false)
+      toast.error("Link check failed")
+    },
   })
 
   // Disable resource mutation
@@ -304,6 +343,11 @@ export function LinkHealthTab() {
         disableMutation.isPending
       ),
     [disableMutation]
+  )
+
+  const history = React.useMemo(
+    () => (report?.history ?? []) as LinkHealthHistoryEntry[],
+    [report?.history]
   )
 
   if (isLoading) {
@@ -348,7 +392,7 @@ export function LinkHealthTab() {
           ) : (
             <Activity className="mr-2 size-4" />
           )}
-          {checkMutation.isPending ? "Checking..." : "Check All Links"}
+          {getCheckButtonLabel(checkMutation.isPending, report)}
         </Button>
       </div>
 
@@ -376,6 +420,9 @@ export function LinkHealthTab() {
         />
       </div>
 
+      {/* Trend Chart */}
+      {history.length >= 2 && <TrendChart history={history} />}
+
       {/* Results Table */}
       {totalChecked === 0 && !checkMutation.data ? (
         <Card>
@@ -396,7 +443,7 @@ export function LinkHealthTab() {
             <CardDescription>
               {results.length} link(s) checked
               {report?.completedAt
-                ? ` — last run ${formatCheckedAt(report.completedAt)}`
+                ? ` \u2014 last run ${formatCheckedAt(report.completedAt)}`
                 : ""}
             </CardDescription>
           </CardHeader>
@@ -427,6 +474,9 @@ export function LinkHealthTab() {
           </CardContent>
         </Card>
       )}
+
+      {/* Job History */}
+      {history.length > 0 && <JobHistory history={history} />}
     </div>
   )
 }

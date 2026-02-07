@@ -257,7 +257,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-8.1, AC-8.2, AC-8.3, AC-8.4, AC-9.2_
   - _Design: LinkHealth TrendChart_
 
-- [ ] 1.19 Enhance link-health-tab with chart, history, polling, and progress
+- [x] 1.19 Enhance link-health-tab with chart, history, polling, and progress
   - **Do**:
     1. Import `TrendChart` and `JobHistory` from `./link-health/`
     2. Add `useQuery` for `linkHealth.history` data (fetch from `/api/admin/link-health` or add query param `?includeHistory=true` -- check if history is returned alongside results, or add a separate settings fetch)
