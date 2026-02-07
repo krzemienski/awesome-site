@@ -216,7 +216,6 @@ function checkAlphabeticalOrder(
   lines: string[],
   warnings: LintWarning[]
 ): void {
-  let _currentSectionLine = 0
   let resourceTitles: Array<{ title: string; lineNumber: number }> = []
 
   const flushSection = () => {
@@ -241,7 +240,6 @@ function checkAlphabeticalOrder(
     // Detect heading -- flush previous section
     if (/^#{2,6}\s+/.test(line)) {
       flushSection()
-      _currentSectionLine = i + 1
       continue
     }
 
