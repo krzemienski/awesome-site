@@ -409,7 +409,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-17, AC-12.1 through AC-12.4_
   - _Design: WS-3 Advanced Search Page_
 
-- [ ] 5.3 Create legacy compatibility endpoint stubs
+- [x] 5.3 Create legacy compatibility endpoint stubs
   - **Do**:
     1. Create `src/app/api/awesome-list/route.ts` -- GET returns 501 JSON: `{ success: false, error: "This endpoint has been deprecated...", code: "DEPRECATED", migration: { newEndpoint: "/api/resources", docs: "/about" } }`
     2. Create `src/app/api/learning-paths/suggested/route.ts` -- GET returns 501 JSON: `{ success: false, error: "...", code: "DEPRECATED", migration: { newEndpoint: "/api/journeys" } }`
