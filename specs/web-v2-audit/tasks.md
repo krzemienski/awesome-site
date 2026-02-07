@@ -320,13 +320,13 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-32, NFR-8_
   - _Design: WS-6 Zod Validation Audit_
 
-- [ ] 4.4 [VERIFY] Quality checkpoint: lint + typecheck
+- [x] 4.4 [VERIFY] Quality checkpoint: lint + typecheck
   - **Do**: Run lint and typecheck after security/validation changes
   - **Verify**: `npx eslint src/ 2>&1 | tail -3 && npx tsc --noEmit 2>&1 | tail -5`
   - **Done when**: 0 lint issues, 0 type errors
   - **Commit**: `chore(quality): pass Phase 4a quality checkpoint` (only if fixes needed)
 
-- [ ] 4.5 Add metadata to protected pages via layout files
+- [x] 4.5 Add metadata to protected pages via layout files
   - **Do**:
     1. Create `src/app/(protected)/favorites/layout.tsx` -- export `metadata: { title: "Favorites | Awesome Video Dashboard", description: "Your favorited resources." }`, render `children`
     2. Create `src/app/(protected)/bookmarks/layout.tsx` -- export `metadata: { title: "Bookmarks | Awesome Video Dashboard", description: "Your bookmarked resources." }`, render `children`

@@ -1,4 +1,14 @@
+import type { Metadata } from "next"
 import { SubmissionForm } from "@/components/resources/submission-form"
+
+export const metadata: Metadata = {
+  title: "Submit Resource | Awesome Video Dashboard",
+  description: "Share a resource with the community.",
+  openGraph: {
+    title: "Submit Resource | Awesome Video Dashboard",
+    description: "Share a resource with the community.",
+  },
+}
 
 export default function SubmitPage() {
   return (
