@@ -15,7 +15,6 @@ import {
 } from "@tanstack/react-table"
 import { ArrowUpDown, Settings2, ChevronLeft, ChevronRight } from "lucide-react"
 
-import { cn } from "@/lib/utils"
 import {
   Table,
   TableBody,
@@ -60,7 +59,7 @@ export interface DataTableProps<TData, TValue> {
   toolbarContent?: React.ReactNode
 }
 
-function DataTableColumnHeader<TData, TValue>({
+function DataTableColumnHeader({
   column,
   title,
 }: {
@@ -155,6 +154,7 @@ function DataTable<TData, TValue>({
 
   const allColumns = selectionColumn ? [selectionColumn, ...columns] : columns
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
     columns: allColumns,

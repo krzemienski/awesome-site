@@ -54,7 +54,7 @@ export function ResourceFilters({
       }
     }, 500)
     return () => clearTimeout(timer)
-  }, [searchInput])
+  }, [searchInput, onChange, value])
 
   const handleCategoryChange = useCallback(
     (categoryId: string) => {

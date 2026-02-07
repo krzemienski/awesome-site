@@ -16,11 +16,6 @@ interface CategoryCount {
   count: number
 }
 
-interface TagCount {
-  tagId: number
-  count: number
-}
-
 /**
  * Get personalized resource recommendations for a user.
  * Weighted scoring: category preference (30%), tag overlap (25%),

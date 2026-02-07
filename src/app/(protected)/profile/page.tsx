@@ -192,8 +192,6 @@ function ApiKeyManagementSection() {
     setKeyCopied(false)
   }
 
-  const activeKeys = keys.filter((k) => getApiKeyStatus(k) === "active")
-
   return (
     <Card>
       <CardHeader>

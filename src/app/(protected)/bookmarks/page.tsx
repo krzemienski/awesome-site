@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react"
 import { BookmarkX, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { ResourceGrid } from "@/components/resources/resource-grid"
+
 import { LoadingSkeleton } from "@/components/shared/loading-skeleton"
 import { EmptyState } from "@/components/shared/empty-state"
 import { BookmarkButton } from "@/components/resources/bookmark-button"

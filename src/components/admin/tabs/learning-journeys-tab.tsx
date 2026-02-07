@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import type { ColumnDef } from "@tanstack/react-table"
-import { Plus, Pencil, Trash2, Loader2 } from "lucide-react"
+import { Plus, Pencil, Trash2 } from "lucide-react"
 
 import { DataTable } from "@/components/admin/data-table"
 import { ConfirmDialog } from "@/components/shared/confirm-dialog"

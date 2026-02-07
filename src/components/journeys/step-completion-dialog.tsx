@@ -41,7 +41,7 @@ export function StepCompletionDialog({
   open,
   onOpenChange,
   stepId,
-  journeyId,
+  journeyId: _journeyId,
   onSubmit,
   isLoading = false,
 }: StepCompletionDialogProps) {

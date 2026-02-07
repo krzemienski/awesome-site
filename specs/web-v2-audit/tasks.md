@@ -114,7 +114,7 @@ created: 2026-02-06T22:57:00-05:00
 
 ## Phase 2: Code Quality (ESLint Fixes)
 
-- [ ] 2.1 Fix all unused variable/import ESLint warnings
+- [x] 2.1 Fix all unused variable/import ESLint warnings
   - **Do**: Fix all 34 ESLint warnings. Exact fixes by file:
     1. `src/app/(protected)/bookmarks/page.tsx:6` -- remove unused `ResourceGrid` import
     2. `src/app/(protected)/profile/page.tsx:195` -- remove or use `activeKeys` variable

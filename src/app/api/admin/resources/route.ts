@@ -65,8 +65,6 @@ export const GET = withAdmin(
         prisma.resource.count({ where }),
       ])
 
-      const pageCount = Math.max(1, Math.ceil(total / limit))
-
       return apiPaginated(items, {
         total,
         page,

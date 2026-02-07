@@ -1,10 +1,7 @@
 "use client"
 
-import { ResourceCard, type ResourceCardProps } from "./resource-card"
-import {
-  ResourceListItem,
-  type ResourceListItemProps,
-} from "./resource-list-item"
+import { ResourceCard } from "./resource-card"
+import { ResourceListItem } from "./resource-list-item"
 import { ResourceCompactItem } from "./resource-compact-item"
 import type { ResourceWithRelations } from "@/features/resources/resource-types"
 

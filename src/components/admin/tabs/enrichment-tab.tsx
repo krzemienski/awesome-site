@@ -39,7 +39,6 @@ import {
 } from "@/components/ui/table"
 import {
   Collapsible,
-  CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
 
