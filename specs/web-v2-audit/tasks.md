@@ -356,7 +356,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-34, AC-4.5_
   - _Design: WS-6 Related Resources UI_
 
-- [ ] 4.7 Add keyboard accessibility to custom interactive elements
+- [x] 4.7 Add keyboard accessibility to custom interactive elements
   - **Do**:
     1. Review resource cards in `src/components/resources/resource-card.tsx` -- ensure links have visible focus styles
     2. Review admin tab navigation in `src/app/admin/page.tsx` -- ensure tabs are keyboard-navigable
