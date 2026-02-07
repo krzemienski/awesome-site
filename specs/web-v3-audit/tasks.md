@@ -23,7 +23,7 @@ Focus: Install shadcn sidebar primitives, create variation switching infrastruct
   - _Requirements: FR-2, FR-1_
   - _Design: WS-1 Foundation_
 
-- [ ] 1.2 Create variation CSS token files
+- [x] 1.2 Create variation CSS token files
   - **Do**:
     1. Create `src/styles/variation-a.css` with `[data-variation="a"]` selector containing tokens: `--sidebar-width: 280px`, `--sidebar-collapsed-width: 64px`, `--content-max-width: 1400px`, `--heading-scale: 1.333`, `--card-padding: 24px`, `--card-gap: 16px`, `--card-border-width: 1px`, `--nav-item-height: 40px`, `--sidebar-header-height: 64px`, `--transition-duration: 200ms`, `--font-weight-heading: 700`
     2. Create `src/styles/variation-b.css` with `[data-variation="b"]` selector (default): `--sidebar-width: 280px`, `--sidebar-collapsed-width: 64px`, `--content-max-width: 1200px`, `--heading-scale: 1.25`, `--card-padding: 20px`, `--card-gap: 12px`, `--card-border-width: 1px`, `--nav-item-height: 36px`, `--sidebar-header-height: 56px`, `--transition-duration: 150ms`, `--font-weight-heading: 600`

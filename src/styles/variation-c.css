@@ -1,0 +1,14 @@
+/* Variation C: Stitch MCP Generated */
+[data-variation="c"] {
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 56px;
+  --content-max-width: 1400px;
+  --heading-scale: 1.2;
+  --card-padding: 16px;
+  --card-gap: 16px;
+  --card-border-width: 2px;
+  --nav-item-height: 44px;
+  --sidebar-header-height: 72px;
+  --transition-duration: 250ms;
+  --font-weight-heading: 800;
+}

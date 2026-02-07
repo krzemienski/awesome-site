@@ -1,0 +1,14 @@
+/* Variation A: Pro Audit Redesign */
+[data-variation="a"] {
+  --sidebar-width: 280px;
+  --sidebar-collapsed-width: 64px;
+  --content-max-width: 1400px;
+  --heading-scale: 1.333;
+  --card-padding: 24px;
+  --card-gap: 16px;
+  --card-border-width: 1px;
+  --nav-item-height: 40px;
+  --sidebar-header-height: 64px;
+  --transition-duration: 200ms;
+  --font-weight-heading: 700;
+}
