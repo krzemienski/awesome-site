@@ -75,13 +75,6 @@ const NAV_GROUPS: readonly AdminNavGroup[] = [
       { key: "subcategories", label: "Subcategories", icon: FolderOpen },
       { key: "sub-subcategories", label: "Sub-subcategories", icon: Folder },
       { key: "tags", label: "Tags", icon: Tag },
-    ],
-  },
-  {
-    label: "Moderation",
-    defaultOpen: true,
-    collapsible: true,
-    items: [
       { key: "edit-suggestions", label: "Edit Suggestions", icon: GitPullRequest },
     ],
   },

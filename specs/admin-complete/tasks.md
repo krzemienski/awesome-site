@@ -281,7 +281,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
 
 ### Polish (FR-11, FR-12, FR-13)
 
-- [ ] 1.21 Merge Moderation sidebar group into Content Management
+- [x] 1.21 Merge Moderation sidebar group into Content Management
   - **Do**:
     1. In `src/components/admin/admin-sidebar.tsx`, move `{ key: "edit-suggestions", label: "Edit Suggestions", icon: GitPullRequest }` into the Content Management `items` array (after Tags)
     2. Remove the entire Moderation group object from `NAV_GROUPS`
