@@ -75,6 +75,36 @@ const SettingsTab = lazy(() =>
     default: m.SettingsTab,
   }))
 )
+const ExportTab = lazy(() =>
+  import("@/components/admin/tabs/export-tab").then((m) => ({
+    default: m.ExportTab,
+  }))
+)
+const DatabaseTab = lazy(() =>
+  import("@/components/admin/tabs/database-tab").then((m) => ({
+    default: m.DatabaseTab,
+  }))
+)
+const ValidationTab = lazy(() =>
+  import("@/components/admin/tabs/validation-tab").then((m) => ({
+    default: m.ValidationTab,
+  }))
+)
+const LinkHealthTab = lazy(() =>
+  import("@/components/admin/tabs/link-health-tab").then((m) => ({
+    default: m.LinkHealthTab,
+  }))
+)
+const AuditTab = lazy(() =>
+  import("@/components/admin/tabs/audit-tab").then((m) => ({
+    default: m.AuditTab,
+  }))
+)
+const ResearchTab = lazy(() =>
+  import("@/components/admin/tabs/research-tab").then((m) => ({
+    default: m.ResearchTab,
+  }))
+)
 
 const TAB_COMPONENTS: Record<string, React.LazyExoticComponent<React.ComponentType>> = {
   overview: OverviewTab,
@@ -91,6 +121,12 @@ const TAB_COMPONENTS: Record<string, React.LazyExoticComponent<React.ComponentTy
   tags: TagsTab,
   "learning-journeys": LearningJourneysTab,
   settings: SettingsTab,
+  export: ExportTab,
+  database: DatabaseTab,
+  validation: ValidationTab,
+  "link-health": LinkHealthTab,
+  audit: AuditTab,
+  research: ResearchTab,
 }
 
 function TabLoadingFallback() {

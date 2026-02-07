@@ -338,7 +338,7 @@ Focus: Build 6 new admin tab UIs consuming existing APIs, register them in admin
   - _Requirements: FR-12, AC-8.1 through AC-8.6_
   - _Design: ResearchTab_
 
-- [ ] 3.8 Register 6 new tabs in admin page
+- [x] 3.8 Register 6 new tabs in admin page
   - **Do**:
     1. In `src/app/admin/page.tsx`: Add 6 new lazy imports following existing pattern:
        ```
