@@ -1,9 +1,16 @@
 import type { NextRequest } from "next/server"
+import { z } from "zod"
 import { withAdmin } from "@/features/auth/auth-middleware"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { banUser, unbanUser } from "@/features/admin/user-management-service"
 import { logAdminAction } from "@/features/admin/audit-service"
+
+const banSchema = z.object({
+  action: z.enum(["ban", "unban"]),
+  reason: z.string().optional(),
+  expires: z.string().optional(),
+})
 
 export const PUT = withAdmin(
   async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -21,19 +28,16 @@ export const PUT = withAdmin(
         return apiError("Invalid JSON body", 422, "VALIDATION_ERROR")
       }
 
-      const { action, reason, expires } = body as {
-        action?: "ban" | "unban"
-        reason?: string
-        expires?: string
-      }
-
-      if (!action || (action !== "ban" && action !== "unban")) {
+      const parsed = banSchema.safeParse(body)
+      if (!parsed.success) {
         return apiError(
           'Invalid action. Must be "ban" or "unban"',
           400,
           "INVALID_ACTION"
         )
       }
+
+      const { action, reason, expires } = parsed.data
 
       if (action === "ban") {
         const expiresDate = expires ? new Date(expires) : undefined

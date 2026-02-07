@@ -1,8 +1,13 @@
 import { NextRequest } from "next/server"
+import { z } from "zod"
 import { withAuth } from "@/features/auth/auth-middleware"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import { recordView, getHistory } from "@/features/user/history-service"
+
+const recordViewSchema = z.object({
+  resourceId: z.number().int().positive(),
+})
 
 /**
  * GET /api/history -- Get view history for the authenticated user.
@@ -30,14 +35,19 @@ export const GET = withAuth(
 export const POST = withAuth(
   async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
     try {
-      const body = await req.json()
-      const resourceId = Number(body.resourceId)
+      let body: unknown
+      try {
+        body = await req.json()
+      } catch {
+        return apiError("Invalid JSON body", 422, "VALIDATION_ERROR")
+      }
 
-      if (!Number.isInteger(resourceId) || resourceId <= 0) {
+      const parsed = recordViewSchema.safeParse(body)
+      if (!parsed.success) {
         return apiError("Invalid resourceId", 422, "VALIDATION_ERROR")
       }
 
-      const view = await recordView(ctx.user.id, resourceId)
+      const view = await recordView(ctx.user.id, parsed.data.resourceId)
       return apiSuccess(view, 201)
     } catch (error) {
       return handleApiError(error)

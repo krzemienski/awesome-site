@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server"
+import { z } from "zod"
 import { withAdmin } from "@/features/auth/auth-middleware"
 import { apiSuccess, handleApiError } from "@/lib/api-response"
 import {
@@ -7,16 +8,20 @@ import {
   exportCsv,
 } from "@/features/admin/export-service"
 
+const exportSchema = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
+})
+
 /**
  * POST /api/admin/export -- Generate markdown export
  * Body: { title?: string, description?: string }
  */
 export const POST = withAdmin(async (req: NextRequest) => {
   try {
-    const body = (await req.json().catch(() => ({}))) as {
-      title?: string
-      description?: string
-    }
+    const raw = await req.json().catch(() => ({}))
+    const parsed = exportSchema.safeParse(raw)
+    const body = parsed.success ? parsed.data : {}
 
     const result = await exportMarkdown(body.title, body.description)
 

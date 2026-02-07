@@ -1,3 +1,4 @@
+import { z } from "zod"
 import { withAuth } from "@/features/auth/auth-middleware"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
@@ -6,6 +7,10 @@ import {
   updateBookmarkNotes,
 } from "@/features/user/bookmark-service"
 import { prisma } from "@/lib/prisma"
+
+const updateNotesSchema = z.object({
+  notes: z.string(),
+})
 
 /**
  * POST /api/bookmarks/[resourceId] -- Add bookmark for a resource.
@@ -52,9 +57,8 @@ export const PUT = withAuth(
         return apiError("Invalid JSON body", 422, "VALIDATION_ERROR")
       }
 
-      const { notes } = body as { notes?: string }
-
-      if (typeof notes !== "string") {
+      const parsed = updateNotesSchema.safeParse(body)
+      if (!parsed.success) {
         return apiError(
           "notes field is required and must be a string",
           422,
@@ -62,7 +66,7 @@ export const PUT = withAuth(
         )
       }
 
-      await updateBookmarkNotes(ctx.user.id, resourceId, notes)
+      await updateBookmarkNotes(ctx.user.id, resourceId, parsed.data.notes)
       return apiSuccess({ updated: true })
     } catch (error) {
       return handleApiError(error)

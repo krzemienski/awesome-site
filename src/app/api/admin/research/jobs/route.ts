@@ -1,7 +1,8 @@
 import type { NextRequest } from "next/server"
+import { z } from "zod"
 import { withAdmin } from "@/features/auth/auth-middleware"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
-import { apiSuccess, handleApiError } from "@/lib/api-response"
+import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import {
   listJobs,
   startResearchJob,
@@ -9,13 +10,10 @@ import {
 import type { ResearchJobType } from "@/generated/prisma/client"
 import { logAdminAction } from "@/features/admin/audit-service"
 
-const VALID_TYPES: ResearchJobType[] = [
-  "validation",
-  "enrichment",
-  "discovery",
-  "trend_analysis",
-  "comprehensive",
-]
+const researchJobSchema = z.object({
+  type: z.enum(["validation", "enrichment", "discovery", "trend_analysis", "comprehensive"]),
+  config: z.record(z.string(), z.unknown()).optional(),
+})
 
 export const GET = withAdmin(async () => {
   try {
@@ -28,21 +26,19 @@ export const GET = withAdmin(async () => {
 
 export const POST = withAdmin(async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
   try {
-    const body = await req.json()
-    const type = body.type as string
-
-    if (!type || !VALID_TYPES.includes(type as ResearchJobType)) {
-      return Response.json(
-        {
-          success: false,
-          error: "Invalid research job type",
-          code: "VALIDATION_ERROR",
-        },
-        { status: 422 }
-      )
+    let body: unknown
+    try {
+      body = await req.json()
+    } catch {
+      return apiError("Invalid JSON body", 422, "VALIDATION_ERROR")
     }
 
-    const config = body.config as Record<string, unknown> | undefined
+    const parsed = researchJobSchema.safeParse(body)
+    if (!parsed.success) {
+      return apiError("Invalid research job type", 422, "VALIDATION_ERROR")
+    }
+
+    const { type, config } = parsed.data
     const jobId = await startResearchJob(type as ResearchJobType, config)
 
     logAdminAction({

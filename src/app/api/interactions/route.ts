@@ -1,17 +1,16 @@
 import { NextRequest } from "next/server"
+import { z } from "zod"
 import { withAuth } from "@/features/auth/auth-middleware"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import { trackInteraction } from "@/features/user/interaction-service"
 import type { InteractionType } from "@/generated/prisma/client"
 
-const VALID_TYPES: InteractionType[] = [
-  "view",
-  "click",
-  "bookmark",
-  "rate",
-  "complete",
-]
+const interactionSchema = z.object({
+  resourceId: z.number().int().positive(),
+  type: z.enum(["view", "click", "bookmark", "rate", "complete"]),
+  metadata: z.record(z.string(), z.unknown()).optional(),
+})
 
 /**
  * POST /api/interactions -- Track a user interaction event.
@@ -20,27 +19,28 @@ const VALID_TYPES: InteractionType[] = [
 export const POST = withAuth(
   async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
     try {
-      const body = await req.json()
-      const resourceId = Number(body.resourceId)
-      const type = body.type as InteractionType
-      const metadata = body.metadata as Record<string, unknown> | undefined
-
-      if (!Number.isInteger(resourceId) || resourceId <= 0) {
-        return apiError("Invalid resourceId", 422, "VALIDATION_ERROR")
+      let body: unknown
+      try {
+        body = await req.json()
+      } catch {
+        return apiError("Invalid JSON body", 422, "VALIDATION_ERROR")
       }
 
-      if (!VALID_TYPES.includes(type)) {
+      const parsed = interactionSchema.safeParse(body)
+      if (!parsed.success) {
         return apiError(
-          `Invalid interaction type. Must be one of: ${VALID_TYPES.join(", ")}`,
+          "Invalid request body. Required: resourceId (positive int), type (view|click|bookmark|rate|complete)",
           422,
           "VALIDATION_ERROR"
         )
       }
 
+      const { resourceId, type, metadata } = parsed.data
+
       const interaction = await trackInteraction(
         ctx.user.id,
         resourceId,
-        type,
+        type as InteractionType,
         metadata
       )
       return apiSuccess(interaction, 201)

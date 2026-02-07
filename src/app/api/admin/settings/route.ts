@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server"
+import { z } from "zod"
 import { withAdmin } from "@/features/auth/auth-middleware"
-import { apiSuccess, handleApiError } from "@/lib/api-response"
+import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import {
   getAllSettings,
@@ -8,6 +9,10 @@ import {
 } from "@/features/admin/settings-service"
 import { logAdminAction } from "@/features/admin/audit-service"
 import type { Prisma } from "@/generated/prisma/client"
+
+const settingsSchema = z.object({
+  settings: z.record(z.string(), z.unknown()),
+})
 
 export const GET = withAdmin(async () => {
   try {
@@ -20,12 +25,19 @@ export const GET = withAdmin(async () => {
 
 export const PUT = withAdmin(async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
   try {
-    const body = await req.json()
-    const entries = body.settings as Record<string, unknown> | undefined
+    let raw: unknown
+    try {
+      raw = await req.json()
+    } catch {
+      return apiError("Invalid JSON body", 422, "VALIDATION_ERROR")
+    }
 
-    if (!entries || typeof entries !== "object") {
+    const parsed = settingsSchema.safeParse(raw)
+    if (!parsed.success) {
       return apiSuccess({ updated: 0 })
     }
+
+    const entries = parsed.data.settings
 
     const keys = Object.keys(entries)
     for (const key of keys) {

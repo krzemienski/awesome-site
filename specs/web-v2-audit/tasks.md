@@ -307,7 +307,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-31_
   - _Design: WS-6 Security Review_
 
-- [ ] 4.3 Verify Zod validation on all mutation endpoints
+- [x] 4.3 Verify Zod validation on all mutation endpoints
   - **Do**:
     1. Grep all POST/PUT/PATCH/DELETE route handlers
     2. Verify each uses Zod schema validation (either inline `safeParse` or `withValidation` middleware)

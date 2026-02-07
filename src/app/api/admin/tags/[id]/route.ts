@@ -1,9 +1,19 @@
 import type { NextRequest } from "next/server"
+import { z } from "zod"
 import { withAdmin } from "@/features/auth/auth-middleware"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { prisma } from "@/lib/prisma"
 import { logAdminAction } from "@/features/admin/audit-service"
+
+const updateTagSchema = z.object({
+  name: z.string().min(1).optional(),
+  slug: z.string().min(1).optional(),
+  description: z.string().nullable().optional(),
+}).refine(
+  (data) => data.name !== undefined || data.slug !== undefined || data.description !== undefined,
+  { message: "At least one field (name, slug, description) is required" }
+)
 
 export const PUT = withAdmin(
   async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -22,15 +32,12 @@ export const PUT = withAdmin(
         return apiError("Invalid JSON body", 422, "VALIDATION_ERROR")
       }
 
-      const { name, slug, description } = body as {
-        name?: string
-        slug?: string
-        description?: string | null
-      }
-
-      if (!name && !slug && description === undefined) {
+      const parsed = updateTagSchema.safeParse(body)
+      if (!parsed.success) {
         return apiError("At least one field (name, slug, description) is required", 422, "VALIDATION_ERROR")
       }
+
+      const { name, slug, description } = parsed.data
 
       const existing = await prisma.tag.findUnique({ where: { id: numericId } })
       if (!existing) {

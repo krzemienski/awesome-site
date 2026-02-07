@@ -1,9 +1,15 @@
 import type { NextRequest } from "next/server"
+import { z } from "zod"
 import { withAdmin } from "@/features/auth/auth-middleware"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { prisma } from "@/lib/prisma"
 import { logAdminAction } from "@/features/admin/audit-service"
+
+const mergeTagsSchema = z.object({
+  sourceTagIds: z.array(z.number().int().positive()).min(1),
+  targetTagId: z.number().int().positive(),
+})
 
 export const POST = withAdmin(
   async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -15,22 +21,16 @@ export const POST = withAdmin(
         return apiError("Invalid JSON body", 422, "VALIDATION_ERROR")
       }
 
-      const { sourceTagIds, targetTagId } = body as {
-        sourceTagIds?: number[]
-        targetTagId?: number
-      }
-
-      if (
-        !Array.isArray(sourceTagIds) ||
-        sourceTagIds.length === 0 ||
-        typeof targetTagId !== "number"
-      ) {
+      const parsed = mergeTagsSchema.safeParse(body)
+      if (!parsed.success) {
         return apiError(
           "sourceTagIds (non-empty array) and targetTagId (number) are required",
           422,
           "VALIDATION_ERROR"
         )
       }
+
+      const { sourceTagIds, targetTagId } = parsed.data
 
       if (sourceTagIds.includes(targetTagId)) {
         return apiError("Target tag cannot be in source tags", 422, "VALIDATION_ERROR")

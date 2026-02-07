@@ -1,9 +1,15 @@
 import type { NextRequest } from "next/server"
+import { z } from "zod"
 import { withAdmin } from "@/features/auth/auth-middleware"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { prisma } from "@/lib/prisma"
 import { logAdminAction } from "@/features/admin/audit-service"
+
+const createTagSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().nullable().optional(),
+})
 
 export const GET = withAdmin(
   async (_req: NextRequest, _ctx: AuthenticatedRouteContext) => {
@@ -30,9 +36,14 @@ export const POST = withAdmin(
         return apiError("Invalid JSON body", 422, "VALIDATION_ERROR")
       }
 
-      const { name, description } = body as { name?: string; description?: string | null }
+      const parsed = createTagSchema.safeParse(body)
+      if (!parsed.success) {
+        return apiError("Tag name is required", 422, "VALIDATION_ERROR")
+      }
 
-      if (!name || name.trim().length === 0) {
+      const { name, description } = parsed.data
+
+      if (name.trim().length === 0) {
         return apiError("Tag name is required", 422, "VALIDATION_ERROR")
       }
 

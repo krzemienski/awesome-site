@@ -1,9 +1,14 @@
 import type { NextRequest } from "next/server"
+import { z } from "zod"
 import { withAdmin } from "@/features/auth/auth-middleware"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { rejectEdit } from "@/features/edits/edit-service"
 import { createAuditLog } from "@/features/admin/audit-service"
+
+const rejectSchema = z.object({
+  feedback: z.string().optional(),
+})
 
 export const PUT = withAdmin(
   async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -18,7 +23,8 @@ export const PUT = withAdmin(
       let feedback: string | undefined
       try {
         const body = await req.json()
-        feedback = typeof body.feedback === "string" ? body.feedback : undefined
+        const parsed = rejectSchema.safeParse(body)
+        feedback = parsed.success ? parsed.data.feedback : undefined
       } catch {
         // No body is acceptable — feedback is optional
       }

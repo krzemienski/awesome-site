@@ -1,11 +1,14 @@
 import type { NextRequest } from "next/server"
+import { z } from "zod"
 import { withAdmin } from "@/features/auth/auth-middleware"
 import { apiSuccess, apiError, handleApiError } from "@/lib/api-response"
 import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { changeRole } from "@/features/admin/user-management-service"
 import { logAdminAction } from "@/features/admin/audit-service"
 
-const VALID_ROLES = ["user", "admin"] as const
+const roleSchema = z.object({
+  role: z.enum(["user", "admin"]),
+})
 
 export const PUT = withAdmin(
   async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -23,15 +26,16 @@ export const PUT = withAdmin(
         return apiError("Invalid JSON body", 422, "VALIDATION_ERROR")
       }
 
-      const { role } = body as { role?: string }
-
-      if (!role || !VALID_ROLES.includes(role as (typeof VALID_ROLES)[number])) {
+      const parsed = roleSchema.safeParse(body)
+      if (!parsed.success) {
         return apiError(
-          `Invalid role. Must be one of: ${VALID_ROLES.join(", ")}`,
+          "Invalid role. Must be one of: user, admin",
           400,
           "INVALID_ROLE"
         )
       }
+
+      const { role } = parsed.data
 
       const user = await changeRole(id, role)
 
