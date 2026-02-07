@@ -436,7 +436,7 @@ created: 2026-02-06T22:57:00-05:00
   - **Done when**: All commands pass with exit code 0
   - **Commit**: `chore(quality): pass full local CI` (only if fixes needed)
 
-- [ ] 6.2 [VERIFY] Functional validation: new error/loading/not-found pages
+- [x] 6.2 [VERIFY] Functional validation: new error/loading/not-found pages
   - **Do**:
     1. Start dev server: `npm run dev` (background)
     2. Verify `/nonexistent` returns 404 page: `curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/nonexistent` (expect 404)
