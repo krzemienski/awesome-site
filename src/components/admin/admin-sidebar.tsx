@@ -143,7 +143,7 @@ export function AdminSidebar({ onNavigate }: AdminSidebarProps = {}) {
 
   return (
     <>
-      <SidebarHeader className="flex h-14 items-center px-4">
+      <SidebarHeader className="flex items-center px-4" style={{ height: 'var(--sidebar-header-height)' }}>
         <h2 className="font-heading text-lg font-bold tracking-tight">
           Admin Panel
         </h2>

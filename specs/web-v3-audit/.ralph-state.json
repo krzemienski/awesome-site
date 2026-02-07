@@ -3,7 +3,7 @@
   "name": "web-v3-audit",
   "basePath": "specs/web-v3-audit",
   "phase": "execution",
-  "taskIndex": 26,
+  "taskIndex": 27,
   "totalTasks": 46,
   "taskIteration": 1,
   "maxTaskIterations": 200,

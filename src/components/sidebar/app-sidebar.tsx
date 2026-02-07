@@ -69,7 +69,7 @@ export function AppSidebar() {
   return (
     <>
       <Sidebar collapsible="icon" variant="sidebar">
-        <SidebarHeader>
+        <SidebarHeader style={{ height: 'var(--sidebar-header-height)' }}>
           <div className="flex items-center justify-between gap-2 px-2">
             <Link
               href="/"

@@ -84,7 +84,7 @@ function SubcategoryItem({
             <Badge variant="outline" className="ml-auto text-[10px] px-1 py-0">
               {item.resourceCount}
             </Badge>
-            <ChevronRight className="ml-1 size-3 shrink-0 transition-transform duration-200 group-data-[state=open]/menu-sub-item:rotate-90" />
+            <ChevronRight className="ml-1 size-3 shrink-0 transition-transform duration-[var(--transition-duration)] group-data-[state=open]/menu-sub-item:rotate-90" />
           </SidebarMenuSubButton>
         </CollapsibleTrigger>
         <CollapsibleContent>
@@ -133,7 +133,7 @@ function CategoryItem({ category }: { readonly category: CategoryTreeNode }) {
             <Badge variant="outline" className="ml-auto text-[10px] px-1.5 py-0">
               {category.resourceCount}
             </Badge>
-            <ChevronRight className="ml-1 size-3.5 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-90" />
+            <ChevronRight className="ml-1 size-3.5 shrink-0 transition-transform duration-[var(--transition-duration)] group-data-[state=open]:rotate-90" />
           </SidebarMenuButton>
         </CollapsibleTrigger>
         <CollapsibleContent>

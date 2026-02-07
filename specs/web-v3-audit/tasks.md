@@ -389,7 +389,7 @@ Focus: Build Variation B first (fastest path). Apply shadcn cyberpunk theme, com
   - _Requirements: FR-19, AC-11.3_
   - _Design: CSS Token Architecture_
 
-- [ ] 4.2 Apply variation tokens to AppSidebar and AdminSidebar
+- [x] 4.2 Apply variation tokens to AppSidebar and AdminSidebar
   - **Do**:
     1. Update `src/components/sidebar/app-sidebar.tsx`: Replace hardcoded widths/spacing with CSS variable references. Use `w-[var(--sidebar-width)]` or inline styles for sidebar width. Nav item height via `h-[var(--nav-item-height)]`. Header height via `h-[var(--sidebar-header-height)]`
     2. Update `src/components/admin/admin-sidebar.tsx`: Same token application for consistency
