@@ -119,7 +119,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-5.1, AC-5.2, AC-5.3_
   - _Design: ReportViewer component_
 
-- [ ] 1.9 [VERIFY] Quality checkpoint: lint + typecheck
+- [x] 1.9 [VERIFY] Quality checkpoint: lint + typecheck
   - **Do**: Run quality commands and fix any issues
   - **Verify**: `npx eslint && npx tsc --noEmit`
   - **Done when**: Zero lint errors, zero type errors
