@@ -267,7 +267,7 @@ Focus: Build 6 new admin tab UIs consuming existing APIs, register them in admin
   - _Requirements: FR-8, AC-4.1 through AC-4.4_
   - _Design: DatabaseTab_
 
-- [ ] 3.3 Build ValidationTab admin component
+- [x] 3.3 Build ValidationTab admin component
   - **Do**:
     1. Create `src/components/admin/tabs/validation-tab.tsx`
     2. `"use client"`, named export `ValidationTab`
