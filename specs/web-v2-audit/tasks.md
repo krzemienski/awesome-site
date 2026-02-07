@@ -370,7 +370,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-33, NFR-5_
   - _Design: WS-6 Keyboard Navigation_
 
-- [ ] 4.8 [VERIFY] Quality checkpoint: lint + typecheck
+- [x] 4.8 [VERIFY] Quality checkpoint: lint + typecheck
   - **Do**: Run lint and typecheck after Phase 4 changes
   - **Verify**: `npx eslint src/ 2>&1 | tail -3 && npx tsc --noEmit 2>&1 | tail -5`
   - **Done when**: 0 lint issues, 0 type errors
@@ -378,7 +378,7 @@ created: 2026-02-06T22:57:00-05:00
 
 ## Phase 5: Medium/Low Features (About + Search + Legacy Stubs)
 
-- [ ] 5.1 Create About page
+- [x] 5.1 Create About page
   - **Do**:
     1. Create `src/app/(public)/about/page.tsx` as server component
     2. Export `metadata: Metadata` with title, description, openGraph
