@@ -206,7 +206,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-6.1, AC-6.2, AC-6.3_
   - _Design: Database Seed Enhancement_
 
-- [ ] 1.15 Enhance database-tab UI: expanded stats, clearExisting checkbox, per-entity result
+- [x] 1.15 Enhance database-tab UI: expanded stats, clearExisting checkbox, per-entity result
   - **Do**:
     1. Update `DashboardStats` interface to include `totalCategories`, `totalSubcategories`, `totalSubSubcategories`, `totalTags`, `totalJourneys`
     2. Update `buildModelStats()` to include new counts in the grid

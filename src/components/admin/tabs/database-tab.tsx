@@ -15,27 +15,50 @@ import {
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
 import { ConfirmDialog } from "@/components/shared/confirm-dialog"
 
 interface DashboardStats {
-  totalResources: number
-  pendingResources: number
-  totalUsers: number
-  activeUsers: number
-  pendingEdits: number
-  enrichedResources: number
+  readonly totalResources: number
+  readonly pendingResources: number
+  readonly totalUsers: number
+  readonly activeUsers: number
+  readonly pendingEdits: number
+  readonly enrichedResources: number
+  readonly totalCategories: number
+  readonly totalSubcategories: number
+  readonly totalSubSubcategories: number
+  readonly totalTags: number
+  readonly totalJourneys: number
 }
 
 interface StatsResponse {
-  success: boolean
-  data: {
-    stats: DashboardStats
+  readonly success: boolean
+  readonly data: {
+    readonly stats: DashboardStats
   }
 }
 
 interface ModelStat {
-  name: string
-  count: number
+  readonly name: string
+  readonly count: number
+}
+
+interface SeedResponse {
+  readonly success: boolean
+  readonly data: {
+    readonly message: string
+    readonly counts: {
+      readonly categories: number
+      readonly subcategories: number
+      readonly subSubcategories: number
+      readonly resources: number
+      readonly skipped: number
+    }
+    readonly source: string
+    readonly clearExisting: boolean
+  }
 }
 
 function buildModelStats(stats: DashboardStats): ModelStat[] {
@@ -43,15 +66,22 @@ function buildModelStats(stats: DashboardStats): ModelStat[] {
     { name: "Resources", count: stats.totalResources },
     { name: "Resources (Pending)", count: stats.pendingResources },
     { name: "Resources (Enriched)", count: stats.enrichedResources },
+    { name: "Categories", count: stats.totalCategories },
+    { name: "Subcategories", count: stats.totalSubcategories },
+    { name: "Sub-subcategories", count: stats.totalSubSubcategories },
+    { name: "Tags", count: stats.totalTags },
     { name: "Users", count: stats.totalUsers },
     { name: "Users (Active)", count: stats.activeUsers },
     { name: "Pending Edits", count: stats.pendingEdits },
+    { name: "Learning Journeys", count: stats.totalJourneys },
   ]
 }
 
 export function DatabaseTab() {
   const queryClient = useQueryClient()
   const [seedDialogOpen, setSeedDialogOpen] = React.useState(false)
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = React.useState(false)
+  const [clearExisting, setClearExisting] = React.useState(false)
 
   const { data, isLoading, isError } = useQuery<StatsResponse>({
     queryKey: ["admin", "stats"],
@@ -63,23 +93,42 @@ export function DatabaseTab() {
     staleTime: 30_000,
   })
 
-  const seedMutation = useMutation({
+  const seedMutation = useMutation<SeedResponse>({
     mutationFn: async () => {
       const res = await fetch("/api/admin/database/seed", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ clearExisting }),
       })
       if (!res.ok) throw new Error("Seed operation failed")
       return res.json()
     },
-    onSuccess: () => {
-      toast.success("Database seeded successfully")
+    onSuccess: (result) => {
+      const counts = result.data.counts
+      toast.success(
+        `Seeded: ${counts.categories} categories, ${counts.subcategories} subcategories, ${counts.resources} resources (${counts.skipped} skipped)`
+      )
       setSeedDialogOpen(false)
+      setDeleteConfirmOpen(false)
       queryClient.invalidateQueries({ queryKey: ["admin", "stats"] })
     },
     onError: (e: Error) => toast.error(e.message),
   })
 
+  function handleSeedClick() {
+    setSeedDialogOpen(true)
+  }
+
   function handleSeedConfirm() {
+    if (clearExisting) {
+      setSeedDialogOpen(false)
+      setDeleteConfirmOpen(true)
+    } else {
+      seedMutation.mutate()
+    }
+  }
+
+  function handleDeleteConfirm() {
     seedMutation.mutate()
   }
 
@@ -181,9 +230,26 @@ export function DatabaseTab() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id="clear-existing"
+              checked={clearExisting}
+              onCheckedChange={(checked) =>
+                setClearExisting(checked === true)
+              }
+              disabled={seedMutation.isPending}
+            />
+            <Label
+              htmlFor="clear-existing"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Clear existing data first
+            </Label>
+          </div>
+
           <Button
             variant="destructive"
-            onClick={() => setSeedDialogOpen(true)}
+            onClick={handleSeedClick}
             disabled={seedMutation.isPending}
           >
             {seedMutation.isPending ? (
@@ -193,7 +259,6 @@ export function DatabaseTab() {
             )}
             {seedMutation.isPending ? "Seeding..." : "Seed Database"}
           </Button>
-
         </CardContent>
       </Card>
 
@@ -201,11 +266,26 @@ export function DatabaseTab() {
         open={seedDialogOpen}
         onOpenChange={setSeedDialogOpen}
         title="Seed Database"
-        description="This will seed the database with initial data. Are you sure you want to proceed?"
-        confirmLabel="Seed"
+        description={
+          clearExisting
+            ? "This will seed the database with data from the awesome-list. You will be asked to confirm data deletion next."
+            : "This will seed the database with data from the awesome-list. Existing records will be preserved. Are you sure?"
+        }
+        confirmLabel={clearExisting ? "Next" : "Seed"}
+        variant={clearExisting ? "default" : "destructive"}
+        isLoading={false}
+        onConfirm={handleSeedConfirm}
+      />
+
+      <ConfirmDialog
+        open={deleteConfirmOpen}
+        onOpenChange={setDeleteConfirmOpen}
+        title="Delete All Existing Data"
+        description="WARNING: This will permanently delete ALL existing categories, subcategories, resources, and tags before seeding. This action cannot be undone."
+        confirmLabel="Delete & Seed"
         variant="destructive"
         isLoading={seedMutation.isPending}
-        onConfirm={handleSeedConfirm}
+        onConfirm={handleDeleteConfirm}
       />
     </div>
   )
