@@ -342,7 +342,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-35, NFR-6_
   - _Design: WS-6 Metadata Verification_
 
-- [ ] 4.6 Wire related resources service into resource detail page
+- [x] 4.6 Wire related resources service into resource detail page
   - **Do**:
     1. Open `src/app/(public)/resources/[id]/page.tsx`
     2. Replace inline `prisma.resource.findMany` query (lines 67-82) with call to `getRelatedResources(resourceId)` from `@/features/resources/related-resources`

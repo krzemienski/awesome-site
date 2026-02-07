@@ -16,7 +16,7 @@ import {
   type BreadcrumbEntry,
 } from "@/components/categories/category-breadcrumb"
 import { getResource } from "@/features/resources/resource-service"
-import { prisma } from "@/lib/prisma"
+import { getRelatedResources } from "@/features/resources/related-resources"
 import { ViewTracker } from "@/components/resources/view-tracker"
 import { ResourceDetailActions } from "@/components/resources/resource-detail-actions"
 import { JsonLdScript, articleJsonLd } from "@/lib/json-ld"
@@ -66,22 +66,7 @@ export default async function ResourceDetailPage({ params }: PageProps) {
     notFound()
   }
 
-  const relatedResources = await prisma.resource.findMany({
-    where: {
-      categoryId: resource.categoryId,
-      id: { not: resource.id },
-      status: "approved",
-    },
-    select: {
-      id: true,
-      title: true,
-      url: true,
-      category: { select: { name: true, slug: true } },
-      _count: { select: { favorites: true } },
-    },
-    take: 6,
-    orderBy: { createdAt: "desc" },
-  })
+  const relatedResources = await getRelatedResources(resource.id, undefined, 6)
 
   const breadcrumbItems: BreadcrumbEntry[] = [
     {
@@ -279,7 +264,7 @@ export default async function ResourceDetailPage({ params }: PageProps) {
                     </Badge>
                     <span className="flex items-center gap-0.5">
                       <Heart className="size-3" />
-                      {r._count.favorites}
+                      {r.favoriteCount}
                     </span>
                   </span>
                 </a>
