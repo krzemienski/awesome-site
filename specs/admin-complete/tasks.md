@@ -325,7 +325,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-13.1, AC-13.2, AC-13.3_
   - _Design: Validation "View" fix_
 
-- [ ] 1.24 [VERIFY] Quality checkpoint: full lint + typecheck + build
+- [x] 1.24 [VERIFY] Quality checkpoint: full lint + typecheck + build
   - **Do**: Run full quality suite
   - **Verify**: `npx eslint && npx tsc --noEmit && npm run build`
   - **Done when**: Zero errors across all three commands
