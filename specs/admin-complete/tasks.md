@@ -273,7 +273,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-8.1, AC-8.3, AC-9.2, AC-9.3, AC-9.4, AC-9.5_
   - _Design: Link Health Tab Enhancement_
 
-- [ ] 1.20 [VERIFY] Quality checkpoint: lint + typecheck + build
+- [x] 1.20 [VERIFY] Quality checkpoint: lint + typecheck + build
   - **Do**: Run full quality suite
   - **Verify**: `npx eslint && npx tsc --noEmit && npm run build`
   - **Done when**: Zero errors across all three commands
