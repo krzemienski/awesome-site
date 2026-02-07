@@ -43,7 +43,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
 
 ### Research Tab Rebuild (FR-1 through FR-5)
 
-- [ ] 1.4 Create research types and helpers
+- [x] 1.4 Create research types and helpers
   - **Do**:
     1. Create `src/components/admin/tabs/research/` directory
     2. Create `types.ts` with readonly interfaces: `ResearchJob`, `ResearchFinding`, `CostBreakdownResponse`, `DailyCostEntry`, `JobReport`, `ApiResponse<T>`, type aliases `JobStatus`, `ResearchJobType`
