@@ -245,7 +245,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-9.1_
   - _Design: Link Health History Design_
 
-- [ ] 1.18 Create TrendChart and JobHistory components for link health
+- [x] 1.18 Create TrendChart and JobHistory components for link health
   - **Do**:
     1. Create `src/components/admin/tabs/link-health/` directory
     2. Create `trend-chart.tsx`: Props `history: LinkHealthHistoryEntry[]`. Use `ChartContainer` + recharts `AreaChart` with areas for healthy (green), broken (red), timeout (orange). Guard: `if (history.length < 2) return <p>Not enough data for trend chart</p>`
