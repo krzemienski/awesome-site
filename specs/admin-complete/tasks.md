@@ -424,7 +424,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
 
 ## Phase 4: Quality Gates
 
-- [ ] 4.1 [VERIFY] Full local CI: lint + typecheck + build + E2E
+- [x] 4.1 [VERIFY] Full local CI: lint + typecheck + build + E2E
   - **Do**: Run complete local CI suite
   - **Verify**: All commands must pass:
     - `npx eslint` (lint)
