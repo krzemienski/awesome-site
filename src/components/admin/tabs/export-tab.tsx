@@ -4,6 +4,7 @@ import * as React from "react"
 import { useQuery, useMutation } from "@tanstack/react-query"
 import { Download, FileJson, FileSpreadsheet, FileText, Loader2 } from "lucide-react"
 
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -98,6 +99,10 @@ export function ExportTab() {
       link.click()
       document.body.removeChild(link)
       URL.revokeObjectURL(url)
+      toast.success("Export downloaded successfully")
+    },
+    onError: () => {
+      toast.error("Export failed. Please try again.")
     },
   })
 
@@ -204,17 +209,6 @@ export function ExportTab() {
             </Button>
           </div>
 
-          {/* Status messages */}
-          {exportMutation.isSuccess && (
-            <p className="text-sm text-green-600">
-              Export downloaded successfully.
-            </p>
-          )}
-          {exportMutation.isError && (
-            <p className="text-sm text-destructive">
-              Export failed. Please try again.
-            </p>
-          )}
         </CardContent>
       </Card>
     </div>

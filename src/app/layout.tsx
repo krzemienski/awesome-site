@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider"
 import { VariationScript } from "@/components/variation/variation-script"
 import { VariationProvider } from "@/components/variation/variation-provider"
 import { VariationSwitcher } from "@/components/variation/variation-switcher"
+import { Toaster } from "@/components/ui/sonner"
 import { QueryProvider } from "@/providers/query-provider"
 import { AuthProvider } from "@/providers/auth-provider"
 import "./globals.css"
@@ -66,6 +67,7 @@ export default function RootLayout({
                 <VariationProvider>
                   <main className="min-h-screen">{children}</main>
                   <VariationSwitcher />
+                  <Toaster />
                 </VariationProvider>
               </Suspense>
             </ThemeProvider>
