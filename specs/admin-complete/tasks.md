@@ -331,7 +331,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - **Done when**: Zero errors across all three commands
   - **Commit**: `chore(admin): pass quality checkpoint after polish phase` (only if fixes needed)
 
-- [ ] 1.25 POC Checkpoint: verify all features via build
+- [x] 1.25 POC Checkpoint: verify all features via build
   - **Do**:
     1. Run `npm run build` to verify production build
     2. Verify no console.log in admin tabs: `grep -r "console.log" src/components/admin/tabs/ --include="*.tsx" --include="*.ts" | grep -v node_modules`
