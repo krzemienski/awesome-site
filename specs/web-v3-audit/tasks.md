@@ -77,7 +77,7 @@ Focus: Install shadcn sidebar primitives, create variation switching infrastruct
   - _Requirements: FR-21, AC-13.2, AC-13.3, AC-13.5_
   - _Design: VariationSwitcher_
 
-- [ ] 1.6 [VERIFY] Phase 1 quality checkpoint
+- [x] 1.6 [VERIFY] Phase 1 quality checkpoint
   - **Do**: Run full quality suite: lint, typecheck, build. Start dev server and verify variation switching works via URL param.
   - **Verify**: `npx eslint src/ && npx tsc --noEmit && npm run build`
   - **Done when**: All 3 commands pass with zero errors. `?variation=a`, `?variation=b`, `?variation=c` URL params change `data-variation` attribute on `<html>`
@@ -102,7 +102,7 @@ Focus: Build AppSidebar for public pages, create CategoryTree with API, create p
   - _Requirements: FR-14, AC-1.3_
   - _Design: CategoryTree data source_
 
-- [ ] 2.2 Create use-category-tree hook
+- [x] 2.2 Create use-category-tree hook
   - **Do**:
     1. Create `src/hooks/use-category-tree.ts`
     2. Define `CategoryTreeNode`, `SubcategoryNode`, `SubSubcategoryNode` interfaces (readonly, matching design.md shapes)
