@@ -101,7 +101,7 @@ const AuditTab = lazy(() =>
   }))
 )
 const ResearchTab = lazy(() =>
-  import("@/components/admin/tabs/research-tab").then((m) => ({
+  import("@/components/admin/tabs/research/index").then((m) => ({
     default: m.ResearchTab,
   }))
 )

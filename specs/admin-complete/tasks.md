@@ -147,7 +147,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-2.1, AC-4.1, AC-4.3, AC-5.1_
   - _Design: JobDetailPanel, FindingsList, ReportViewer integration_
 
-- [ ] 1.11 Create research index orchestrator, delete old file, update import
+- [x] 1.11 Create research index orchestrator, delete old file, update import
   - **Do**:
     1. Create `src/components/admin/tabs/research/index.tsx` (~180 lines)
     2. Orchestrator layout: header + "Start Research" button (opens JobCreationDialog), stat cards row (Jobs Completed, Total Findings, CostDashboard), ResizablePanelGroup (job list left, detail right)
