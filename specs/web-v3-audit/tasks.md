@@ -36,7 +36,7 @@ Focus: Install shadcn sidebar primitives, create variation switching infrastruct
   - _Requirements: FR-3, FR-4_
   - _Design: CSS Token Architecture_
 
-- [ ] 1.3 Create VariationProvider and VariationScript
+- [x] 1.3 Create VariationProvider and VariationScript
   - **Do**:
     1. Create `src/components/variation/variation-provider.tsx`: `"use client"` component. Define `type VariationId = "a" | "b" | "c"`. Create React context `VariationContext` with `{ variation: VariationId, setVariation: (v: VariationId) => void }`. Provider reads `?variation=` from `useSearchParams()` (no nuqs dependency - project doesn't use it). Default to `"b"`. On variation change, update `document.documentElement.dataset.variation` and push URL param via `useRouter`. Export `VariationProvider` and `useVariation` hook.
     2. Create `src/components/variation/variation-script.tsx`: Server component with inline `<script>` (same pattern as `ThemeScript`). Script reads `new URLSearchParams(window.location.search).get('variation')` and falls back to `'b'`. Sets `document.documentElement.dataset.variation`. Prevents FOUC.
