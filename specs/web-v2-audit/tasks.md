@@ -422,7 +422,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-13, FR-14, FR-15, AC-13.1, AC-13.2_
   - _Design: WS-2 Legacy Compat Endpoints_
 
-- [ ] 5.4 [VERIFY] Quality checkpoint: lint + typecheck
+- [x] 5.4 [VERIFY] Quality checkpoint: lint + typecheck
   - **Do**: Run lint and typecheck on all Phase 5 files
   - **Verify**: `npx eslint src/ 2>&1 | tail -3 && npx tsc --noEmit 2>&1 | tail -5`
   - **Done when**: 0 lint issues, 0 type errors
@@ -430,7 +430,7 @@ created: 2026-02-06T22:57:00-05:00
 
 ## Phase 6: Final Validation & Quality Gates
 
-- [ ] 6.1 [VERIFY] Full local CI: lint + typecheck + build
+- [x] 6.1 [VERIFY] Full local CI: lint + typecheck + build
   - **Do**: Run complete local CI suite
   - **Verify**: `npx eslint src/ 2>&1 | tail -5 && npx tsc --noEmit 2>&1 | tail -5 && npm run build 2>&1 | tail -15`
   - **Done when**: All commands pass with exit code 0
