@@ -368,7 +368,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - **Verify**: `npx tsc --noEmit`
   - **Commit**: `refactor(admin): consolidate shared types and API response handling`
 
-- [ ] 2.3 [VERIFY] Quality checkpoint: lint + typecheck + build
+- [x] 2.3 [VERIFY] Quality checkpoint: lint + typecheck + build
   - **Do**: Run full quality suite
   - **Verify**: `npx eslint && npx tsc --noEmit && npm run build`
   - **Done when**: Zero errors across all three commands
