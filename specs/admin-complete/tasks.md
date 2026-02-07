@@ -448,7 +448,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
 
 ## Phase 5: PR Lifecycle
 
-- [ ] 5.1 [VERIFY] CI pipeline passes
+- [x] 5.1 [VERIFY] CI pipeline passes
   - **Do**: Verify GitHub Actions/CI passes after push
   - **Verify**: `gh pr checks` shows all green
   - **Done when**: CI pipeline passes
