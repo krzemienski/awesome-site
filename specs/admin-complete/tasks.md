@@ -35,7 +35,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-10.2, AC-10.3, AC-10.4, AC-10.5_
   - _Design: Toast Migration Plan_
 
-- [ ] 1.3 [VERIFY] Quality checkpoint: lint + typecheck
+- [x] 1.3 [VERIFY] Quality checkpoint: lint + typecheck
   - **Do**: Run quality commands and fix any issues
   - **Verify**: `npx eslint && npx tsc --noEmit`
   - **Done when**: Zero lint errors, zero type errors
