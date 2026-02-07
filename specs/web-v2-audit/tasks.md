@@ -190,7 +190,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-9, AC-4.1_
   - _Design: WS-2 Related Resources Endpoint_
 
-- [ ] 3.3 Create GET /api/user/submissions endpoint
+- [x] 3.3 Create GET /api/user/submissions endpoint
   - **Do**:
     1. Create `src/app/api/user/submissions/route.ts`
     2. Export `GET` wrapped with `withAuth`
