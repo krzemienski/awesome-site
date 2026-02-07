@@ -321,7 +321,7 @@ Focus: Build 6 new admin tab UIs consuming existing APIs, register them in admin
   - _Requirements: FR-11, AC-7.1 through AC-7.5_
   - _Design: AuditTab_
 
-- [ ] 3.7 Build ResearchTab admin component
+- [x] 3.7 Build ResearchTab admin component
   - **Do**:
     1. Create `src/components/admin/tabs/research-tab.tsx`
     2. `"use client"`, named export `ResearchTab`
