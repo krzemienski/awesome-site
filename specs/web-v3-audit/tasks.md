@@ -179,13 +179,13 @@ Focus: Build AppSidebar for public pages, create CategoryTree with API, create p
   - _Requirements: FR-1_
   - _Design: Files to Remove - TopBar, MobileNav_
 
-- [ ] 2.7 [VERIFY] Quality checkpoint: sidebar integration
+- [x] 2.7 [VERIFY] Quality checkpoint: sidebar integration
   - **Do**: Run lint, typecheck, build. Start dev server and navigate to `/`, `/resources`, `/categories`, `/about` to confirm sidebar renders.
   - **Verify**: `npx eslint src/ && npx tsc --noEmit && npm run build`
   - **Done when**: All commands pass. Public pages show sidebar with nav, category tree, user section. Admin page still functional.
   - **Commit**: `chore(quality): pass Phase 2 sidebar integration checkpoint` (only if fixes needed)
 
-- [ ] 2.8 Upgrade AdminSidebar to shadcn with 20-tab grouping
+- [x] 2.8 Upgrade AdminSidebar to shadcn with 20-tab grouping
   - **Do**:
     1. Rewrite `src/components/admin/admin-sidebar.tsx` completely
     2. Use shadcn Sidebar primitives: `SidebarContent`, `SidebarGroup`, `SidebarGroupLabel`, `SidebarGroupContent`, `SidebarMenu`, `SidebarMenuItem`, `SidebarMenuButton`, `SidebarHeader`, `SidebarFooter`
