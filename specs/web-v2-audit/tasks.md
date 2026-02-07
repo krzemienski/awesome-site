@@ -63,7 +63,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-4, AC-2.1, AC-2.2, AC-2.3, AC-2.4_
   - _Design: WS-1 Global Not Found_
 
-- [ ] 1.5 Create loading skeletons for resources, category, resource detail, and admin
+- [x] 1.5 Create loading skeletons for resources, category, resource detail, and admin
   - **Do**:
     1. Create `src/app/(public)/resources/loading.tsx` -- mirror `ResourceBrowsePage` layout: title bar + view toggle skeleton, filter bar skeleton, 6-card grid skeleton using `Skeleton` from `@/components/ui/skeleton`
     2. Create `src/app/(public)/categories/[slug]/loading.tsx` -- mirror `CategoryDetailPage`: breadcrumb skeleton, title + description, 6-item subcategory grid, 6-item resource grid
