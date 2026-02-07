@@ -188,7 +188,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-7.1, AC-7.2, AC-7.3_
   - _Design: Database Enhancement_
 
-- [ ] 1.14 Implement real database seed with clearExisting and per-entity counts
+- [x] 1.14 Implement real database seed with clearExisting and per-entity counts
   - **Do**:
     1. In `src/app/api/admin/database/seed/route.ts`:
     2. Import `parseAwesomeListMarkdown` from `@/features/github/markdown-parser`
