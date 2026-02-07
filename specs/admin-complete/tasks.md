@@ -222,7 +222,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-6.4, AC-6.5, AC-6.6, AC-6.7, AC-7.1, AC-7.2, AC-7.4_
   - _Design: Database Seed Enhancement, Database Stats_
 
-- [ ] 1.16 [VERIFY] Quality checkpoint: lint + typecheck + build
+- [x] 1.16 [VERIFY] Quality checkpoint: lint + typecheck + build
   - **Do**: Run full quality suite
   - **Verify**: `npx eslint && npx tsc --noEmit && npm run build`
   - **Done when**: Zero errors across all three commands
