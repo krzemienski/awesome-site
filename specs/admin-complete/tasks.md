@@ -416,7 +416,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - **Commit**: `test(admin): add Playwright E2E tests for database and link health tabs`
   - _Requirements: FR-6, FR-7, FR-8, FR-9_
 
-- [ ] 3.4 [VERIFY] Quality checkpoint: lint + typecheck + all tests
+- [x] 3.4 [VERIFY] Quality checkpoint: lint + typecheck + all tests
   - **Do**: Run full quality suite including E2E
   - **Verify**: `npx eslint && npx tsc --noEmit && npx playwright test --reporter=list`
   - **Done when**: All commands pass
