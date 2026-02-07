@@ -164,7 +164,7 @@ Focus: Build AppSidebar for public pages, create CategoryTree with API, create p
   - _Requirements: FR-1, FR-5, AC-1.1, AC-1.4, AC-1.5_
   - _Design: Architecture - PublicLayout_
 
-- [ ] 2.6 Restructure root layout: remove TopBar and Footer
+- [x] 2.6 Restructure root layout: remove TopBar and Footer
   - **Do**:
     1. In `src/app/layout.tsx`: Remove `TopBar` import and `<TopBar />` render
     2. Remove `Footer` import and `<Footer />` render

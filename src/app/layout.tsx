@@ -8,8 +8,6 @@ import { VariationProvider } from "@/components/variation/variation-provider"
 import { VariationSwitcher } from "@/components/variation/variation-switcher"
 import { QueryProvider } from "@/providers/query-provider"
 import { AuthProvider } from "@/providers/auth-provider"
-import { TopBar } from "@/components/layout/top-bar"
-import { Footer } from "@/components/layout/footer"
 import "./globals.css"
 
 const jetbrainsMono = JetBrains_Mono({
@@ -66,9 +64,7 @@ export default function RootLayout({
             <ThemeProvider>
               <Suspense>
                 <VariationProvider>
-                  <TopBar />
-                  <main className="min-h-screen pt-16">{children}</main>
-                  <Footer />
+                  <main className="min-h-screen">{children}</main>
                   <VariationSwitcher />
                 </VariationProvider>
               </Suspense>
