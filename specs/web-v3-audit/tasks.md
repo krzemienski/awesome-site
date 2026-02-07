@@ -402,7 +402,7 @@ Focus: Build Variation B first (fastest path). Apply shadcn cyberpunk theme, com
   - _Requirements: FR-3, FR-4, AC-13.4_
   - _Design: CSS Token Architecture, Single component tree_
 
-- [ ] 4.3 Apply variation tokens to content layouts
+- [x] 4.3 Apply variation tokens to content layouts
   - **Do**:
     1. Update `src/app/(public)/layout.tsx`: Content area uses `max-w-[var(--content-max-width)]` for width constraint
     2. Update card-based layouts across pages: apply `p-[var(--card-padding)]`, `gap-[var(--card-gap)]` where card grids exist

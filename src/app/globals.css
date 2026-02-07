@@ -262,3 +262,16 @@
 @import "../styles/variation-a.css";
 @import "../styles/variation-b.css";
 @import "../styles/variation-c.css";
+
+@layer base {
+  /* Variation-aware typography */
+  h1 {
+    font-weight: var(--font-weight-heading, 600);
+  }
+  h2 {
+    font-weight: var(--font-weight-heading, 600);
+  }
+  h3 {
+    font-weight: var(--font-weight-heading, 600);
+  }
+}
