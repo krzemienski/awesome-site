@@ -303,7 +303,7 @@ function checkEmptySections(
     const hasChildHeading =
       h + 1 < headings.length &&
       headings[h + 1].level > current.level &&
-      headings[h + 1].lineNumber < endLine
+      headings[h + 1].lineNumber <= endLine
 
     if (!hasContent && !hasChildHeading) {
       errors.push({
