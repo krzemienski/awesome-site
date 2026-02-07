@@ -69,7 +69,7 @@ export const resourceFiltersSchema = z.object({
   sort: z.enum(["title", "createdAt", "updatedAt", "popularity"]).optional(),
   order: z.enum(["asc", "desc"]).optional(),
   page: z.coerce.number().int().positive().optional(),
-  limit: z.coerce.number().int().positive().max(100).optional(),
+  limit: z.coerce.number().int().positive().max(500).optional(),
 })
 
 export type ResourceFiltersInput = z.infer<typeof resourceFiltersSchema>
