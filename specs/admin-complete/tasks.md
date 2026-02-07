@@ -454,7 +454,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - **Done when**: CI pipeline passes
   - **Commit**: None
 
-- [ ] 5.2 [VERIFY] AC checklist
+- [x] 5.2 [VERIFY] AC checklist
   - **Do**: Programmatically verify each acceptance criterion:
     1. AC-1.x (Cost Dashboard): grep for `ChartContainer`, `BarChart`, `getCostBreakdown` in research/cost-dashboard.tsx
     2. AC-2.x (Findings): grep for `applyFinding`, `dismissFinding`, type filter in findings-list.tsx
