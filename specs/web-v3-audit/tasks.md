@@ -222,7 +222,7 @@ Focus: Build AppSidebar for public pages, create CategoryTree with API, create p
   - _Requirements: FR-2, AC-2.5, AC-2.7_
   - _Design: AdminLayoutWrapper_
 
-- [ ] 2.10 [VERIFY] Quality checkpoint: full sidebar system
+- [x] 2.10 [VERIFY] Quality checkpoint: full sidebar system
   - **Do**: Run full quality suite. Verify both public and admin sidebars work. Dev server starts clean.
   - **Verify**: `npx eslint src/ && npx tsc --noEmit && npm run build`
   - **Done when**: All commands pass. Public sidebar with category tree renders. Admin sidebar with 20 tabs in groups renders. Tab switching works. Responsive behavior correct at all breakpoints.
@@ -232,7 +232,7 @@ Focus: Build AppSidebar for public pages, create CategoryTree with API, create p
 
 Focus: Build 6 new admin tab UIs consuming existing APIs, register them in admin/page.tsx. One tab per task.
 
-- [ ] 3.1 Build ExportTab admin component
+- [x] 3.1 Build ExportTab admin component
   - **Do**:
     1. Create `src/components/admin/tabs/export-tab.tsx`
     2. `"use client"`, named export `ExportTab`
