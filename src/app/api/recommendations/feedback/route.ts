@@ -31,7 +31,7 @@ export const POST = withAuth(
 
       const { resourceId, feedback } = result.data
 
-      const interaction = await prisma.userInteraction.create({
+      await prisma.userInteraction.create({
         data: {
           userId: ctx.user.id,
           resourceId,
