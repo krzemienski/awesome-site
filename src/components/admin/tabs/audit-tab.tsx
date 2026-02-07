@@ -46,6 +46,10 @@ interface AuditLogItem {
   readonly resourceId: number
   readonly action: string
   readonly performedById: string
+  readonly performedBy?: {
+    readonly name: string | null
+    readonly email: string | null
+  } | null
   readonly previousState: Record<string, unknown> | null
   readonly newState: Record<string, unknown> | null
   readonly createdAt: string
@@ -192,14 +196,23 @@ function buildColumns(): ColumnDef<AuditLogItem, unknown>[] {
     {
       accessorKey: "performedById",
       header: "User",
-      cell: ({ row }) => (
-        <div className="flex items-center gap-1.5">
-          <User className="text-muted-foreground size-3.5" />
-          <span className="max-w-[120px] truncate font-mono text-xs">
-            {row.original.performedById}
-          </span>
-        </div>
-      ),
+      cell: ({ row }) => {
+        const displayName =
+          row.original.performedBy?.name ??
+          row.original.performedBy?.email ??
+          row.original.performedById.slice(0, 8) + "..."
+        return (
+          <div className="flex items-center gap-1.5">
+            <User className="text-muted-foreground size-3.5" />
+            <span
+              className="max-w-[120px] truncate text-xs"
+              title={row.original.performedById}
+            >
+              {displayName}
+            </span>
+          </div>
+        )
+      },
       enableSorting: false,
     },
     {

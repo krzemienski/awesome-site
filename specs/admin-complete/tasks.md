@@ -293,7 +293,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-11.1, AC-11.2, AC-11.3, AC-11.4_
   - _Design: Sidebar Group Consolidation_
 
-- [ ] 1.22 Resolve audit log user IDs to names via batch lookup
+- [x] 1.22 Resolve audit log user IDs to names via batch lookup
   - **Do**:
     1. In `src/features/admin/audit-service.ts`, modify `listAuditLogs()`:
        - After fetching items, collect unique `performedById` values

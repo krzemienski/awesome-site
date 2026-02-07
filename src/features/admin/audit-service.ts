@@ -99,8 +99,26 @@ export async function listAuditLogs(filters: AuditLogFilters = {}) {
     prisma.resourceAuditLog.count({ where }),
   ])
 
+  // Batch-resolve performedById to user names/emails
+  const uniqueUserIds = [...new Set(items.map((item) => item.performedById))]
+  const users =
+    uniqueUserIds.length > 0
+      ? await prisma.user.findMany({
+          where: { id: { in: uniqueUserIds } },
+          select: { id: true, name: true, email: true },
+        })
+      : []
+  const userMap = new Map(
+    users.map((u) => [u.id, { name: u.name, email: u.email }])
+  )
+
+  const enrichedItems = items.map((item) => ({
+    ...item,
+    performedBy: userMap.get(item.performedById) ?? null,
+  }))
+
   return {
-    items,
+    items: enrichedItems,
     total,
     page,
     limit,
