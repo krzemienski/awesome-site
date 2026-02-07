@@ -149,7 +149,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-23 through FR-29, AC-11.1, AC-11.3, AC-11.4_
   - _Design: WS-5 Code Quality_
 
-- [ ] 2.2 [VERIFY] Quality checkpoint: full lint + typecheck
+- [x] 2.2 [VERIFY] Quality checkpoint: full lint + typecheck
   - **Do**: Run full lint and typecheck to confirm zero issues
   - **Verify**: `npx eslint src/ 2>&1 | tail -3 && npx tsc --noEmit 2>&1 | tail -5`
   - **Done when**: 0 errors, 0 warnings from eslint; 0 errors from tsc
@@ -157,7 +157,7 @@ created: 2026-02-06T22:57:00-05:00
 
 ## Phase 3: High Priority Features (Endpoints + Cache + ISR)
 
-- [ ] 3.1 Create related resources service
+- [x] 3.1 Create related resources service
   - **Do**:
     1. Create `src/features/resources/related-resources.ts`
     2. Export `RelatedResource` interface: `{ id, title, url, description, category: { name, slug }, favoriteCount }`
