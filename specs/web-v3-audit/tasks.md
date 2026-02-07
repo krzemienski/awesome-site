@@ -250,7 +250,7 @@ Focus: Build 6 new admin tab UIs consuming existing APIs, register them in admin
   - _Requirements: FR-7, AC-3.1 through AC-3.5_
   - _Design: ExportTab_
 
-- [ ] 3.2 Build DatabaseTab admin component + seed API
+- [x] 3.2 Build DatabaseTab admin component + seed API
   - **Do**:
     1. Create `src/app/api/admin/database/seed/route.ts`: POST handler with `withAdmin` middleware. Imports Prisma client. Runs seed logic (import from existing `prisma/seed.ts` pattern or execute `npx prisma db seed`). Returns `apiSuccess({ message: "Seed complete" })`
     2. Create `src/components/admin/tabs/database-tab.tsx`
