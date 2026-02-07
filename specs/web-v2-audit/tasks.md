@@ -173,7 +173,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-9, AC-4.1, AC-4.2, AC-4.3, AC-4.4_
   - _Design: WS-2 Related Resources_
 
-- [ ] 3.2 Create GET /api/resources/[id]/related endpoint
+- [x] 3.2 Create GET /api/resources/[id]/related endpoint
   - **Do**:
     1. Create `src/app/api/resources/[id]/related/route.ts`
     2. Export `GET` handler following existing pattern: `async function GET(req, ctx)`
