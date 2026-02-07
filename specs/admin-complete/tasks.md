@@ -171,7 +171,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
 
 ### Database Tab Enhancement (FR-6, FR-7)
 
-- [ ] 1.13 Expand getDashboardStats with category/subcategory/tag/journey counts
+- [x] 1.13 Expand getDashboardStats with category/subcategory/tag/journey counts
   - **Do**:
     1. In `src/features/admin/stats-service.ts`, add to `getDashboardStats()`:
        - `prisma.category.count()` -> `totalCategories`

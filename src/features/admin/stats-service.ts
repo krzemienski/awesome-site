@@ -11,6 +11,11 @@ export async function getDashboardStats() {
     activeUsers,
     pendingEdits,
     enrichedResources,
+    totalCategories,
+    totalSubcategories,
+    totalSubSubcategories,
+    totalTags,
+    totalJourneys,
   ] = await Promise.all([
     prisma.resource.count(),
     prisma.resource.count({ where: { status: "pending" } }),
@@ -20,6 +25,11 @@ export async function getDashboardStats() {
     prisma.resource.count({
       where: { metadata: { not: { equals: {} } } },
     }),
+    prisma.category.count(),
+    prisma.subcategory.count(),
+    prisma.subSubcategory.count(),
+    prisma.tag.count(),
+    prisma.learningJourney.count(),
   ])
 
   return {
@@ -29,6 +39,11 @@ export async function getDashboardStats() {
     activeUsers,
     pendingEdits,
     enrichedResources,
+    totalCategories,
+    totalSubcategories,
+    totalSubSubcategories,
+    totalTags,
+    totalJourneys,
   }
 }
 
