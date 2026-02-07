@@ -468,7 +468,7 @@ Focus: Generate screens via Stitch MCP, extract design tokens, apply to Variatio
   - _Requirements: FR-20, AC-12.1, AC-12.2_
   - _Design: Variation C (Stitch)_
 
-- [ ] 6.2 Apply Stitch-derived tokens to Variation C CSS
+- [x] 6.2 Apply Stitch-derived tokens to Variation C CSS
   - **Do**:
     1. Update `src/styles/variation-c.css` with tokens extracted from Stitch generation
     2. Key differentiators from A and B: smaller sidebar (260px), thicker borders (2px), taller nav items (44px), larger sidebar header (72px), slower transitions (250ms), extra bold headings (800)
