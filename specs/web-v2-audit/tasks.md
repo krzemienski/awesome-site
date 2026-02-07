@@ -220,7 +220,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-11, AC-6.1, AC-6.2, AC-6.3_
   - _Design: WS-2 User Progress_
 
-- [ ] 3.5 Create POST /api/recommendations/feedback endpoint
+- [x] 3.5 Create POST /api/recommendations/feedback endpoint
   - **Do**:
     1. Create `src/app/api/recommendations/feedback/route.ts`
     2. Export `POST` wrapped with `withAuth`
