@@ -205,7 +205,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-10, AC-5.1, AC-5.2, AC-5.3_
   - _Design: WS-2 User Submissions_
 
-- [ ] 3.4 Create GET /api/user/progress endpoint
+- [x] 3.4 Create GET /api/user/progress endpoint
   - **Do**:
     1. Create `src/app/api/user/progress/route.ts`
     2. Export `GET` wrapped with `withAuth`
