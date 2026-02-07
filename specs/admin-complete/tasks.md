@@ -389,7 +389,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - **Commit**: `test(admin): add Playwright E2E tests for admin tab navigation`
   - _Requirements: NFR-1_
 
-- [ ] 3.2 Create Playwright E2E tests for research tab flows
+- [x] 3.2 Create Playwright E2E tests for research tab flows
   - **Do**:
     1. Create `e2e/admin-research.spec.ts`
     2. Test: research tab loads cost dashboard section
