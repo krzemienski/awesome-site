@@ -33,14 +33,15 @@ const MODEL_COLORS: Record<string, string> = {
 }
 
 function buildChartConfig(models: readonly string[]): ChartConfig {
-  const config: ChartConfig = {}
-  for (const model of models) {
-    config[model] = {
-      label: model.charAt(0).toUpperCase() + model.slice(1),
-      color: MODEL_COLORS[model] ?? "hsl(var(--chart-4))",
-    }
-  }
-  return config
+  return Object.fromEntries(
+    models.map((model) => [
+      model,
+      {
+        label: model.charAt(0).toUpperCase() + model.slice(1),
+        color: MODEL_COLORS[model] ?? "hsl(var(--chart-4))",
+      },
+    ])
+  )
 }
 
 // ── Pivot Transform ──────────────────────────────────────────────────────
@@ -84,15 +85,129 @@ function formatDateLabel(dateStr: string): string {
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
 }
 
-// ── Component ────────────────────────────────────────────────────────────
+// ── Sub-Components ──────────────────────────────────────────────────────
+
+function ModelBreakdown({
+  models,
+  byModel,
+}: {
+  readonly models: readonly string[]
+  readonly byModel: CostBreakdownResponse["byModel"]
+}) {
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="flex items-center gap-2 text-base">
+          <Cpu className="size-4" />
+          Model Breakdown
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-wrap gap-4">
+          {models.map((model) => {
+            const info = byModel[model]
+            return (
+              <div
+                key={model}
+                className="flex items-center gap-2 rounded-md border px-3 py-2"
+              >
+                <div
+                  className="size-3 rounded-full"
+                  style={{
+                    backgroundColor:
+                      MODEL_COLORS[model] ?? "hsl(var(--chart-4))",
+                  }}
+                />
+                <div className="text-sm">
+                  <span className="font-medium capitalize">{model}</span>
+                  <span className="text-muted-foreground ml-2">
+                    {formatUsd(info.estimatedCostUsd)}
+                  </span>
+                  <Badge variant="outline" className="ml-2 text-xs">
+                    {info.requestCount.toLocaleString()} requests
+                  </Badge>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+function DailyCostChart({
+  pivotedData,
+  models,
+  chartConfig,
+}: {
+  readonly pivotedData: readonly PivotedEntry[]
+  readonly models: readonly string[]
+  readonly chartConfig: ChartConfig
+}) {
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base">Daily Cost by Model</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer config={chartConfig} className="h-64 w-full">
+          <BarChart data={pivotedData as PivotedEntry[]}>
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="date"
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={formatDateLabel}
+              fontSize={12}
+            />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickFormatter={(v: number) => `$${v.toFixed(2)}`}
+              fontSize={12}
+            />
+            <ChartTooltip
+              content={
+                <ChartTooltipContent
+                  labelFormatter={(label) =>
+                    formatDateLabel(String(label))
+                  }
+                />
+              }
+            />
+            <ChartLegend content={<ChartLegendContent />} />
+            {models.map((model) => (
+              <Bar
+                key={model}
+                dataKey={model}
+                stackId="cost"
+                fill={`var(--color-${model})`}
+                radius={[0, 0, 0, 0]}
+              />
+            ))}
+          </BarChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
+  )
+}
+
+// ── Main Component ──────────────────────────────────────────────────────
 
 function CostDashboard() {
   const { data, isLoading } = useQuery<ApiResponse<CostBreakdownResponse>>({
     queryKey: ["admin", "research", "costs"],
     queryFn: async () => {
-      const res = await fetch("/api/admin/research/costs?days=30")
-      if (!res.ok) throw new Error("Failed to fetch cost data")
-      return res.json()
+      try {
+        const res = await fetch("/api/admin/research/costs?days=30")
+        if (!res.ok) throw new Error("Failed to fetch cost data")
+        return res.json()
+      } catch (error) {
+        throw new Error(
+          `Cost data fetch failed: ${error instanceof Error ? error.message : "Unknown error"}`
+        )
+      }
     },
     staleTime: 60_000,
   })
@@ -123,98 +238,17 @@ function CostDashboard() {
 
   return (
     <div className="space-y-4">
-      {/* Total Cost Stat */}
       <StatCard
         label="Total Cost (30 days)"
         value={formatUsd(costData.totalCost)}
         icon={<DollarSign className="size-4" />}
       />
-
-      {/* Model Breakdown */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-base">
-            <Cpu className="size-4" />
-            Model Breakdown
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-4">
-            {models.map((model) => {
-              const info = costData.byModel[model]
-              return (
-                <div
-                  key={model}
-                  className="flex items-center gap-2 rounded-md border px-3 py-2"
-                >
-                  <div
-                    className="size-3 rounded-full"
-                    style={{
-                      backgroundColor:
-                        MODEL_COLORS[model] ?? "hsl(var(--chart-4))",
-                    }}
-                  />
-                  <div className="text-sm">
-                    <span className="font-medium capitalize">{model}</span>
-                    <span className="text-muted-foreground ml-2">
-                      {formatUsd(info.estimatedCostUsd)}
-                    </span>
-                    <Badge variant="outline" className="ml-2 text-xs">
-                      {info.requestCount.toLocaleString()} requests
-                    </Badge>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Stacked Bar Chart */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base">Daily Cost by Model</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="h-64 w-full">
-            <BarChart data={pivotedData as PivotedEntry[]}>
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={false}
-                tickFormatter={formatDateLabel}
-                fontSize={12}
-              />
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                tickFormatter={(v: number) => `$${v.toFixed(2)}`}
-                fontSize={12}
-              />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    labelFormatter={(label) =>
-                      formatDateLabel(String(label))
-                    }
-                  />
-                }
-              />
-              <ChartLegend content={<ChartLegendContent />} />
-              {models.map((model) => (
-                <Bar
-                  key={model}
-                  dataKey={model}
-                  stackId="cost"
-                  fill={`var(--color-${model})`}
-                  radius={[0, 0, 0, 0]}
-                />
-              ))}
-            </BarChart>
-          </ChartContainer>
-        </CardContent>
-      </Card>
+      <ModelBreakdown models={models} byModel={costData.byModel} />
+      <DailyCostChart
+        pivotedData={pivotedData}
+        models={models}
+        chartConfig={chartConfig}
+      />
     </div>
   )
 }

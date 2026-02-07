@@ -344,7 +344,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
 
 ## Phase 2: Refactoring
 
-- [ ] 2.1 Ensure immutable patterns and clean error handling across all new files
+- [x] 2.1 Ensure immutable patterns and clean error handling across all new files
   - **Do**:
     1. Audit all 10 new files for mutation patterns (direct object mutation, array push, etc.)
     2. Replace any mutation with spread/new object patterns

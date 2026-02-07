@@ -46,29 +46,53 @@ interface ReportResponse {
 // ── Fetch Helpers ────────────────────────────────────────────────────────
 
 async function fetchJob(jobId: number): Promise<ApiResponse<JobWithFindings>> {
-  const res = await fetch(`/api/admin/research/jobs/${jobId}`)
-  if (!res.ok) throw new Error("Failed to fetch job details")
-  return res.json()
+  try {
+    const res = await fetch(`/api/admin/research/jobs/${jobId}`)
+    if (!res.ok) throw new Error("Failed to fetch job details")
+    return res.json()
+  } catch (error) {
+    throw new Error(
+      `Job detail fetch failed: ${error instanceof Error ? error.message : "Unknown error"}`
+    )
+  }
 }
 
 async function fetchReport(jobId: number): Promise<ApiResponse<ReportResponse>> {
-  const res = await fetch(`/api/admin/research/jobs/${jobId}/report`)
-  if (!res.ok) throw new Error("Failed to fetch job report")
-  return res.json()
+  try {
+    const res = await fetch(`/api/admin/research/jobs/${jobId}/report`)
+    if (!res.ok) throw new Error("Failed to fetch job report")
+    return res.json()
+  } catch (error) {
+    throw new Error(
+      `Job report fetch failed: ${error instanceof Error ? error.message : "Unknown error"}`
+    )
+  }
 }
 
 async function postApplyFinding(findingId: number): Promise<void> {
-  const res = await fetch(`/api/admin/research/findings/${findingId}/apply`, {
-    method: "POST",
-  })
-  if (!res.ok) throw new Error("Failed to apply finding")
+  try {
+    const res = await fetch(`/api/admin/research/findings/${findingId}/apply`, {
+      method: "POST",
+    })
+    if (!res.ok) throw new Error("Failed to apply finding")
+  } catch (error) {
+    throw new Error(
+      `Apply finding failed: ${error instanceof Error ? error.message : "Unknown error"}`
+    )
+  }
 }
 
 async function postDismissFinding(findingId: number): Promise<void> {
-  const res = await fetch(`/api/admin/research/findings/${findingId}/dismiss`, {
-    method: "POST",
-  })
-  if (!res.ok) throw new Error("Failed to dismiss finding")
+  try {
+    const res = await fetch(`/api/admin/research/findings/${findingId}/dismiss`, {
+      method: "POST",
+    })
+    if (!res.ok) throw new Error("Failed to dismiss finding")
+  } catch (error) {
+    throw new Error(
+      `Dismiss finding failed: ${error instanceof Error ? error.message : "Unknown error"}`
+    )
+  }
 }
 
 // ── Sub-Components ───────────────────────────────────────────────────────
@@ -264,9 +288,10 @@ export function JobDetailPanel({ jobId }: JobDetailPanelProps) {
   })
 
   const cancelMutation = useMutation({
-    mutationFn: () => {
+    mutationFn: async () => {
       if (jobId === null) throw new Error("No job selected")
-      return fetch(`/api/admin/research/jobs/${jobId}`, { method: "DELETE" })
+      const res = await fetch(`/api/admin/research/jobs/${jobId}`, { method: "DELETE" })
+      if (!res.ok) throw new Error("Failed to cancel research job")
     },
     onSuccess: () => {
       toast.success("Research job cancelled")

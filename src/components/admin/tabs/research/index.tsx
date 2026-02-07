@@ -24,9 +24,15 @@ import { JobDetailPanel } from "./job-detail-panel"
 // ── Fetch Helpers ────────────────────────────────────────────────────────
 
 async function fetchJobs(): Promise<ApiResponse<readonly ResearchJob[]>> {
-  const res = await fetch("/api/admin/research/jobs")
-  if (!res.ok) throw new Error("Failed to fetch research jobs")
-  return res.json()
+  try {
+    const res = await fetch("/api/admin/research/jobs")
+    if (!res.ok) throw new Error("Failed to fetch research jobs")
+    return res.json()
+  } catch (error) {
+    throw new Error(
+      `Research jobs fetch failed: ${error instanceof Error ? error.message : "Unknown error"}`
+    )
+  }
 }
 
 interface CreateJobPayload {
@@ -37,16 +43,22 @@ interface CreateJobPayload {
 async function createJob(
   payload: CreateJobPayload
 ): Promise<ApiResponse<{ readonly jobId: number }>> {
-  const res = await fetch("/api/admin/research/jobs", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  })
-  if (!res.ok) {
-    const err = (await res.json()) as { readonly error?: string }
-    throw new Error(err.error ?? "Failed to start research job")
+  try {
+    const res = await fetch("/api/admin/research/jobs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+    if (!res.ok) {
+      const err = (await res.json()) as { readonly error?: string }
+      throw new Error(err.error ?? "Failed to start research job")
+    }
+    return res.json()
+  } catch (error) {
+    throw new Error(
+      `Research job creation failed: ${error instanceof Error ? error.message : "Unknown error"}`
+    )
   }
-  return res.json()
 }
 
 // ── Skeleton ─────────────────────────────────────────────────────────────
@@ -68,6 +80,67 @@ function ResearchSkeleton() {
   )
 }
 
+// ── Sub-Components ──────────────────────────────────────────────────────
+
+function ResearchHeader({
+  onOpenDialog,
+  hasActiveJob,
+}: {
+  readonly onOpenDialog: () => void
+  readonly hasActiveJob: boolean
+}) {
+  return (
+    <div className="flex items-center justify-between">
+      <div>
+        <h1 className="font-heading text-2xl font-bold">Research</h1>
+        <p className="text-muted-foreground text-sm">
+          Manage AI-powered research jobs and view findings.
+        </p>
+      </div>
+      <Button onClick={onOpenDialog} disabled={hasActiveJob}>
+        <Search className="mr-2 size-4" />
+        Start Research
+      </Button>
+    </div>
+  )
+}
+
+function JobListPanel({
+  jobs,
+  selectedJobId,
+  onSelectJob,
+}: {
+  readonly jobs: readonly ResearchJob[]
+  readonly selectedJobId: number | null
+  readonly onSelectJob: (id: number) => void
+}) {
+  return (
+    <div className="flex h-full flex-col">
+      <div className="border-b px-4 py-3">
+        <h3 className="text-sm font-semibold">Jobs</h3>
+        <p className="text-xs text-muted-foreground">{jobs.length} total</p>
+      </div>
+      <div className="flex-1 overflow-y-auto">
+        {jobs.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-2 p-8 text-muted-foreground">
+            <Microscope className="size-8 opacity-40" />
+            <p className="text-sm">No research jobs yet</p>
+          </div>
+        ) : (
+          jobs.map((job) => (
+            <JobListItem
+              key={job.id}
+              job={job}
+              isSelected={selectedJobId === job.id}
+              onSelect={() => onSelectJob(job.id)}
+            />
+          ))
+        )}
+      </div>
+    </div>
+  )
+}
+
 // ── Main Component ───────────────────────────────────────────────────────
 
 export function ResearchTab() {
@@ -75,7 +148,6 @@ export function ResearchTab() {
   const [selectedJobId, setSelectedJobId] = useState<number | null>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
 
-  // Fetch all jobs with polling when any is processing
   const {
     data: jobsResponse,
     isLoading,
@@ -95,7 +167,6 @@ export function ResearchTab() {
 
   const jobs = useMemo(() => jobsResponse?.data ?? [], [jobsResponse?.data])
 
-  // Derived stats
   const { completedCount, totalFindings, hasActiveJob } = useMemo(() => ({
     completedCount: jobs.filter((j) => j.status === "completed").length,
     totalFindings: jobs.reduce((sum, j) => sum + j._count.findings, 0),
@@ -104,7 +175,6 @@ export function ResearchTab() {
     ),
   }), [jobs])
 
-  // Create job mutation
   const startMutation = useMutation({
     mutationFn: createJob,
     onSuccess: (data) => {
@@ -134,13 +204,7 @@ export function ResearchTab() {
     setDialogOpen(true)
   }, [])
 
-  // ── Loading ──────────────────────────────────────────────────────────
-
-  if (isLoading) {
-    return <ResearchSkeleton />
-  }
-
-  // ── Error ────────────────────────────────────────────────────────────
+  if (isLoading) return <ResearchSkeleton />
 
   if (isError) {
     return (
@@ -155,21 +219,8 @@ export function ResearchTab() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-heading text-2xl font-bold">Research</h1>
-          <p className="text-muted-foreground text-sm">
-            Manage AI-powered research jobs and view findings.
-          </p>
-        </div>
-        <Button onClick={handleOpenDialog} disabled={hasActiveJob}>
-          <Search className="mr-2 size-4" />
-          Start Research
-        </Button>
-      </div>
+      <ResearchHeader onOpenDialog={handleOpenDialog} hasActiveJob={hasActiveJob} />
 
-      {/* Job Creation Dialog */}
       <JobCreationDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
@@ -178,7 +229,6 @@ export function ResearchTab() {
         hasActiveJob={hasActiveJob}
       />
 
-      {/* Stat Cards + Cost Dashboard */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <StatCard
           label="Jobs Completed"
@@ -193,41 +243,16 @@ export function ResearchTab() {
         <CostDashboard />
       </div>
 
-      {/* Split Panel: Job List + Detail */}
       <Card className="overflow-hidden">
         <ResizablePanelGroup orientation="horizontal" className="min-h-[500px]">
-          {/* Left: Job List */}
           <ResizablePanel defaultSize={35} minSize={25}>
-            <div className="flex h-full flex-col">
-              <div className="border-b px-4 py-3">
-                <h3 className="text-sm font-semibold">Jobs</h3>
-                <p className="text-xs text-muted-foreground">
-                  {jobs.length} total
-                </p>
-              </div>
-              <div className="flex-1 overflow-y-auto">
-                {jobs.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center gap-2 p-8 text-muted-foreground">
-                    <Microscope className="size-8 opacity-40" />
-                    <p className="text-sm">No research jobs yet</p>
-                  </div>
-                ) : (
-                  jobs.map((job) => (
-                    <JobListItem
-                      key={job.id}
-                      job={job}
-                      isSelected={selectedJobId === job.id}
-                      onSelect={() => handleSelectJob(job.id)}
-                    />
-                  ))
-                )}
-              </div>
-            </div>
+            <JobListPanel
+              jobs={jobs}
+              selectedJobId={selectedJobId}
+              onSelectJob={handleSelectJob}
+            />
           </ResizablePanel>
-
           <ResizableHandle withHandle />
-
-          {/* Right: Job Detail */}
           <ResizablePanel defaultSize={65} minSize={40}>
             <div className="h-full overflow-y-auto">
               <JobDetailPanel jobId={selectedJobId} />

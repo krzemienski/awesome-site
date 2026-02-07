@@ -63,17 +63,14 @@ export function JobCreationDialog({
   const [categoryFilter, setCategoryFilter] = useState("")
 
   const handleSubmit = useCallback(() => {
-    const config: Record<string, unknown> = {}
+    const parsedLimit = Number(resourceLimit.trim())
+    const trimmedCategory = categoryFilter.trim()
 
-    if (resourceLimit.trim() !== "") {
-      const parsed = Number(resourceLimit)
-      if (!Number.isNaN(parsed) && parsed > 0) {
-        config.resourceLimit = parsed
-      }
-    }
-
-    if (categoryFilter.trim() !== "") {
-      config.categoryFilter = categoryFilter.trim()
+    const config: Record<string, unknown> = {
+      ...(resourceLimit.trim() !== "" && !Number.isNaN(parsedLimit) && parsedLimit > 0
+        ? { resourceLimit: parsedLimit }
+        : {}),
+      ...(trimmedCategory !== "" ? { categoryFilter: trimmedCategory } : {}),
     }
 
     onSubmit({
