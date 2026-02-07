@@ -283,13 +283,13 @@ Focus: Build 6 new admin tab UIs consuming existing APIs, register them in admin
   - _Requirements: FR-9, AC-5.1 through AC-5.5_
   - _Design: ValidationTab_
 
-- [ ] 3.4 [VERIFY] Quality checkpoint: first 3 admin tabs
+- [x] 3.4 [VERIFY] Quality checkpoint: first 3 admin tabs
   - **Do**: Run lint, typecheck, build to catch issues early after creating 3 new tab components + 1 API route.
   - **Verify**: `npx eslint src/ && npx tsc --noEmit && npm run build`
   - **Done when**: All 3 commands pass with zero errors
   - **Commit**: `chore(quality): pass admin tabs batch 1 checkpoint` (only if fixes needed)
 
-- [ ] 3.5 Build LinkHealthTab admin component
+- [x] 3.5 Build LinkHealthTab admin component
   - **Do**:
     1. Create `src/components/admin/tabs/link-health-tab.tsx`
     2. `"use client"`, named export `LinkHealthTab`
