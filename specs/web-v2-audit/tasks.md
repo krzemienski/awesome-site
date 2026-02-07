@@ -49,7 +49,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-3, AC-1.3, AC-1.4, AC-1.5_
   - _Design: WS-1 Admin Error Boundary_
 
-- [ ] 1.4 Create global not-found page
+- [x] 1.4 Create global not-found page
   - **Do**:
     1. Create `src/app/not-found.tsx` as server component (no `"use client"`)
     2. Export `metadata` with `title: "Page Not Found | Awesome Video Dashboard"`
