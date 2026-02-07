@@ -125,7 +125,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - **Done when**: Zero lint errors, zero type errors
   - **Commit**: `chore(admin): pass quality checkpoint` (only if fixes needed)
 
-- [ ] 1.10 Create JobDetailPanel component
+- [x] 1.10 Create JobDetailPanel component
   - **Do**:
     1. Create `src/components/admin/tabs/research/job-detail-panel.tsx`
     2. Props: `jobId: number | null`
