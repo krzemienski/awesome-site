@@ -272,7 +272,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-21, FR-22, AC-10.2, AC-10.3_
   - _Design: WS-4 ISR Configuration_
 
-- [ ] 3.9 [VERIFY] Quality checkpoint: lint + typecheck + build
+- [x] 3.9 [VERIFY] Quality checkpoint: lint + typecheck + build
   - **Do**: Full quality check after Phase 3 changes
   - **Verify**: `npx eslint src/ 2>&1 | tail -3 && npx tsc --noEmit 2>&1 | tail -5 && npm run build 2>&1 | tail -10`
   - **Done when**: 0 lint issues, 0 type errors, build succeeds
@@ -280,7 +280,7 @@ created: 2026-02-06T22:57:00-05:00
 
 ## Phase 4: Production Readiness (Security + Metadata + Accessibility + Related UI)
 
-- [ ] 4.1 Security review: verify auth middleware coverage on all protected routes
+- [x] 4.1 Security review: verify auth middleware coverage on all protected routes
   - **Do**:
     1. Grep all route.ts files for `withAuth`, `withAdmin`, `withApiKey`
     2. List any POST/PUT/PATCH/DELETE handlers that do NOT use auth middleware
