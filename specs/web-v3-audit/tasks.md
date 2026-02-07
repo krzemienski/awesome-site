@@ -305,7 +305,7 @@ Focus: Build 6 new admin tab UIs consuming existing APIs, register them in admin
   - _Requirements: FR-10, AC-6.1 through AC-6.6_
   - _Design: LinkHealthTab_
 
-- [ ] 3.6 Build AuditTab admin component
+- [x] 3.6 Build AuditTab admin component
   - **Do**:
     1. Create `src/components/admin/tabs/audit-tab.tsx`
     2. `"use client"`, named export `AuditTab`
