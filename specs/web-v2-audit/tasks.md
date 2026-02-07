@@ -24,7 +24,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-1, AC-1.1, AC-1.4, AC-1.5_
   - _Design: WS-1 Global Error Boundary_
 
-- [ ] 1.2 Create public route error boundary
+- [x] 1.2 Create public route error boundary
   - **Do**:
     1. Create `src/app/(public)/error.tsx` as `"use client"` component
     2. Same interface as global but with "Browse Resources" (`/resources`) and "View Categories" (`/categories`) navigation links
