@@ -21,7 +21,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-10.1, AC-10.2, AC-10.3_
   - _Design: Toast Migration Plan_
 
-- [ ] 1.2 Replace inline messages with toasts in database, validation, settings, link-health, github-sync tabs
+- [x] 1.2 Replace inline messages with toasts in database, validation, settings, link-health, github-sync tabs
   - **Do**:
     1. **database-tab.tsx**: Add `import { toast } from "sonner"`. In `seedMutation` add `onSuccess: () => { toast.success("Database seeded successfully"); ... }` and `onError: (e) => toast.error(e.message)`. Delete inline `{seedMutation.isSuccess && ...}` and `{seedMutation.isError && ...}` `<p>` elements.
     2. **validation-tab.tsx**: Add `import { toast } from "sonner"`. In `validateMutation` add `onError: () => toast.error("Validation failed")`. Delete `{validateMutation.isError && ...}` `<p>` element.

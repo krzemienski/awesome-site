@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { toast } from "sonner"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import {
   Settings2,
@@ -159,8 +160,10 @@ export function SettingsTab() {
       return res.json()
     },
     onSuccess: () => {
+      toast.success("Settings saved successfully")
       queryClient.invalidateQueries({ queryKey: ["admin", "settings"] })
     },
+    onError: () => toast.error("Failed to save settings"),
   })
 
   function updateField<K extends keyof SettingsState>(
@@ -521,16 +524,6 @@ export function SettingsTab() {
         </Button>
       </div>
 
-      {mutation.isSuccess && (
-        <p className="text-right text-sm text-green-600">
-          Settings saved successfully.
-        </p>
-      )}
-      {mutation.isError && (
-        <p className="text-right text-sm text-destructive">
-          Failed to save settings. Please try again.
-        </p>
-      )}
     </div>
   )
 }

@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { toast } from "sonner"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import {
   GitBranch,
@@ -86,13 +87,6 @@ interface ImportResult {
   readonly itemsSkipped: number
   readonly conflicts: number
   readonly errors: Array<{ url: string; error: string }>
-}
-
-interface ExportResult {
-  readonly success: boolean
-  readonly commitSha?: string
-  readonly resourceCount: number
-  readonly lintErrors: number
 }
 
 interface SearchResult {
@@ -304,10 +298,12 @@ export function GithubSyncTab() {
       return res.json()
     },
     onSuccess: () => {
+      toast.success("Configuration saved")
       queryClient.invalidateQueries({
         queryKey: ["admin", "github", "config"],
       })
     },
+    onError: (e: Error) => toast.error(e.message),
   })
 
   // ── Import mutation ──
@@ -356,6 +352,7 @@ export function GithubSyncTab() {
       return res.json()
     },
     onSuccess: () => {
+      toast.success("Export completed successfully")
       queryClient.invalidateQueries({
         queryKey: ["admin", "github", "history"],
       })
@@ -364,6 +361,7 @@ export function GithubSyncTab() {
       })
       setExportDialogOpen(false)
     },
+    onError: (e: Error) => toast.error(e.message),
   })
 
   // ── Handlers ──
@@ -512,14 +510,6 @@ export function GithubSyncTab() {
               )}
               Save Configuration
             </Button>
-            {saveConfigMutation.isSuccess && (
-              <span className="text-sm text-green-600">Saved!</span>
-            )}
-            {saveConfigMutation.isError && (
-              <span className="text-sm text-red-600">
-                {saveConfigMutation.error.message}
-              </span>
-            )}
           </div>
         </CardContent>
       </Card>
@@ -593,28 +583,6 @@ export function GithubSyncTab() {
             </p>
           )}
 
-          {exportMutation.isSuccess && (
-            <div className="rounded-md border border-green-500/30 bg-green-500/5 p-3">
-              <p className="text-sm text-green-700 dark:text-green-400">
-                Export completed successfully!{" "}
-                {(exportMutation.data as { data: ExportResult })?.data
-                  ?.commitSha && (
-                  <span className="font-mono">
-                    Commit:{" "}
-                    {(
-                      exportMutation.data as { data: ExportResult }
-                    ).data.commitSha?.slice(0, 7)}
-                  </span>
-                )}
-              </p>
-            </div>
-          )}
-
-          {exportMutation.isError && (
-            <p className="text-sm text-red-600">
-              {exportMutation.error.message}
-            </p>
-          )}
         </CardContent>
       </Card>
 

@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { toast } from "sonner"
 import { useMutation } from "@tanstack/react-query"
 import { type ColumnDef } from "@tanstack/react-table"
 import {
@@ -178,6 +179,7 @@ export function ValidationTab() {
       const json = (await res.json()) as ValidateResponse
       return json.data
     },
+    onError: () => toast.error("Validation failed"),
   })
 
   const allIssues = validateMutation.data
@@ -272,11 +274,6 @@ export function ValidationTab() {
             )}
           </div>
 
-          {validateMutation.isError && (
-            <p className="text-sm text-destructive">
-              Validation failed. Please try again.
-            </p>
-          )}
         </CardContent>
       </Card>
 

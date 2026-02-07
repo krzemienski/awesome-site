@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { toast } from "sonner"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { type ColumnDef } from "@tanstack/react-table"
 import {
@@ -276,6 +277,7 @@ export function LinkHealthTab() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "link-health"] })
     },
+    onError: () => toast.error("Link check failed"),
   })
 
   // Disable resource mutation
@@ -290,6 +292,7 @@ export function LinkHealthTab() {
       return res.json()
     },
     onSuccess: () => {
+      toast.success("Resource disabled")
       queryClient.invalidateQueries({ queryKey: ["admin", "link-health"] })
     },
   })
@@ -348,13 +351,6 @@ export function LinkHealthTab() {
           {checkMutation.isPending ? "Checking..." : "Check All Links"}
         </Button>
       </div>
-
-      {/* Error from check mutation */}
-      {checkMutation.isError && (
-        <p className="text-sm text-destructive">
-          Link check failed. Please try again.
-        </p>
-      )}
 
       {/* Summary Stats */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-4">

@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
 import { Database, Loader2, CheckCircle2, Sprout } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -71,9 +72,11 @@ export function DatabaseTab() {
       return res.json()
     },
     onSuccess: () => {
+      toast.success("Database seeded successfully")
       setSeedDialogOpen(false)
       queryClient.invalidateQueries({ queryKey: ["admin", "stats"] })
     },
+    onError: (e: Error) => toast.error(e.message),
   })
 
   function handleSeedConfirm() {
@@ -191,16 +194,6 @@ export function DatabaseTab() {
             {seedMutation.isPending ? "Seeding..." : "Seed Database"}
           </Button>
 
-          {seedMutation.isSuccess && (
-            <p className="text-sm text-green-600">
-              Database seeded successfully.
-            </p>
-          )}
-          {seedMutation.isError && (
-            <p className="text-sm text-destructive">
-              Seed operation failed. Please try again.
-            </p>
-          )}
         </CardContent>
       </Card>
 
