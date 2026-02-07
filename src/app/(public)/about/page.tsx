@@ -233,7 +233,7 @@ export default function AboutPage() {
                 </li>
                 <li>
                   <strong className="text-foreground">Suggest edits</strong> —
-                  See outdated info? Use the "Suggest Edit" button on any
+                  See outdated info? Use the &ldquo;Suggest Edit&rdquo; button on any
                   resource page to propose corrections.
                 </li>
                 <li>
