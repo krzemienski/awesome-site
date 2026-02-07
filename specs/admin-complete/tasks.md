@@ -402,7 +402,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - **Commit**: `test(admin): add Playwright E2E tests for research tab`
   - _Requirements: FR-1, FR-3, FR-4_
 
-- [ ] 3.3 Create Playwright E2E tests for database and link health tabs
+- [x] 3.3 Create Playwright E2E tests for database and link health tabs
   - **Do**:
     1. Create `e2e/admin-database-linkhealth.spec.ts`
     2. Test: database tab shows expanded stats grid
