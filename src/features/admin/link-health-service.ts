@@ -22,6 +22,14 @@ export interface LinkHealthReport {
   completedAt: string
 }
 
+export interface LinkHealthHistoryEntry {
+  readonly timestamp: string
+  readonly totalChecked: number
+  readonly healthy: number
+  readonly broken: number
+  readonly timeout: number
+}
+
 const CONCURRENCY_LIMIT = 10
 const REQUEST_TIMEOUT_MS = 10_000
 
@@ -143,6 +151,22 @@ export async function checkLinks(): Promise<LinkHealthReport> {
     "linkHealth.lastRunAt",
     new Date().toISOString(),
     "Last link health check timestamp"
+  )
+
+  const existingHistory =
+    (await getSetting<LinkHealthHistoryEntry[]>("linkHealth.history")) ?? []
+  const newEntry: LinkHealthHistoryEntry = {
+    timestamp: new Date().toISOString(),
+    totalChecked: results.length,
+    healthy,
+    broken,
+    timeout,
+  }
+  const cappedHistory = [...existingHistory, newEntry].slice(-50)
+  await setSetting(
+    "linkHealth.history",
+    cappedHistory as unknown as import("@/generated/prisma/client").Prisma.InputJsonValue,
+    "Link health check history"
   )
 
   return report

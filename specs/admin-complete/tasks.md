@@ -230,7 +230,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
 
 ### Link Health Enhancement (FR-8, FR-9)
 
-- [ ] 1.17 Add history tracking to link-health-service
+- [x] 1.17 Add history tracking to link-health-service
   - **Do**:
     1. In `src/features/admin/link-health-service.ts`, after `setSetting("linkHealth.lastResults", ...)`:
     2. Define `LinkHealthHistoryEntry` interface: `{ timestamp, totalChecked, healthy, broken, timeout }`
