@@ -452,7 +452,7 @@ created: 2026-02-06T22:57:00-05:00
   - **Commit**: None (verification only)
   - _Requirements: NFR-10, Success Criteria 1-10_
 
-- [ ] 6.3 Create PR and verify CI
+- [x] 6.3 Create PR and verify CI
   - **Do**:
     1. Verify current branch is feature branch: `git branch --show-current`
     2. If on default branch, STOP and alert user
@@ -465,13 +465,13 @@ created: 2026-02-06T22:57:00-05:00
 
 ## Phase 7: PR Lifecycle
 
-- [ ] 7.1 [VERIFY] CI pipeline passes
+- [x] 7.1 [VERIFY] CI pipeline passes
   - **Do**: Verify GitHub Actions/CI passes after push
   - **Verify**: `gh pr checks` shows all green
   - **Done when**: CI pipeline passes
   - **Commit**: None
 
-- [ ] 7.2 [VERIFY] AC checklist -- programmatic verification
+- [x] 7.2 [VERIFY] AC checklist -- programmatic verification
   - **Do**: Verify each acceptance criteria is met:
     1. AC-1.x: `test -f src/app/error.tsx && test -f "src/app/(public)/error.tsx" && test -f src/app/admin/error.tsx && echo "Error boundaries: PASS"`
     2. AC-2.x: `test -f src/app/not-found.tsx && echo "Not-found: PASS"`
