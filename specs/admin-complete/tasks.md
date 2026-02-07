@@ -88,7 +88,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-3.1, AC-3.2, AC-3.3, AC-3.4, AC-3.5, AC-3.6_
   - _Design: JobCreationDialog component_
 
-- [ ] 1.7 Create FindingsList component
+- [x] 1.7 Create FindingsList component
   - **Do**:
     1. Create `src/components/admin/tabs/research/findings-list.tsx`
     2. Props: `findings: readonly ResearchFinding[]`, `onApply: (id) => void`, `onDismiss: (id) => void`, `isApplying: boolean`, `isDismissing: boolean`
