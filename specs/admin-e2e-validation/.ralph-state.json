@@ -1,0 +1,8 @@
+{
+  "specName": "admin-e2e-validation",
+  "currentPhase": "complete",
+  "completedPhases": ["research", "requirements", "design", "tasks"],
+  "approvalGate": false,
+  "createdAt": "2026-02-07T09:30:00.000Z",
+  "updatedAt": "2026-02-07T10:00:00.000Z"
+}

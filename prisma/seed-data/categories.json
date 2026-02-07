@@ -1,0 +1,86 @@
+[
+  {
+    "name": "Video Streaming",
+    "slug": "video-streaming",
+    "description": "Platforms and tools for streaming video content to audiences in real-time or on-demand.",
+    "icon": "tv",
+    "displayOrder": 1
+  },
+  {
+    "name": "Video Editing",
+    "slug": "video-editing",
+    "description": "Software and tools for cutting, splicing, and producing polished video content.",
+    "icon": "film",
+    "displayOrder": 2
+  },
+  {
+    "name": "Live Streaming",
+    "slug": "live-streaming",
+    "description": "Tools and platforms for broadcasting live video content to viewers worldwide.",
+    "icon": "radio",
+    "displayOrder": 3
+  },
+  {
+    "name": "Media Servers",
+    "slug": "media-servers",
+    "description": "Self-hosted and cloud solutions for organizing, storing, and serving media libraries.",
+    "icon": "server",
+    "displayOrder": 4
+  },
+  {
+    "name": "Screen Recording",
+    "slug": "screen-recording",
+    "description": "Applications for capturing screen activity for tutorials, demos, and presentations.",
+    "icon": "monitor",
+    "displayOrder": 5
+  },
+  {
+    "name": "Video Encoding",
+    "slug": "video-encoding",
+    "description": "Tools for transcoding, compressing, and converting video between formats and codecs.",
+    "icon": "cpu",
+    "displayOrder": 6
+  },
+  {
+    "name": "Animation",
+    "slug": "animation",
+    "description": "Software for creating 2D and 3D animations, motion graphics, and visual effects.",
+    "icon": "sparkles",
+    "displayOrder": 7
+  },
+  {
+    "name": "Audio Production",
+    "slug": "audio-production",
+    "description": "Digital audio workstations, editors, and tools for recording and mixing audio.",
+    "icon": "music",
+    "displayOrder": 8
+  },
+  {
+    "name": "3D Rendering",
+    "slug": "3d-rendering",
+    "description": "Tools for creating, rendering, and visualizing three-dimensional models and scenes.",
+    "icon": "box",
+    "displayOrder": 9
+  },
+  {
+    "name": "Video Conferencing",
+    "slug": "video-conferencing",
+    "description": "Platforms for real-time video communication, meetings, and collaboration.",
+    "icon": "video",
+    "displayOrder": 10
+  },
+  {
+    "name": "Media Players",
+    "slug": "media-players",
+    "description": "Applications for playing video and audio files across platforms and formats.",
+    "icon": "play-circle",
+    "displayOrder": 11
+  },
+  {
+    "name": "Video Analytics",
+    "slug": "video-analytics",
+    "description": "Tools for analyzing video content, viewer engagement, and performance metrics.",
+    "icon": "bar-chart",
+    "displayOrder": 12
+  }
+]

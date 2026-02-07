@@ -1,0 +1,15 @@
+{
+  "source": "spec",
+  "name": "web-v3-audit-followup",
+  "basePath": "specs/web-v3-audit-followup",
+  "phase": "execution",
+  "taskIndex": 0,
+  "totalTasks": 8,
+  "taskIteration": 1,
+  "maxTaskIterations": 200,
+  "recoveryMode": false,
+  "maxFixTasksPerOriginal": 3,
+  "fixTaskMap": {},
+  "globalIteration": 1,
+  "maxGlobalIterations": 100
+}

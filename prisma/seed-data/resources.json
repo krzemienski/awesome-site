@@ -1,0 +1,107 @@
+[
+  {
+    "title": "OBS Studio",
+    "url": "https://obsproject.com",
+    "description": "Free and open-source software for video recording and live streaming. Supports multiple sources, scenes, and real-time audio/video mixing with high-performance capture.",
+    "categorySlug": "live-streaming",
+    "status": "approved"
+  },
+  {
+    "title": "FFmpeg",
+    "url": "https://ffmpeg.org",
+    "description": "A complete, cross-platform solution to record, convert, and stream audio and video. The backbone of most media processing pipelines worldwide.",
+    "categorySlug": "video-encoding",
+    "status": "approved"
+  },
+  {
+    "title": "DaVinci Resolve",
+    "url": "https://www.blackmagicdesign.com/products/davinciresolve",
+    "description": "Professional video editing, color correction, visual effects, and audio post-production all in one tool. Free version includes nearly all features.",
+    "categorySlug": "video-editing",
+    "status": "approved"
+  },
+  {
+    "title": "VLC Media Player",
+    "url": "https://www.videolan.org/vlc",
+    "description": "Free, open-source, cross-platform multimedia player that plays most multimedia files and various streaming protocols.",
+    "categorySlug": "media-players",
+    "status": "approved"
+  },
+  {
+    "title": "HandBrake",
+    "url": "https://handbrake.fr",
+    "description": "Open-source video transcoder for converting video from nearly any format to a selection of modern, widely supported codecs.",
+    "categorySlug": "video-encoding",
+    "status": "approved"
+  },
+  {
+    "title": "Blender",
+    "url": "https://www.blender.org",
+    "description": "Free and open-source 3D creation suite supporting the entire 3D pipeline: modeling, rigging, animation, simulation, rendering, compositing, and video editing.",
+    "categorySlug": "3d-rendering",
+    "status": "approved"
+  },
+  {
+    "title": "Jellyfin",
+    "url": "https://jellyfin.org",
+    "description": "The free software media system that puts you in control of managing and streaming your media. No proprietary licenses or tracking.",
+    "categorySlug": "media-servers",
+    "status": "approved"
+  },
+  {
+    "title": "Plex",
+    "url": "https://www.plex.tv",
+    "description": "Stream movies, TV shows, music, and more from your personal media library to any device, anywhere. Includes automatic metadata fetching.",
+    "categorySlug": "media-servers",
+    "status": "approved"
+  },
+  {
+    "title": "Audacity",
+    "url": "https://www.audacityteam.org",
+    "description": "Free, open-source, cross-platform audio software for multi-track recording and editing. Supports effects, plugins, and a wide range of audio formats.",
+    "categorySlug": "audio-production",
+    "status": "approved"
+  },
+  {
+    "title": "Kdenlive",
+    "url": "https://kdenlive.org",
+    "description": "Free and open-source video editor based on the MLT Framework and KDE Frameworks. Supports multi-track editing with a wide range of effects.",
+    "categorySlug": "video-editing",
+    "status": "approved"
+  },
+  {
+    "title": "Jitsi Meet",
+    "url": "https://jitsi.org",
+    "description": "Fully encrypted, open-source video conferencing solution that you can use all day, every day, for free with no account needed.",
+    "categorySlug": "video-conferencing",
+    "status": "approved"
+  },
+  {
+    "title": "Synfig Studio",
+    "url": "https://www.synfig.org",
+    "description": "Open-source 2D animation software designed for producing film-quality animation using a vector and bitmap artwork approach.",
+    "categorySlug": "animation",
+    "status": "approved"
+  },
+  {
+    "title": "ShareX",
+    "url": "https://getsharex.com",
+    "description": "Free and open-source screen capture, file sharing, and productivity tool. Supports screen recording, scrolling capture, and OCR.",
+    "categorySlug": "screen-recording",
+    "status": "approved"
+  },
+  {
+    "title": "Streamlink",
+    "url": "https://streamlink.github.io",
+    "description": "Command-line utility that extracts streams from various services and pipes them into a video player of your choice.",
+    "categorySlug": "video-streaming",
+    "status": "approved"
+  },
+  {
+    "title": "Matomo",
+    "url": "https://matomo.org",
+    "description": "Open-source web analytics platform that gives you full ownership of your data. Includes video and media analytics capabilities.",
+    "categorySlug": "video-analytics",
+    "status": "approved"
+  }
+]
