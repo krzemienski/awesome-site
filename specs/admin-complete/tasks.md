@@ -104,7 +104,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: AC-2.1, AC-2.2, AC-2.3, AC-2.4, AC-2.5, AC-2.6, AC-2.7_
   - _Design: FindingsList component_
 
-- [ ] 1.8 Create ReportViewer component
+- [x] 1.8 Create ReportViewer component
   - **Do**:
     1. Create `src/components/admin/tabs/research/report-viewer.tsx`
     2. Props: `report: JobReport | null`
