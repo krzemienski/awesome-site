@@ -295,7 +295,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-30, NFR-9_
   - _Design: WS-6 Security Review_
 
-- [ ] 4.2 Security review: verify no hardcoded secrets
+- [x] 4.2 Security review: verify no hardcoded secrets
   - **Do**:
     1. Run grep for common secret patterns: `sk-`, `password.*=.*["']`, API key literals
     2. Verify all sensitive values use `process.env`
