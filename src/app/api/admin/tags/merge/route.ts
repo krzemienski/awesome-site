@@ -42,33 +42,41 @@ export const POST = withAdmin(
       }
 
       await prisma.$transaction(async (tx) => {
-        for (const sourceId of sourceTagIds) {
-          const resourceTags = await tx.resourceTag.findMany({
-            where: { tagId: sourceId },
+        // Find all resource IDs already linked to the target tag
+        const existingTargetLinks = await tx.resourceTag.findMany({
+          where: { tagId: targetTagId },
+          select: { resourceId: true },
+        })
+        const alreadyLinkedIds = new Set(existingTargetLinks.map((l) => l.resourceId))
+
+        // Find all resource-tag rows for source tags
+        const sourceResourceTags = await tx.resourceTag.findMany({
+          where: { tagId: { in: sourceTagIds } },
+        })
+
+        // Partition into rows to re-point vs rows to delete (duplicates)
+        const toRepoint = sourceResourceTags.filter((rt) => !alreadyLinkedIds.has(rt.resourceId))
+        const toDelete = sourceResourceTags.filter((rt) => alreadyLinkedIds.has(rt.resourceId))
+
+        // Batch re-point: update rows that don't conflict with target
+        if (toRepoint.length > 0) {
+          await tx.resourceTag.updateMany({
+            where: { id: { in: toRepoint.map((rt) => rt.id) } },
+            data: { tagId: targetTagId },
           })
-
-          for (const rt of resourceTags) {
-            const exists = await tx.resourceTag.findUnique({
-              where: {
-                resourceId_tagId: {
-                  resourceId: rt.resourceId,
-                  tagId: targetTagId,
-                },
-              },
-            })
-
-            if (!exists) {
-              await tx.resourceTag.update({
-                where: { id: rt.id },
-                data: { tagId: targetTagId },
-              })
-            } else {
-              await tx.resourceTag.delete({ where: { id: rt.id } })
-            }
-          }
-
-          await tx.tag.delete({ where: { id: sourceId } })
         }
+
+        // Batch delete: remove duplicate rows
+        if (toDelete.length > 0) {
+          await tx.resourceTag.deleteMany({
+            where: { id: { in: toDelete.map((rt) => rt.id) } },
+          })
+        }
+
+        // Delete source tags
+        await tx.tag.deleteMany({
+          where: { id: { in: sourceTagIds } },
+        })
       })
 
       const updatedTag = await prisma.tag.findUnique({

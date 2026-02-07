@@ -5,6 +5,7 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query"
+import type { ResourceWithRelations } from "@/features/resources/resource-types"
 
 const FAVORITES_KEY = ["favorites"]
 const FAVORITE_IDS_KEY = ["favorite-ids"]
@@ -37,7 +38,7 @@ export function useFavoriteIds() {
 export function useFavorites() {
   return useQuery({
     queryKey: FAVORITES_KEY,
-    queryFn: async () => {
+    queryFn: async (): Promise<ResourceWithRelations[]> => {
       const res = await fetch("/api/favorites")
 
       if (!res.ok) {
@@ -45,7 +46,7 @@ export function useFavorites() {
       }
 
       const json = await res.json()
-      return json.data as Array<Record<string, unknown>>
+      return json.data as ResourceWithRelations[]
     },
     staleTime: 2 * 60 * 1000,
   })

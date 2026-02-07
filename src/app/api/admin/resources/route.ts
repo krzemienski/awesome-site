@@ -143,22 +143,24 @@ export const POST = withAdmin(
 async function resolveTagConnections(
   tagNames: string[]
 ): Promise<Array<{ tag: { connect: { id: number } } }>> {
-  const connections: Array<{ tag: { connect: { id: number } } }> = []
-
-  for (const name of tagNames) {
-    const slug = name
+  // Batch upsert: run all tag upserts concurrently instead of sequentially
+  const slugs = tagNames.map((name) => ({
+    name,
+    slug: name
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "")
+      .replace(/^-|-$/g, ""),
+  }))
 
-    const tag = await prisma.tag.upsert({
-      where: { slug },
-      update: {},
-      create: { name, slug },
-    })
+  const tags = await Promise.all(
+    slugs.map(({ name, slug }) =>
+      prisma.tag.upsert({
+        where: { slug },
+        update: {},
+        create: { name, slug },
+      })
+    )
+  )
 
-    connections.push({ tag: { connect: { id: tag.id } } })
-  }
-
-  return connections
+  return tags.map((tag) => ({ tag: { connect: { id: tag.id } } }))
 }

@@ -473,7 +473,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - **Done when**: All 13 user stories' acceptance criteria confirmed met
   - **Commit**: None
 
-- [ ] 5.3 Address PR review comments
+- [x] 5.3 Address PR review comments
   - **Do**: If review comments exist, fix issues, push, re-verify CI
   - **Verify**: `gh pr checks` all green after fixes
   - **Done when**: All review comments resolved, CI passes

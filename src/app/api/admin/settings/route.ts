@@ -34,7 +34,11 @@ export const PUT = withAdmin(async (req: NextRequest, ctx: AuthenticatedRouteCon
 
     const parsed = settingsSchema.safeParse(raw)
     if (!parsed.success) {
-      return apiSuccess({ updated: 0 })
+      return apiError(
+        parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("; "),
+        422,
+        "VALIDATION_ERROR"
+      )
     }
 
     const entries = parsed.data.settings

@@ -1,13 +1,14 @@
 "use client"
 
+import { useRouter } from "next/navigation"
 import { Heart } from "lucide-react"
 import { useFavorites, useFavoriteIds } from "@/hooks/use-favorites"
 import { ResourceGrid } from "@/components/resources/resource-grid"
 import { EmptyState } from "@/components/shared/empty-state"
 import { LoadingSkeleton } from "@/components/shared/loading-skeleton"
-import type { ResourceWithRelations } from "@/features/resources/resource-types"
 
 export default function FavoritesPage() {
+  const router = useRouter()
   const { data: resources, isPending, error } = useFavorites()
   const { data: favoriteIds = [] } = useFavoriteIds()
 
@@ -33,7 +34,7 @@ export default function FavoritesPage() {
     )
   }
 
-  const typedResources = (resources ?? []) as unknown as ResourceWithRelations[]
+  const typedResources = resources ?? []
 
   if (typedResources.length === 0) {
     return (
@@ -45,7 +46,7 @@ export default function FavoritesPage() {
           description="Start favoriting resources to build your personal collection."
           actionLabel="Browse Resources"
           onAction={() => {
-            window.location.href = "/resources"
+            router.push("/resources")
           }}
         />
       </div>
