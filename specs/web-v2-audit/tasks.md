@@ -78,7 +78,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-5, FR-6, FR-7, FR-8, AC-3.1 through AC-3.6_
   - _Design: WS-1 Loading Skeletons_
 
-- [ ] 1.6 [VERIFY] Quality checkpoint: lint + typecheck
+- [x] 1.6 [VERIFY] Quality checkpoint: lint + typecheck
   - **Do**: Run lint and typecheck, fix any issues introduced by Phase 1 tasks
   - **Verify**: `npx tsc --noEmit 2>&1 | tail -5 && npx eslint src/app/error.tsx src/app/not-found.tsx src/app/admin/error.tsx "src/app/(public)/error.tsx" "src/app/(public)/resources/loading.tsx" "src/app/(public)/categories/[slug]/loading.tsx" "src/app/(public)/resources/[id]/loading.tsx" src/app/admin/loading.tsx 2>&1 | tail -5`
   - **Done when**: Zero errors on new files
