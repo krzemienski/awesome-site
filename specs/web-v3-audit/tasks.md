@@ -132,7 +132,7 @@ Focus: Build AppSidebar for public pages, create CategoryTree with API, create p
   - _Requirements: FR-1, AC-1.2, AC-1.6, AC-1.7, FR-16, FR-17_
   - _Design: AppSidebar_
 
-- [ ] 2.4 Create CategoryTree component
+- [x] 2.4 Create CategoryTree component
   - **Do**:
     1. Create `src/components/sidebar/category-tree.tsx`: `"use client"` component
     2. Use `useCategoryTree()` hook for data

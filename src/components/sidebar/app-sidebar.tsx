@@ -36,6 +36,7 @@ import { Button } from "@/components/ui/button"
 import { ThemeSwitcher } from "@/components/theme/theme-switcher"
 import { UserMenu } from "@/components/auth/user-menu"
 import { SearchDialog } from "@/components/search/search-dialog"
+import { CategoryTree } from "@/components/sidebar/category-tree"
 
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home },
@@ -123,9 +124,7 @@ export function AppSidebar() {
           <SidebarGroup>
             <SidebarGroupLabel>Categories</SidebarGroupLabel>
             <SidebarGroupContent>
-              <div className="px-2 py-1 text-xs text-muted-foreground">
-                Category tree loading...
-              </div>
+              <CategoryTree />
             </SidebarGroupContent>
           </SidebarGroup>
 
