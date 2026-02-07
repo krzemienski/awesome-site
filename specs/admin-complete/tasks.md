@@ -56,7 +56,7 @@ Focus: Wire all features end-to-end. Quality-first but pragmatic -- no shortcuts
   - _Requirements: FR-1 through FR-5_
   - _Design: Research Tab Decomposition, File Responsibilities_
 
-- [ ] 1.5 Create CostDashboard component
+- [x] 1.5 Create CostDashboard component
   - **Do**:
     1. Create `src/components/admin/tabs/research/cost-dashboard.tsx`
     2. Use `useQuery` to fetch `GET /api/admin/research/costs?days=30`
