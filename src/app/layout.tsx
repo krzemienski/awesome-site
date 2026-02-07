@@ -5,6 +5,7 @@ import { ThemeScript } from "@/components/theme/theme-script"
 import { ThemeProvider } from "@/components/theme/theme-provider"
 import { VariationScript } from "@/components/variation/variation-script"
 import { VariationProvider } from "@/components/variation/variation-provider"
+import { VariationSwitcher } from "@/components/variation/variation-switcher"
 import { QueryProvider } from "@/providers/query-provider"
 import { AuthProvider } from "@/providers/auth-provider"
 import { TopBar } from "@/components/layout/top-bar"
@@ -68,6 +69,7 @@ export default function RootLayout({
                   <TopBar />
                   <main className="min-h-screen pt-16">{children}</main>
                   <Footer />
+                  <VariationSwitcher />
                 </VariationProvider>
               </Suspense>
             </ThemeProvider>

@@ -61,7 +61,7 @@ Focus: Install shadcn sidebar primitives, create variation switching infrastruct
   - _Requirements: FR-3, AC-13.1_
   - _Design: Architecture - RootLayout_
 
-- [ ] 1.5 Create VariationSwitcher floating UI
+- [x] 1.5 Create VariationSwitcher floating UI
   - **Do**:
     1. Create `src/components/variation/variation-switcher.tsx`: `"use client"` component
     2. Fixed-position floating button (bottom-right, `fixed bottom-4 right-4 z-50`)
