@@ -393,7 +393,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-16, AC-8.1 through AC-8.4_
   - _Design: WS-3 About Page_
 
-- [ ] 5.2 Create Advanced Search page with layout for metadata
+- [x] 5.2 Create Advanced Search page with layout for metadata
   - **Do**:
     1. Create `src/app/(public)/search/layout.tsx` with static metadata: `{ title: "Search | Awesome Video Dashboard", description: "Search and filter resources by category, tags, and more." }`
     2. Create `src/app/(public)/search/page.tsx` as `"use client"` component
