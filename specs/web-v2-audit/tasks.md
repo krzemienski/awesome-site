@@ -37,7 +37,7 @@ created: 2026-02-06T22:57:00-05:00
   - _Requirements: FR-2, AC-1.2, AC-1.4, AC-1.5_
   - _Design: WS-1 Public Error Boundary_
 
-- [ ] 1.3 Create admin error boundary
+- [x] 1.3 Create admin error boundary
   - **Do**:
     1. Create `src/app/admin/error.tsx` as `"use client"` component
     2. Same interface but with "Return to Dashboard" link (`/admin`) and admin-specific messaging
