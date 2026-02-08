@@ -125,7 +125,7 @@ Focus: Migrations, Sentry, connection pooling, rate limiting, data migration. Qu
   - _Requirements: US-26, FR-27, FR-28, AC-26.1-AC-26.9_
   - _Design: Phase 1.5_
 
-- [ ] 1.9 Create data verification script
+- [x] 1.9 Create data verification script
   - **Do**:
     1. Create `scripts/verify-migration.ts`
     2. Connect to target DB via `DATABASE_URL`
