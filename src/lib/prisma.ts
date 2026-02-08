@@ -1,13 +1,22 @@
 import { PrismaClient } from "@/generated/prisma/client"
-import { PrismaPg } from "@prisma/adapter-pg"
+import { PrismaNeon } from "@prisma/adapter-neon"
+import { neonConfig } from "@neondatabase/serverless"
+import ws from "ws"
+
+neonConfig.webSocketConstructor = ws
 
 function createPrismaClient(): PrismaClient {
-  const connectionString =
-    process.env.DATABASE_URL_DIRECT ??
-    process.env.DATABASE_URL ??
-    "postgresql://localhost:5432/awesome_list_v2"
+  const connectionString = process.env.DATABASE_URL
 
-  const adapter = new PrismaPg({ connectionString })
+  if (!connectionString) {
+    throw new Error(
+      "DATABASE_URL environment variable is not set. " +
+        "Set it to your Neon pooled connection string " +
+        "(e.g. postgresql://user:pass@ep-xxx.us-east-2.aws.neon.tech/dbname?sslmode=require)"
+    )
+  }
+
+  const adapter = new PrismaNeon({ connectionString })
   return new PrismaClient({ adapter })
 }
 

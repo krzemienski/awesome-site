@@ -1,7 +1,11 @@
 import { PrismaClient } from "@/generated/prisma/client"
-import { PrismaPg } from "@prisma/adapter-pg"
+import { PrismaNeon } from "@prisma/adapter-neon"
+import { neonConfig } from "@neondatabase/serverless"
+import ws from "ws"
 import { readFileSync } from "fs"
 import { join } from "path"
+
+neonConfig.webSocketConstructor = ws
 
 interface SeedCategory {
   name: string
@@ -21,11 +25,16 @@ interface SeedResource {
 
 function createPrismaClient(): PrismaClient {
   const connectionString =
-    process.env.DATABASE_URL_DIRECT ??
-    process.env.DATABASE_URL ??
-    "postgresql://localhost:5432/awesome_list_v2"
+    process.env.DIRECT_DATABASE_URL ?? process.env.DATABASE_URL
 
-  const adapter = new PrismaPg({ connectionString })
+  if (!connectionString) {
+    throw new Error(
+      "DATABASE_URL environment variable is not set. " +
+        "Set it to your Neon connection string for seeding."
+    )
+  }
+
+  const adapter = new PrismaNeon({ connectionString })
   return new PrismaClient({ adapter })
 }
 
