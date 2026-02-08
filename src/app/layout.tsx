@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
+import { headers } from "next/headers"
 import { JetBrains_Mono, Inter } from "next/font/google"
 import { ThemeScript } from "@/components/theme/theme-script"
 import { ThemeProvider } from "@/components/theme/theme-provider"
@@ -46,16 +47,19 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const headersList = await headers()
+  const nonce = headersList.get("x-nonce") ?? undefined
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <ThemeScript />
-        <VariationScript />
+        <ThemeScript nonce={nonce} />
+        <VariationScript nonce={nonce} />
       </head>
       <body
         className={`${jetbrainsMono.variable} ${inter.variable} antialiased`}

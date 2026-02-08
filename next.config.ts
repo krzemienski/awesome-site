@@ -70,20 +70,7 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
-          {
-            key: "Content-Security-Policy",
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline'",
-              "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: blob: https://images.unsplash.com https://avatars.githubusercontent.com https://github.com https://img.youtube.com https://i.ytimg.com",
-              "font-src 'self' data:",
-              "connect-src 'self' https://api.anthropic.com https://api.github.com",
-              "frame-ancestors 'none'",
-              "base-uri 'self'",
-              "form-action 'self'",
-            ].join("; "),
-          },
+          // CSP is now set dynamically in middleware.ts with per-request nonce
         ],
       },
     ];

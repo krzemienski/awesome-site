@@ -155,7 +155,7 @@ Focus: Migrations, Sentry, connection pooling, rate limiting, data migration. Qu
 
 Focus: CSP nonces, distributed rate limiting, full-text search, legal pages, analytics, OAuth validation.
 
-- [ ] 2.1 Implement nonce-based CSP in middleware
+- [x] 2.1 Implement nonce-based CSP in middleware
   - **Do**:
     1. In `src/middleware.ts`, generate nonce via `Buffer.from(crypto.randomUUID()).toString("base64")` for every request
     2. Build CSP header string with `script-src 'self' 'nonce-${nonce}'` (remove `unsafe-inline` for scripts)

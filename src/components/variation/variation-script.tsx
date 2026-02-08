@@ -11,9 +11,14 @@ const VARIATION_SCRIPT = `
 })();
 `
 
-export function VariationScript() {
+interface VariationScriptProps {
+  nonce?: string
+}
+
+export function VariationScript({ nonce }: VariationScriptProps) {
   return (
     <script
+      nonce={nonce}
       dangerouslySetInnerHTML={{ __html: VARIATION_SCRIPT }}
     />
   )

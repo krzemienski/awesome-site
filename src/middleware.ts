@@ -4,6 +4,32 @@ import {
   rateLimitHeaders,
 } from "@/lib/rate-limit"
 
+/**
+ * Generate a per-request nonce for CSP script-src.
+ * Uses crypto.randomUUID() encoded as base64.
+ */
+function generateNonce(): string {
+  return Buffer.from(crypto.randomUUID()).toString("base64")
+}
+
+/**
+ * Build a Content-Security-Policy header string with a nonce for scripts.
+ * Keeps style-src 'unsafe-inline' for Tailwind CSS compatibility.
+ */
+function buildCspHeader(nonce: string): string {
+  return [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}'`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: blob: https://images.unsplash.com https://avatars.githubusercontent.com https://github.com https://img.youtube.com https://i.ytimg.com",
+    "font-src 'self' data:",
+    "connect-src 'self' https://api.anthropic.com https://api.github.com https://*.sentry.io https://*.vercel-insights.com",
+    "frame-ancestors 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+  ].join("; ")
+}
+
 const PROTECTED_ROUTES = [
   "/profile",
   "/favorites",
@@ -76,10 +102,23 @@ function getClientIp(request: NextRequest): string {
   )
 }
 
+/**
+ * Apply CSP and nonce headers to a NextResponse.
+ */
+function applyCspHeaders(response: NextResponse, nonce: string, cspHeader: string): NextResponse {
+  response.headers.set("Content-Security-Policy", cspHeader)
+  response.headers.set("x-nonce", nonce)
+  return response
+}
+
 export default async function middleware(
   request: NextRequest
 ): Promise<NextResponse> {
   const { pathname } = request.nextUrl
+
+  // Generate a per-request nonce for CSP
+  const nonce = generateNonce()
+  const cspHeader = buildCspHeader(nonce)
 
   // Anonymous rate limiting on API routes
   if (isApiRoute(pathname)) {
@@ -119,7 +158,7 @@ export default async function middleware(
       for (const [key, value] of Object.entries(authHeaders)) {
         authResponse.headers.set(key, value)
       }
-      return authResponse
+      return applyCspHeaders(authResponse, nonce, cspHeader)
     }
 
     const ip = getClientIp(request)
@@ -151,7 +190,7 @@ export default async function middleware(
     for (const [key, value] of Object.entries(headers)) {
       response.headers.set(key, value)
     }
-    return response
+    return applyCspHeaders(response, nonce, cspHeader)
   }
 
   const { hasSession } = getSessionFromCookies(request)
@@ -165,7 +204,7 @@ export default async function middleware(
 
     // Note: Admin role verification happens server-side in withAdmin middleware.
     // Middleware only checks for session presence to avoid importing Prisma in edge runtime.
-    return NextResponse.next()
+    return applyCspHeaders(NextResponse.next(), nonce, cspHeader)
   }
 
   if (isProtectedRoute(pathname)) {
@@ -175,7 +214,7 @@ export default async function middleware(
       return NextResponse.redirect(loginUrl)
     }
 
-    return NextResponse.next()
+    return applyCspHeaders(NextResponse.next(), nonce, cspHeader)
   }
 
   if (isAuthRoute(pathname)) {
@@ -183,10 +222,10 @@ export default async function middleware(
       return NextResponse.redirect(new URL("/", request.url))
     }
 
-    return NextResponse.next()
+    return applyCspHeaders(NextResponse.next(), nonce, cspHeader)
   }
 
-  return NextResponse.next()
+  return applyCspHeaders(NextResponse.next(), nonce, cspHeader)
 }
 
 export const config = {

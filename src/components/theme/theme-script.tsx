@@ -7,9 +7,14 @@ const THEME_SCRIPT = `
 })();
 `
 
-export function ThemeScript() {
+interface ThemeScriptProps {
+  nonce?: string
+}
+
+export function ThemeScript({ nonce }: ThemeScriptProps) {
   return (
     <script
+      nonce={nonce}
       dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }}
     />
   )
