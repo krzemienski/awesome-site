@@ -8,6 +8,8 @@ import { VariationScript } from "@/components/variation/variation-script"
 import { VariationProvider } from "@/components/variation/variation-provider"
 import { VariationSwitcher } from "@/components/variation/variation-switcher"
 import { Toaster } from "@/components/ui/sonner"
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { QueryProvider } from "@/providers/query-provider"
 import { AuthProvider } from "@/providers/auth-provider"
 import "./globals.css"
@@ -72,6 +74,8 @@ export default async function RootLayout({
                   <main className="min-h-screen">{children}</main>
                   <VariationSwitcher />
                   <Toaster />
+                  <Analytics />
+                  <SpeedInsights />
                 </VariationProvider>
               </Suspense>
             </ThemeProvider>

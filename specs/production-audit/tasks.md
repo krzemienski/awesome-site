@@ -228,7 +228,7 @@ Focus: CSP nonces, distributed rate limiting, full-text search, legal pages, ana
   - **Done when**: All commands exit 0
   - **Commit**: `chore(quality): pass Phase 2 midpoint checkpoint` (only if fixes needed)
 
-- [ ] 2.6 Add Vercel Analytics and Speed Insights
+- [x] 2.6 Add Vercel Analytics and Speed Insights
   - **Do**:
     1. `npm install @vercel/analytics @vercel/speed-insights`
     2. In `src/app/layout.tsx`, import `Analytics` from `@vercel/analytics/react` and `SpeedInsights` from `@vercel/speed-insights/next`
