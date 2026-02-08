@@ -255,7 +255,7 @@ Focus: CSP nonces, distributed rate limiting, full-text search, legal pages, ana
   - _Requirements: US-11, FR-12, AC-11.1-AC-11.5_
   - _Design: Phase 2.6_
 
-- [ ] 2.8 Complete .env.example documentation
+- [x] 2.8 Complete .env.example documentation
   - **Do**:
     1. Update `.env.example` with ALL env vars used in codebase:
        - `DATABASE_URL` (required, Neon pooled)
