@@ -222,7 +222,7 @@ Focus: CSP nonces, distributed rate limiting, full-text search, legal pages, ana
   - _Requirements: US-9, FR-10, AC-9.1-AC-9.5_
   - _Design: Phase 2.4_
 
-- [ ] 2.5 [VERIFY] Phase 2 midpoint checkpoint
+- [x] 2.5 [VERIFY] Phase 2 midpoint checkpoint
   - **Do**: Run quality commands to verify CSP, rate limiting, FTS, and legal pages compile
   - **Verify**: `cd /Users/nick/Desktop/awesome-site && npm run typecheck && npm run lint && npm run build`
   - **Done when**: All commands exit 0
