@@ -40,10 +40,25 @@ export function Footer() {
 
         <Separator />
 
-        <div className="py-4">
-          <p className="text-center text-xs text-muted-foreground">
+        <div className="flex flex-col gap-2 py-4 md:flex-row md:items-center md:justify-between">
+          <p className="text-center text-xs text-muted-foreground md:text-left">
             &copy; {new Date().getFullYear()} Awesome Video Dashboard. All rights reserved.
           </p>
+          <div className="flex items-center justify-center gap-4">
+            <Link
+              href="/privacy"
+              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Privacy Policy
+            </Link>
+            <Separator orientation="vertical" className="h-3" />
+            <Link
+              href="/terms"
+              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Terms of Service
+            </Link>
+          </div>
         </div>
       </Container>
     </footer>

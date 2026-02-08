@@ -209,7 +209,7 @@ Focus: CSP nonces, distributed rate limiting, full-text search, legal pages, ana
   - _Requirements: US-12, FR-13, AC-12.1-AC-12.5_
   - _Design: Phase 2.3_
 
-- [ ] 2.4 Create privacy policy and terms of service pages
+- [x] 2.4 Create privacy policy and terms of service pages
   - **Do**:
     1. Create `src/app/(public)/privacy/page.tsx` with privacy policy content (data collected, cookies, third-party services, data retention, user rights)
     2. Create `src/app/(public)/terms/page.tsx` with terms of service content
