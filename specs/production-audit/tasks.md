@@ -85,7 +85,7 @@ Focus: Migrations, Sentry, connection pooling, rate limiting, data migration. Qu
   - _Requirements: US-2, US-3, FR-2, FR-3, AC-2.1-AC-2.4, AC-3.3_
   - _Design: Phase 1.2_
 
-- [ ] 1.6 Add auth endpoint rate limiting
+- [x] 1.6 Add auth endpoint rate limiting
   - **Do**:
     1. In `src/middleware.ts`, remove the early `return NextResponse.next()` for `/api/auth/` paths (line ~79-81)
     2. Add auth-specific rate limiting block: detect login paths (`/sign-in`, `/sign-up`) -> 5/min/IP; general auth paths -> 10/min/IP

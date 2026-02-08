@@ -20,6 +20,14 @@ const AUTH_ROUTES = ["/login", "/register"]
 const ANON_RATE_LIMIT = 30
 const ANON_RATE_WINDOW_MS = 60 * 1000
 
+/** Auth endpoint rate limits per minute per IP */
+const AUTH_LOGIN_RATE_LIMIT = 5
+const AUTH_GENERAL_RATE_LIMIT = 10
+const AUTH_RATE_WINDOW_MS = 60 * 1000
+
+/** Login-sensitive auth paths (stricter limits) */
+const AUTH_LOGIN_PATHS = ["/sign-in", "/sign-up"]
+
 function isProtectedRoute(pathname: string): boolean {
   return PROTECTED_ROUTES.some((route) => pathname.startsWith(route))
 }
@@ -75,9 +83,43 @@ export default async function middleware(
 
   // Anonymous rate limiting on API routes
   if (isApiRoute(pathname)) {
-    // Skip rate limiting for auth endpoints (Better Auth catch-all)
+    // Auth endpoint rate limiting (stricter than anonymous)
     if (pathname.startsWith("/api/auth/")) {
-      return NextResponse.next()
+      const ip = getClientIp(request)
+      const isLoginPath = AUTH_LOGIN_PATHS.some((p) =>
+        pathname.includes(p)
+      )
+      const authLimit = isLoginPath ? AUTH_LOGIN_RATE_LIMIT : AUTH_GENERAL_RATE_LIMIT
+      const authKey = `auth:${isLoginPath ? "login" : "general"}:${ip}`
+      const authResult = checkRateLimit(authKey, authLimit, AUTH_RATE_WINDOW_MS)
+
+      if (!authResult.allowed) {
+        const retryAfterSeconds = Math.ceil(
+          (authResult.resetAt - Date.now()) / 1000
+        )
+
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Rate limit exceeded",
+            code: "RATE_LIMITED",
+          },
+          {
+            status: 429,
+            headers: {
+              ...rateLimitHeaders(authResult),
+              "Retry-After": String(Math.max(1, retryAfterSeconds)),
+            },
+          }
+        )
+      }
+
+      const authResponse = NextResponse.next()
+      const authHeaders = rateLimitHeaders(authResult)
+      for (const [key, value] of Object.entries(authHeaders)) {
+        authResponse.headers.set(key, value)
+      }
+      return authResponse
     }
 
     const ip = getClientIp(request)
