@@ -105,7 +105,7 @@ Focus: Migrations, Sentry, connection pooling, rate limiting, data migration. Qu
   - **Done when**: All three commands exit 0
   - **Commit**: `chore(quality): pass Phase 1 infrastructure checkpoint` (only if fixes needed)
 
-- [ ] 1.8 Create data migration script
+- [x] 1.8 Create data migration script
   - **Do**:
     1. Create `scripts/migrate-data.ts` using `tsx` runner
     2. Connect to source DB via `SOURCE_DATABASE_URL` using raw `pg` client (install `pg` as devDependency for scripts only)
