@@ -3,6 +3,7 @@
 import { useEffect } from "react"
 import Link from "next/link"
 import { AlertCircle, LayoutDashboard, RotateCcw } from "lucide-react"
+import * as Sentry from "@sentry/nextjs"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -16,7 +17,7 @@ export default function AdminError({
   reset: () => void
 }) {
   useEffect(() => {
-    console.error("Admin error:", error)
+    Sentry.captureException(error)
   }, [error])
 
   return (

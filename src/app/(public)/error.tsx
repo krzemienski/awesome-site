@@ -3,6 +3,7 @@
 import { useEffect } from "react"
 import Link from "next/link"
 import { AlertCircle, BookOpen, LayoutGrid, RotateCcw } from "lucide-react"
+import * as Sentry from "@sentry/nextjs"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -16,7 +17,7 @@ export default function PublicError({
   reset: () => void
 }) {
   useEffect(() => {
-    console.error("Public route error:", error)
+    Sentry.captureException(error)
   }, [error])
 
   return (

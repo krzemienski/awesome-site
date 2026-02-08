@@ -3,6 +3,7 @@
 import { useEffect } from "react"
 import Link from "next/link"
 import { AlertCircle, Home, RotateCcw } from "lucide-react"
+import * as Sentry from "@sentry/nextjs"
 
 import { Button } from "@/components/ui/button"
 import { Container } from "@/components/layout/container"
@@ -15,7 +16,7 @@ export default function GlobalError({
   reset: () => void
 }) {
   useEffect(() => {
-    console.error("Unhandled error:", error)
+    Sentry.captureException(error)
   }, [error])
 
   return (
