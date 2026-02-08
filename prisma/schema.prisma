@@ -177,6 +177,7 @@ model Resource {
   githubSynced     Boolean        @default(false)
   lastSyncedAt     DateTime?
   metadata         Json           @default("{}")
+  searchVector     Unsupported("tsvector")?
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
 

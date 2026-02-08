@@ -192,7 +192,7 @@ Focus: CSP nonces, distributed rate limiting, full-text search, legal pages, ana
   - _Requirements: US-7, FR-8, AC-7.1-AC-7.5_
   - _Design: Phase 2.2_
 
-- [ ] 2.3 Add full-text search with tsvector + GIN index
+- [x] 2.3 Add full-text search with tsvector + GIN index
   - **Do**:
     1. Add `search_vector` as `Unsupported("tsvector")?` to Resource model in `prisma/schema.prisma`
     2. Create `prisma/migrations/0002_full_text_search/migration.sql` with:

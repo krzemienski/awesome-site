@@ -27,7 +27,7 @@ export async function listResources(
   )
   const skip = (page - 1) * limit
 
-  const where = buildResourceWhere(filters)
+  const where = await buildResourceWhere(filters)
   const orderBy = buildResourceOrderBy(filters)
   const include = buildResourceInclude()
 

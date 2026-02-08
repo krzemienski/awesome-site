@@ -1,13 +1,33 @@
-import type { Prisma, ResourceStatus } from "@/generated/prisma/client"
+import { Prisma } from "@/generated/prisma/client"
+import type { ResourceStatus } from "@/generated/prisma/client"
 import type { ResourceFilters } from "./resource-types"
+import { prisma } from "@/lib/prisma"
+
+/**
+ * Sanitize a search term for use with PostgreSQL to_tsquery.
+ * Splits on whitespace, filters empty tokens, joins with ' & ' for AND semantics.
+ */
+function sanitizeTsQuery(search: string): string {
+  return search
+    .trim()
+    .split(/\s+/)
+    .filter((token) => token.length > 0)
+    .map((token) => token.replace(/[^a-zA-Z0-9]/g, ""))
+    .filter((token) => token.length > 0)
+    .join(" & ")
+}
 
 /**
  * Build Prisma `where` clause from resource filters.
  * Supports category hierarchy, tags, status, search, and enrichment filters.
+ *
+ * When `filters.search` is present, uses full-text search via tsvector `@@`
+ * operator for title/description, with LIKE fallback for URL matching.
+ * FTS results are fetched via `$queryRaw` and merged with URL LIKE results.
  */
-export function buildResourceWhere(
+export async function buildResourceWhere(
   filters: ResourceFilters
-): Prisma.ResourceWhereInput {
+): Promise<Prisma.ResourceWhereInput> {
   const conditions: Prisma.ResourceWhereInput[] = []
 
   if (filters.categoryId !== undefined) {
@@ -27,14 +47,29 @@ export function buildResourceWhere(
   }
 
   if (filters.search) {
-    const searchTerm = filters.search
-    conditions.push({
-      OR: [
-        { title: { contains: searchTerm, mode: "insensitive" } },
-        { description: { contains: searchTerm, mode: "insensitive" } },
-        { url: { contains: searchTerm, mode: "insensitive" } },
-      ],
-    })
+    const tsQuery = sanitizeTsQuery(filters.search)
+
+    if (tsQuery.length > 0) {
+      // Use full-text search with tsvector @@ operator for title/description.
+      // Fetch matching IDs via $queryRaw, then combine with URL LIKE fallback.
+      const ftsResults = await prisma.$queryRaw<Array<{ id: number }>>(
+        Prisma.sql`SELECT id FROM "Resource" WHERE "search_vector" @@ to_tsquery('english', ${tsQuery})`
+      )
+      const ftsIds = ftsResults.map((r) => r.id)
+
+      // Combine: FTS matches (title/description) OR URL LIKE match
+      conditions.push({
+        OR: [
+          ...(ftsIds.length > 0 ? [{ id: { in: ftsIds } }] : []),
+          { url: { contains: filters.search, mode: "insensitive" as const } },
+        ],
+      })
+    } else {
+      // Invalid tsquery (e.g., only special characters) -- fall back to URL LIKE only
+      conditions.push({
+        url: { contains: filters.search, mode: "insensitive" },
+      })
+    }
   }
 
   if (filters.tags && filters.tags.length > 0) {
