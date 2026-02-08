@@ -35,7 +35,7 @@ Focus: Migrations, Sentry, connection pooling, rate limiting, data migration. Qu
   - _Requirements: US-1, FR-1, AC-1.1, AC-1.2_
   - _Design: Phase 1.1_
 
-- [ ] 1.3 Switch to @prisma/adapter-neon + remove hardcoded DB fallback
+- [x] 1.3 Switch to @prisma/adapter-neon + remove hardcoded DB fallback
   - **Do**:
     1. `npm install @neondatabase/serverless @prisma/adapter-neon ws`
     2. `npm install -D @types/ws`
