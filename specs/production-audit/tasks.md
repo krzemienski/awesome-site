@@ -22,7 +22,7 @@ Focus: Migrations, Sentry, connection pooling, rate limiting, data migration. Qu
   - _Requirements: US-13, FR-14, AC-13.1, AC-13.2_
   - _Design: Phase 3.1 (moved to Phase 1 -- needed for all subsequent verification)_
 
-- [ ] 1.2 Generate baseline Prisma migration
+- [x] 1.2 Generate baseline Prisma migration
   - **Do**:
     1. Run `npx prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script > prisma/migrations/0001_init/migration.sql`
     2. Create `prisma/migrations/0001_init/migration.sql` directory first
