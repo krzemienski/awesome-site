@@ -51,7 +51,7 @@ Focus: Migrations, Sentry, connection pooling, rate limiting, data migration. Qu
   - _Requirements: US-4, US-28, FR-4, FR-5, FR-30, AC-4.1-AC-4.5, AC-28.1-AC-28.6_
   - _Design: Phase 1.3_
 
-- [ ] 1.4 Create global-error.tsx standalone error page
+- [x] 1.4 Create global-error.tsx standalone error page
   - **Do**:
     1. Create `src/app/global-error.tsx` as `"use client"` component
     2. Must render full `<html>` + `<body>` with inline styles only (no layout imports, no Tailwind, no external CSS)
