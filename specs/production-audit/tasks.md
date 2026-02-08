@@ -174,7 +174,7 @@ Focus: CSP nonces, distributed rate limiting, full-text search, legal pages, ana
   - _Requirements: US-6, FR-7, AC-6.1-AC-6.6_
   - _Design: Phase 2.1_
 
-- [ ] 2.2 Switch to distributed rate limiting with Upstash Redis
+- [x] 2.2 Switch to distributed rate limiting with Upstash Redis
   - **Do**:
     1. `npm install @upstash/ratelimit @upstash/redis`
     2. Rewrite `src/lib/rate-limit.ts`:

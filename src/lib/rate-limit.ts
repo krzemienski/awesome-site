@@ -1,10 +1,17 @@
 /**
- * In-memory sliding window rate limiter.
- * Works in both edge runtime (middleware.ts) and Node.js runtime (route handlers).
+ * Distributed rate limiter with Upstash Redis.
+ * Falls back to in-memory sliding window when Upstash is not configured (dev mode).
  *
- * Uses a Map<string, SlidingWindowEntry[]> where each entry tracks
- * a request timestamp within the current window.
+ * - Upstash path: uses @upstash/ratelimit sliding window algorithm
+ * - Fallback path: uses Map<string, SlidingWindowEntry[]> per-instance
  */
+
+import { Ratelimit } from "@upstash/ratelimit"
+import { Redis } from "@upstash/redis"
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
 
 interface SlidingWindowEntry {
   readonly timestamp: number
@@ -17,14 +24,55 @@ interface RateLimitResult {
   readonly resetAt: number
 }
 
-const store = new Map<string, SlidingWindowEntry[]>()
+// ---------------------------------------------------------------------------
+// Upstash Redis client (singleton, created only when env vars present)
+// ---------------------------------------------------------------------------
+
+function createUpstashRedis(): Redis | null {
+  const url = process.env.UPSTASH_REDIS_REST_URL
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN
+
+  if (!url || !token) {
+    return null
+  }
+
+  return new Redis({ url, token })
+}
+
+const redis = createUpstashRedis()
 
 /**
- * Periodic cleanup interval (5 minutes).
- * Removes expired entries to prevent memory leaks.
+ * Cache of Ratelimit instances keyed by `${limit}:${windowMs}`.
+ * Avoids creating a new Ratelimit per call while supporting multiple
+ * rate-limit tiers (e.g. auth login vs general).
  */
-const CLEANUP_INTERVAL_MS = 5 * 60 * 1000
+const upstashLimiters = new Map<string, Ratelimit>()
 
+function getUpstashLimiter(limit: number, windowMs: number): Ratelimit | null {
+  if (!redis) return null
+
+  const cacheKey = `${limit}:${windowMs}`
+  const existing = upstashLimiters.get(cacheKey)
+  if (existing) return existing
+
+  const windowSeconds = Math.max(1, Math.ceil(windowMs / 1000))
+  const limiter = new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(limit, `${windowSeconds} s`),
+    prefix: "ratelimit",
+  })
+
+  upstashLimiters.set(cacheKey, limiter)
+  return limiter
+}
+
+// ---------------------------------------------------------------------------
+// In-memory fallback (dev / no-Redis environments)
+// ---------------------------------------------------------------------------
+
+const store = new Map<string, SlidingWindowEntry[]>()
+
+const CLEANUP_INTERVAL_MS = 5 * 60 * 1000
 let lastCleanup = Date.now()
 
 function cleanupExpiredEntries(windowMs: number): void {
@@ -43,15 +91,7 @@ function cleanupExpiredEntries(windowMs: number): void {
   }
 }
 
-/**
- * Check and record a request against the rate limit.
- *
- * @param key - Unique identifier (IP, userId, apiKeyId)
- * @param limit - Maximum requests allowed in the window
- * @param windowMs - Window duration in milliseconds
- * @returns RateLimitResult with allowed status and metadata
- */
-export function checkRateLimit(
+function checkRateLimitInMemory(
   key: string,
   limit: number,
   windowMs: number
@@ -86,6 +126,42 @@ export function checkRateLimit(
     remaining: limit - updatedEntries.length,
     limit,
     resetAt,
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+/**
+ * Check and record a request against the rate limit.
+ *
+ * Uses Upstash Redis when UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN
+ * are configured. Falls back to in-memory sliding window otherwise.
+ *
+ * @param key - Unique identifier (IP, userId, apiKeyId)
+ * @param limit - Maximum requests allowed in the window
+ * @param windowMs - Window duration in milliseconds
+ * @returns Promise<RateLimitResult> with allowed status and metadata
+ */
+export async function checkRateLimit(
+  key: string,
+  limit: number,
+  windowMs: number
+): Promise<RateLimitResult> {
+  const limiter = getUpstashLimiter(limit, windowMs)
+
+  if (!limiter) {
+    return checkRateLimitInMemory(key, limit, windowMs)
+  }
+
+  const result = await limiter.limit(key)
+
+  return {
+    allowed: result.success,
+    remaining: result.remaining,
+    limit: result.limit,
+    resetAt: result.reset,
   }
 }
 

@@ -194,7 +194,7 @@ export function withApiKey(
       const tier = apiKeyRecord.tier as keyof typeof RATE_LIMITS.apiKey
       const tierConfig = RATE_LIMITS.apiKey[tier] ?? RATE_LIMITS.apiKey.free
       const rateLimitKey = `apikey:${apiKeyRecord.id}`
-      const rateLimitResult = checkRateLimit(
+      const rateLimitResult = await checkRateLimit(
         rateLimitKey,
         tierConfig.maxRequests,
         tierConfig.windowMs

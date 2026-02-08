@@ -130,7 +130,7 @@ export default async function middleware(
       )
       const authLimit = isLoginPath ? AUTH_LOGIN_RATE_LIMIT : AUTH_GENERAL_RATE_LIMIT
       const authKey = `auth:${isLoginPath ? "login" : "general"}:${ip}`
-      const authResult = checkRateLimit(authKey, authLimit, AUTH_RATE_WINDOW_MS)
+      const authResult = await checkRateLimit(authKey, authLimit, AUTH_RATE_WINDOW_MS)
 
       if (!authResult.allowed) {
         const retryAfterSeconds = Math.ceil(
@@ -163,7 +163,7 @@ export default async function middleware(
 
     const ip = getClientIp(request)
     const rateLimitKey = `anon:${ip}`
-    const result = checkRateLimit(rateLimitKey, ANON_RATE_LIMIT, ANON_RATE_WINDOW_MS)
+    const result = await checkRateLimit(rateLimitKey, ANON_RATE_LIMIT, ANON_RATE_WINDOW_MS)
 
     if (!result.allowed) {
       const retryAfterSeconds = Math.ceil((result.resetAt - Date.now()) / 1000)
