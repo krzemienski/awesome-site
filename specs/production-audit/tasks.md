@@ -282,7 +282,7 @@ Focus: CSP nonces, distributed rate limiting, full-text search, legal pages, ana
   - _Requirements: US-8, FR-9, AC-8.1-AC-8.6_
   - _Design: Phase 2.7_
 
-- [ ] 2.9 [VERIFY] Phase 2 complete checkpoint
+- [x] 2.9 [VERIFY] Phase 2 complete checkpoint
   - **Do**: Run full quality suite after all Phase 2 tasks
   - **Verify**: `cd /Users/nick/Desktop/awesome-site && npm run typecheck && npm run lint && npm run build`
   - **Done when**: All commands exit 0; CSP nonce implemented; Upstash rate limiting; FTS with GIN; legal pages; analytics; OAuth validation; env docs
