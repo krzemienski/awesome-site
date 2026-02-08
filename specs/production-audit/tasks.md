@@ -240,7 +240,7 @@ Focus: CSP nonces, distributed rate limiting, full-text search, legal pages, ana
   - _Requirements: US-10, FR-11, AC-10.1-AC-10.3_
   - _Design: Phase 2.5_
 
-- [ ] 2.7 Validate social auth provider configuration
+- [x] 2.7 Validate social auth provider configuration
   - **Do**:
     1. In `src/lib/auth.ts`, conditionally register social providers:
        - Only add `github` to `socialProviders` if both `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` are set
