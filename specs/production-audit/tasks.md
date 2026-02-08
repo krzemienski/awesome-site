@@ -65,7 +65,7 @@ Focus: Migrations, Sentry, connection pooling, rate limiting, data migration. Qu
   - _Requirements: US-3, FR-3, AC-3.1, AC-3.2, AC-3.4_
   - _Design: Phase 1.2_
 
-- [ ] 1.5 Integrate Sentry error tracking
+- [x] 1.5 Integrate Sentry error tracking
   - **Do**:
     1. `npm install @sentry/nextjs`
     2. Create `sentry.client.config.ts` with `Sentry.init({ dsn: process.env.NEXT_PUBLIC_SENTRY_DSN, tracesSampleRate: 0.1, environment: process.env.NODE_ENV })`
