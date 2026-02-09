@@ -1,8 +1,13 @@
 "use client"
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import { useState, type ReactNode } from "react"
+import { lazy, Suspense, useState, type ReactNode } from "react"
+
+const LazyDevtools = lazy(() =>
+  import("@tanstack/react-query-devtools").then((m) => ({
+    default: m.ReactQueryDevtools,
+  }))
+)
 
 function makeQueryClient() {
   return new QueryClient({
@@ -42,7 +47,11 @@ export function QueryProvider({ children }: QueryProviderProps) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      <ReactQueryDevtools initialIsOpen={false} />
+      {process.env.NODE_ENV === "development" && (
+        <Suspense fallback={null}>
+          <LazyDevtools initialIsOpen={false} />
+        </Suspense>
+      )}
     </QueryClientProvider>
   )
 }
