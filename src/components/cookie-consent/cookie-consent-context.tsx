@@ -4,8 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
-  useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react"
 
@@ -23,28 +22,38 @@ const CookieConsentContext = createContext<CookieConsentContextValue | null>(
   null
 )
 
-function readStoredConsent(): ConsentStatus {
-  if (typeof window === "undefined") return "pending"
+const listeners = new Set<() => void>()
+
+function getSnapshot(): ConsentStatus {
   const stored = localStorage.getItem(STORAGE_KEY)
   if (stored === "accepted" || stored === "rejected") return stored
   return "pending"
 }
 
-export function CookieConsentProvider({ children }: { children: ReactNode }) {
-  const [consent, setConsent] = useState<ConsentStatus>("pending")
+function getServerSnapshot(): ConsentStatus {
+  return "pending"
+}
 
-  useEffect(() => {
-    setConsent(readStoredConsent())
-  }, [])
+function subscribe(callback: () => void): () => void {
+  listeners.add(callback)
+  return () => listeners.delete(callback)
+}
+
+function notifyListeners() {
+  listeners.forEach((listener) => listener())
+}
+
+export function CookieConsentProvider({ children }: { children: ReactNode }) {
+  const consent = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
   const accept = useCallback(() => {
     localStorage.setItem(STORAGE_KEY, "accepted")
-    setConsent("accepted")
+    notifyListeners()
   }, [])
 
   const reject = useCallback(() => {
     localStorage.setItem(STORAGE_KEY, "rejected")
-    setConsent("rejected")
+    notifyListeners()
   }, [])
 
   return (
