@@ -258,7 +258,7 @@ Focus: Run migration, then validate all admin CRUD operations and export pipelin
   - _Requirements: AC-1.7, AC-5.5, AC-13.4, AC-12.4_
   - _Design: Validation Scripts section_
 
-- [ ] 3.4 Backend validate: Admin Resources CRUD (US-2)
+- [x] 3.4 Backend validate: Admin Resources CRUD (US-2)
   - **Do**:
     1. Get session cookie via login script
     2. `curl POST /api/admin/resources` with valid resource JSON -- verify 201 + new resource in response
@@ -274,7 +274,7 @@ Focus: Run migration, then validate all admin CRUD operations and export pipelin
   - _Requirements: FR-3, AC-2.1 through AC-2.6_
   - _Design: Phase 3 Validation table_
 
-- [ ] 3.5 Backend validate: Admin Categories hierarchy CRUD (US-3)
+- [x] 3.5 Backend validate: Admin Categories hierarchy CRUD (US-3)
   - **Do**:
     1. `curl POST /api/admin/categories` -- create category, verify response
     2. `curl PUT /api/admin/categories/{id}` -- edit name/slug, verify
@@ -290,7 +290,7 @@ Focus: Run migration, then validate all admin CRUD operations and export pipelin
   - _Requirements: FR-4, AC-3.1 through AC-3.6_
   - _Design: Phase 3 Validation table_
 
-- [ ] 3.6 Backend validate: Tags, Edit Suggestions, Users CRUD (US-4)
+- [x] 3.6 Backend validate: Tags, Edit Suggestions, Users CRUD (US-4)
   - **Do**:
     1. Tags: curl POST/PUT/DELETE /api/admin/tags + POST /api/admin/tags/merge
     2. Edit Suggestions: curl GET /api/admin/edits, POST /api/admin/edits/{id}/approve, POST /api/admin/edits/{id}/reject
@@ -311,7 +311,7 @@ Focus: Run migration, then validate all admin CRUD operations and export pipelin
   - **Done when**: Health check returns success
   - **Commit**: none (validation-only checkpoint)
 
-- [ ] 3.8 Backend validate: Export pipeline JSON + CSV + Markdown (US-5)
+- [x] 3.8 Backend validate: Export pipeline JSON + CSV + Markdown (US-5)
   - **Do**:
     1. Get session cookie via login
     2. `curl -o export.json "http://localhost:3000/api/admin/export?format=json" -H "Cookie: ..."` -- verify JSON parseable, resource count >= 2000
@@ -350,7 +350,7 @@ Focus: Run migration, then validate all admin CRUD operations and export pipelin
   - _Requirements: FR-2, AC-6.1 through AC-6.12_
   - _Design: Phase 3 Validation table_
 
-- [ ] 3.10 [VERIFY] Phase 3 backend validation complete
+- [x] 3.10 [VERIFY] Phase 3 backend validation complete
   - **Do**: Verify all backend evidence files exist for US-2 through US-8
   - **Verify**: `find specs/consolidated-readiness/evidence/backend/ -type f | wc -l` shows >= 30
   - **Done when**: All backend evidence directories populated

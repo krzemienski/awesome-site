@@ -1,0 +1,53 @@
+=== API Versioning Validation ===
+Date: 2026-02-09T03:59Z
+
+--- Direct /api/resources?limit=1 ---
+HTTP/1.1 200 OK
+X-DNS-Prefetch-Control: on
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Referrer-Policy: origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+content-security-policy: default-src 'self'; script-src 'self' 'nonce-NTNiNWE1NzUtN2E3ZS00ZWE2LWFlZmItNDc0NmUxMmJkMjg0'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com https://avatars.githubusercontent.com https://github.com https://img.youtube.com https://i.ytimg.com; font-src 'self' data:; connect-src 'self' https://api.anthropic.com https://api.github.com https://*.sentry.io https://*.vercel-insights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+x-nonce: NTNiNWE1NzUtN2E3ZS00ZWE2LWFlZmItNDc0NmUxMmJkMjg0
+x-ratelimit-limit: 30
+x-ratelimit-remaining: 29
+x-ratelimit-reset: 1770609620
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+cache-control: public, s-maxage=60, stale-while-revalidate=300
+content-type: application/json
+Date: Mon, 09 Feb 2026 03:59:19 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+--- Versioned /api/v1/resources?limit=1 ---
+HTTP/1.1 200 OK
+X-DNS-Prefetch-Control: on
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Referrer-Policy: origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+content-security-policy: default-src 'self'; script-src 'self' 'nonce-Yzk1ZTY2NjItNTNhYi00ODg3LTlhZWMtNWM4NmVkMWM3ZWJj'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com https://avatars.githubusercontent.com https://github.com https://img.youtube.com https://i.ytimg.com; font-src 'self' data:; connect-src 'self' https://api.anthropic.com https://api.github.com https://*.sentry.io https://*.vercel-insights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+x-api-version: 1
+x-nonce: Yzk1ZTY2NjItNTNhYi00ODg3LTlhZWMtNWM4NmVkMWM3ZWJj
+x-middleware-rewrite: /api/resources?limit=1
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+cache-control: public, s-maxage=60, stale-while-revalidate=300
+content-type: application/json
+Date: Mon, 09 Feb 2026 03:59:19 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+
+--- X-API-Version header check ---
+x-api-version: 1
+
+Direct total: 1958
+Versioned total: 1958
+RESULT: PASS - totals match

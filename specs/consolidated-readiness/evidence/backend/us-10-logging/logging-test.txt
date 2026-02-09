@@ -1,0 +1,33 @@
+=== Pino Structured Logging Validation ===
+Date: 2026-02-09T03:59Z
+
+--- Verify pino is installed ---
+    "pino": "^10.3.0",
+
+--- Verify logger.ts exists with pino ---
+import pino from "pino"
+
+if (typeof window !== "undefined") {
+  throw new Error("logger.ts must only be imported on the server")
+}
+
+const isProduction = process.env.NODE_ENV === "production"
+
+export const logger = pino({
+  level: process.env.LOG_LEVEL ?? (isProduction ? "info" : "debug"),
+  ...(isProduction
+    ? {}
+    : {
+        transport: {
+          target: "pino-pretty",
+
+--- Verify zero console.error/warn/log in src/ ---
+console statement count: 0
+RESULT: PASS
+--- Verify serverExternalPackages includes pino ---
+  serverExternalPackages: ["@prisma/client", "pino", "pino-pretty"],
+
+  async headers() {
+    return [
+      {
+        source: "/(.*)",

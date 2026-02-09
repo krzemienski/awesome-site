@@ -6,11 +6,13 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: 1,
-  reporter: "list",
+  reporter: [["list"], ["html", { outputFolder: "specs/consolidated-readiness/evidence/reports/playwright-report", open: "never" }]],
   timeout: 30_000,
+  outputDir: "specs/consolidated-readiness/evidence/e2e",
   use: {
     baseURL: "http://localhost:3000",
     trace: "on-first-retry",
+    screenshot: "on",
   },
   projects: [
     {

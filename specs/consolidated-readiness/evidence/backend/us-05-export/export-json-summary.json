@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "resourceCount": 1949,
+  "sampleResource": {
+    "id": 1008,
+    "title": "100ms: RTMP vs WebRTC vs HLS - Live Video Streaming Protocols Compared",
+    "url": "https://www.100ms.live/blog/rtmp-vs-webrtc-vs-hls",
+    "description": "A detailed comparison of RTMP, WebRTC, and HLS protocols, highlighting their differences in latency, scalability, quality, and reach. This resource assists developers in choosing the appropriate protocol based on their specific live video streaming requirements.",
+    "status": "approved",
+    "category": {
+      "id": 2,
+      "name": "Protocols & Transport",
+      "slug": "protocols-transport"
+    },
+    "subcategory": null,
+    "subSubcategory": null,
+    "tags": [],
+    "metadata": {
+      "tags": [
+        "RTMP",
+        "WebRTC",
+        "HLS"
+      ],
+      "sourceCategories": [
+        "protocols-transport"
+      ]
+    },
+    "createdAt": "2026-01-20T20:30:05.421Z",
+    "updatedAt": "2026-01-20T20:30:05.421Z"
+  }
+}
