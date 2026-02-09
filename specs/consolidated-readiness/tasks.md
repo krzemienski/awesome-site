@@ -138,7 +138,7 @@ Focus: Middleware extensions for API versioning + CORS, plus static code audit f
 
 ---
 
-- [ ] 2.1 Add API versioning middleware rewrite (US-12)
+- [x] 2.1 Add API versioning middleware rewrite (US-12)
   - **Do**:
     1. Open `src/middleware.ts`
     2. Add before the `isApiRoute(pathname)` check: if `pathname.startsWith("/api/v1/")`, clone `request.nextUrl`, rewrite pathname from `/api/v1/` to `/api/`, set `X-API-Version: 1` header, return response with CSP headers
@@ -150,7 +150,7 @@ Focus: Middleware extensions for API versioning + CORS, plus static code audit f
   - _Requirements: FR-12, AC-12.1, AC-12.2_
   - _Design: API Versioning Middleware Addition_
 
-- [ ] 2.2 Add CORS for API-key endpoints (US-13)
+- [x] 2.2 Add CORS for API-key endpoints (US-13)
   - **Do**:
     1. Create `src/lib/cors.ts` with `corsHeaders(origin, config)` and `handlePreflight(req)` functions
     2. Default allowed headers: `Content-Type`, `x-api-key`, `Authorization`
@@ -191,7 +191,7 @@ Focus: Middleware extensions for API versioning + CORS, plus static code audit f
   - _Requirements: FR-14, AC-14.4 through AC-14.12_
   - _Design: Phase 2 step 9_
 
-- [ ] 2.5 Constitution runtime rules: S8, S10, S12 verification (US-14)
+- [x] 2.5 Constitution runtime rules: S8, S10, S12 verification (US-14)
   - **Do**:
     1. S8 (Error Response Safety): trigger a 500 error via curl (e.g., malformed request to a route), verify response body has no stack trace -- just generic error message. Save output
     2. S10 (SSRF Prevention): verify URL fetch routes have domain allowlist. If not, add one to the URL validation service. Test with `curl` using blocked domain

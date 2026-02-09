@@ -1,0 +1,7 @@
+=== S12: Admin Self-Protection ===
+
+--- Test 1: Admin tries to change OWN role ---
+{"success":false,"error":"Cannot change your own role","code":"SELF_ROLE_CHANGE"}
+--- Test 2: Admin tries to ban SELF ---
+{"success":false,"error":"Cannot ban/unban yourself","code":"SELF_BAN"}
+DONE: Verify both return 400 with appropriate error messages
