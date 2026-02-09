@@ -1,0 +1,40 @@
+/* Variation A: Pro Audit Redesign */
+[data-variation="a"] {
+  /* Layout tokens */
+  --sidebar-width: 280px;
+  --sidebar-collapsed-width: 64px;
+  --content-max-width: 1400px;
+  --heading-scale: 1.333;
+  --card-padding: 24px;
+  --card-gap: 16px;
+  --card-border-width: 1px;
+  --nav-item-height: 40px;
+  --sidebar-header-height: 64px;
+  --transition-duration: 200ms;
+  --font-weight-heading: 700;
+
+  /* Shadow tokens (enhanced for pro feel) */
+  --shadow-color: hsl(0 0% 0%);
+  --shadow-opacity: 0.15;
+  --shadow-blur: 12px;
+  --shadow-spread: -2px;
+  --shadow-offset-x: 0px;
+  --shadow-offset-y: 6px;
+
+  /* Sidebar spacing refinements */
+  --sidebar-item-padding: 10px 16px;
+  --sidebar-group-spacing: 20px;
+
+  /* Card refinements */
+  --card-radius: 0px;
+
+  /* Typography refinements */
+  --heading-letter-spacing: -0.02em;
+  --body-line-height: 1.7;
+
+  /* Interaction state tokens */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --hover-bg-opacity: 0.08;
+  --active-border-width: 3px;
+}

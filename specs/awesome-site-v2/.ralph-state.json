@@ -1,0 +1,16 @@
+{
+  "source": "spec",
+  "name": "awesome-site-v2",
+  "basePath": "./specs/awesome-site-v2",
+  "phase": "execution",
+  "taskIndex": 85,
+  "totalTasks": 85,
+  "taskIteration": 1,
+  "maxTaskIterations": 5,
+  "globalIteration": 1,
+  "maxGlobalIterations": 100,
+  "awaitingApproval": false,
+  "recoveryMode": false,
+  "maxFixTasksPerOriginal": 3,
+  "fixTaskMap": {}
+}

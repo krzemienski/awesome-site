@@ -1,0 +1,37 @@
+=== Cookie Consent Validation ===
+Date: 2026-02-09T03:59Z
+
+--- Component files exist ---
+total 24
+drwxr-xr-x@  5 nick  staff   160 Feb  8 22:40 .
+drwxr-xr-x  16 nick  staff   512 Feb  8 22:37 ..
+-rw-r--r--@  1 nick  staff  1066 Feb  8 22:37 cookie-consent-banner.tsx
+-rw-r--r--@  1 nick  staff  1718 Feb  8 22:40 cookie-consent-context.tsx
+-rw-r--r--@  1 nick  staff   301 Feb  8 22:37 cookie-consent-gate.tsx
+
+--- Layout wraps Analytics in CookieConsentGate ---
+11:import { Analytics } from "@vercel/analytics/react"
+12:import { SpeedInsights } from "@vercel/speed-insights/next"
+13:import { CookieConsentProvider } from "@/components/cookie-consent/cookie-consent-context"
+14:import { CookieConsentBanner } from "@/components/cookie-consent/cookie-consent-banner"
+15:import { CookieConsentGate } from "@/components/cookie-consent/cookie-consent-gate"
+80:                  <CookieConsentProvider>
+81:                    <CookieConsentGate>
+82:                      <Analytics />
+83:                      <SpeedInsights />
+84:                    </CookieConsentGate>
+85:                    <CookieConsentBanner />
+86:                  </CookieConsentProvider>
+
+--- CookieConsentGate renders children only when accepted ---
+export function CookieConsentGate({ children }: { children: ReactNode }) {
+  const { consent } = useCookieConsent()
+
+  if (consent !== "accepted") return null
+
+  return <>{children}</>
+}
+
+--- Home page renders (includes banner markup) ---
+GET / status: 200
+RESULT: PASS

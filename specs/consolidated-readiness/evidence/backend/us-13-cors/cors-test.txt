@@ -1,0 +1,70 @@
+=== CORS Validation ===
+Date: 2026-02-09T03:59Z
+
+--- OPTIONS Preflight ---
+HTTP/1.1 204 No Content
+X-DNS-Prefetch-Control: on
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Referrer-Policy: origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+access-control-allow-headers: Content-Type, x-api-key, Authorization
+access-control-allow-methods: GET, POST, PUT, DELETE, OPTIONS
+access-control-allow-origin: *
+access-control-max-age: 86400
+Date: Mon, 09 Feb 2026 03:59:23 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+--- GET with x-api-key (expect CORS headers) ---
+HTTP/1.1 200 OK
+X-DNS-Prefetch-Control: on
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Referrer-Policy: origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+access-control-allow-headers: Content-Type, x-api-key, Authorization
+access-control-allow-methods: GET, POST, PUT, DELETE, OPTIONS
+access-control-allow-origin: *
+access-control-max-age: 86400
+content-security-policy: default-src 'self'; script-src 'self' 'nonce-YzI5YTllNzEtZDBjOC00MjI3LTk5MDctYTkyNzE3NWUxOTJj'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com https://avatars.githubusercontent.com https://github.com https://img.youtube.com https://i.ytimg.com; font-src 'self' data:; connect-src 'self' https://api.anthropic.com https://api.github.com https://*.sentry.io https://*.vercel-insights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+x-nonce: YzI5YTllNzEtZDBjOC00MjI3LTk5MDctYTkyNzE3NWUxOTJj
+x-ratelimit-limit: 30
+x-ratelimit-remaining: 27
+x-ratelimit-reset: 1770609624
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+cache-control: public, s-maxage=60, stale-while-revalidate=300
+content-type: application/json
+Date: Mon, 09 Feb 2026 03:59:23 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+
+--- GET without x-api-key (no CORS headers expected) ---
+HTTP/1.1 200 OK
+X-DNS-Prefetch-Control: on
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Referrer-Policy: origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+content-security-policy: default-src 'self'; script-src 'self' 'nonce-NTNiMjM0MTYtYTEzYS00NmM4LWI5NmMtNDdkNjAyOTEzMDdi'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com https://avatars.githubusercontent.com https://github.com https://img.youtube.com https://i.ytimg.com; font-src 'self' data:; connect-src 'self' https://api.anthropic.com https://api.github.com https://*.sentry.io https://*.vercel-insights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+x-nonce: NTNiMjM0MTYtYTEzYS00NmM4LWI5NmMtNDdkNjAyOTEzMDdi
+x-ratelimit-limit: 30
+x-ratelimit-remaining: 26
+x-ratelimit-reset: 1770609624
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+cache-control: public, s-maxage=60, stale-while-revalidate=300
+content-type: application/json
+Date: Mon, 09 Feb 2026 03:59:23 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+

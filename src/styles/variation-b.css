@@ -1,0 +1,30 @@
+/* Variation B: shadcn Blocks (Default) */
+[data-variation="b"] {
+  /* Layout tokens */
+  --sidebar-width: 280px;
+  --sidebar-collapsed-width: 64px;
+  --content-max-width: 1200px;
+  --heading-scale: 1.25;
+  --card-padding: 20px;
+  --card-gap: 12px;
+  --card-border-width: 1px;
+  --nav-item-height: 36px;
+  --sidebar-header-height: 56px;
+  --transition-duration: 150ms;
+  --font-weight-heading: 600;
+
+  /* Shadow tokens (from shadcn cyberpunk theme) */
+  --shadow-color: hsl(0 0% 0%);
+  --shadow-opacity: 0.1;
+  --shadow-blur: 8px;
+  --shadow-spread: -2px;
+  --shadow-offset-x: 0px;
+  --shadow-offset-y: 4px;
+
+  /* Sidebar spacing refinements */
+  --sidebar-item-padding: 8px 12px;
+  --sidebar-group-spacing: 16px;
+
+  /* Card refinements (0px radius matches cyberpunk aesthetic) */
+  --card-radius: 0px;
+}

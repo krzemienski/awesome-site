@@ -1,0 +1,35 @@
+=== TASK 3.5: Admin Categories Hierarchy CRUD Validation ===
+Date: 2026-02-09T03:55:22Z
+
+--- Step 1: GET /api/admin/categories (List) ---
+HTTP Status: 200
+{"success":true,"data":[{"id":1,"name":"Intro & Learning","slug":"intro-learning","description":null,"icon":"📚","displayOrder":1,"_count":{"resources":236,"subcategories":3}},{"id":2,"name":"Protocols & Transport","slug":"protocols-transport","description":null,"icon":"🔌","displayOrder":2,"_count":{"resources":242,"subcategories":2}},{"id":3,"name":"Encoding & Codecs","slug":"encoding-codecs","description":null,"icon":"🎬","displayOrder":3,"_count":{"resources":372,"subcategories":2}},{"id":4,"name":"Players & Clients","slug":"players-clients","description":null,"icon":"▶️","displayOrder":4,"_count":{"resources":263,"subcategories":2}},{"id":5,"name":"Media Tools","slug":"media-tools","description":null,"icon":"🛠️","displayOrder":5,"_count":{"resources":304,"subcategories":2}},{"id":6,"name":"Standards & Industry","slug":"standards-industry","description":null,"icon":"📋","displayOrder":6,"_count":{"resources":172,"subcategories":2}},{"id":7,"name":"Infrastructure & Delivery","slug":"infrastructure-delivery","description":null,"icon":"🌐","displayOrder":7,"_count":{"resources":183,"subcategories":2}},{"id":8,"name":"General Tools","slug":"general-tools","description":null,"icon":"⚙️","displayOrder":8,"_count":{"resources":95,"subcategories":2}},{"id":9,"name":"Community & Events","slug":"community-events","description":null,"icon":"👥","displayOrder":9,"_count":{"resources":91,"subcategories":2}},{"id":10,"name":"Video Players & Playback Libraries","slug":"video-players-playback-libraries","description":null,"icon":null,"displayOrder":10,"_count":{"resources":0,"subcategories":8}},{"id":11,"name":"Video Editing & Processing Tools","slug":"video-editing-processing-tools","description":null,"icon":null,"displayOrder":11,"_count":{"resources":0,"subcategories":7}},{"id":12,"name":"Video Encoding, Transcoding & Packaging Tools","slug":"video-encoding-transcoding-packaging-tools","description":null,"icon":null,"displayOrder":12,"_count":{"resources":0,"subcategories":8}},{"id":13,"name":"Video Streaming & Distribution Solutions","slug":"video-streaming-distribution-solutions","description":null,"icon":null,"displayOrder":13,"_count":{"resources":0,"subcategories":8}},{"id":14,"name":"Adaptive Streaming & Manifest Tools","slug":"adaptive-streaming-manifest-tools","description":null,"icon":null,"displayOrder":14,"_count":{"resources":0,"subcategories":7}},{"id":15,"name":"Media Analysis, Quality Metrics & AI Tools","slug":"media-analysis-quality-metrics-ai-tools","description":null,"icon":null,"displayOrder":15,"_count":{"resources":0,"subcategories":8}},{"id":16,"name":"Build Tools, Deployment & Utility Libraries","slug":"build-tools-deployment-utility-libraries","description":null,"icon":null,"displayOrder":16,"_count":{"resources":0,"subcategories":6}},{"id":17,"name":"Standards, Specifications & Industry Resources","slug":"standards-specifications-industry-resources","description":null,"icon":null,"displayOrder":17,"_count":{"resources":0,"subcategories":6}},{"id":18,"name":"Learning, Tutorials & Documentation","slug":"learning-tutorials-documentation","description":null,"icon":null,"displayOrder":18,"_count":{"resources":0,"subcategories":7}},{"id":19,"name":"Transcoding, Codecs & Hardware Acceleration","slug":"transcoding-codecs-hardware-acceleration","description":null,"icon":null,"displayOrder":19,"_count":{"resources":0,"subcategories":6}},{"id":20,"name":"DRM, Security & Content Protection","slug":"drm-security-content-protection","description":null,"icon":null,"displayOrder":20,"_count":{"resources":0,"subcategories":5}},{"id":21,"name":"Miscellaneous, Experimental & Niche Tools","slug":"miscellaneous-experimental-niche-tools","description":null,"icon":null,"displayOrder":21,"_count":{"resources":0,"subcategories":6}}]}
+
+--- Step 2: POST /api/admin/categories (Create) ---
+HTTP Status: 201
+{"success":true,"data":{"id":33,"name":"Test Category Validation","slug":"test-cat-validation","description":null,"icon":null,"displayOrder":0,"_count":{"resources":0},"subcategories":[]}}
+
+--- Step 3: PUT /api/admin/categories/33 (Update) ---
+HTTP Status: 405
+
+
+--- Step 4: POST /api/admin/subcategories (Create subcategory) ---
+HTTP Status: 201
+{"success":true,"data":{"id":102,"name":"Test Subcategory","slug":"test-subcat","description":null,"displayOrder":0,"categoryId":33,"category":{"id":33,"name":"Test Category Validation","slug":"test-cat-validation","description":null,"icon":null,"displayOrder":0},"_count":{"resources":0},"subSubcategories":[]}}
+
+--- Step 3b: PATCH /api/admin/categories/33 (Update) ---
+HTTP Status: 200
+{"success":true,"data":{"id":33,"name":"Updated Test Category","slug":"updated-test-category","description":null,"icon":null,"displayOrder":0,"_count":{"resources":0},"subcategories":[{"id":102,"name":"Test Subcategory","slug":"test-subcat","description":null,"displayOrder":0,"categoryId":33,"_count":{"resources":0},"subSubcategories":[]}]}}
+
+--- Step 5a: DELETE /api/admin/subcategories/102 ---
+HTTP Status: 200
+{"success":true,"data":{"deleted":true}}
+
+--- Step 5b: DELETE /api/admin/categories/33 ---
+HTTP Status: 200
+{"success":true,"data":{"deleted":true}}
+
+--- Step 6: DELETE /api/admin/categories/1 (has resources - should fail) ---
+HTTP Status: 422
+{"success":false,"error":"Cannot delete category with 236 resource(s). Move or remove them first.","code":"DELETE_PROTECTED"}
+

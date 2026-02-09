@@ -1,0 +1,44 @@
+/* Variation C: Stitch MCP Generated */
+[data-variation="c"] {
+  /* Layout tokens (Stitch-derived) */
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 56px;
+  --content-max-width: 1400px;
+  --heading-scale: 1.2;
+  --card-padding: 16px;
+  --card-gap: 16px;
+  --card-border-width: 2px;
+  --nav-item-height: 44px;
+  --sidebar-header-height: 72px;
+  --transition-duration: 250ms;
+  --font-weight-heading: 800;
+
+  /* Shadow tokens (neon glow aesthetic from Stitch) */
+  --shadow-color: hsl(320 100% 50%);
+  --shadow-opacity: 0.2;
+  --shadow-blur: 16px;
+  --shadow-spread: 0px;
+  --shadow-offset-x: 0px;
+  --shadow-offset-y: 0px;
+
+  /* Sidebar spacing refinements */
+  --sidebar-item-padding: 12px 14px;
+  --sidebar-group-spacing: 12px;
+
+  /* Card refinements (sharp cyberpunk edges) */
+  --card-radius: 0px;
+
+  /* Typography refinements (Stitch-derived) */
+  --heading-letter-spacing: -0.01em;
+  --body-line-height: 1.6;
+
+  /* Interaction state tokens (bold neon feedback) */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 3px;
+  --hover-bg-opacity: 0.12;
+  --active-border-width: 2px;
+
+  /* Stitch-specific: glow border effect */
+  --glow-spread: 4px;
+  --glow-opacity: 0.3;
+}

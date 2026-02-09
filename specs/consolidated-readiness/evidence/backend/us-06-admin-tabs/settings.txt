@@ -1,0 +1,4 @@
+=== GET /api/admin/settings ===
+{"success":true,"data":{}}
+HTTP_STATUS: 200
+

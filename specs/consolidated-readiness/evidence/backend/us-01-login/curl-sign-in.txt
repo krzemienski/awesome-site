@@ -1,0 +1,43 @@
+Note: Unnecessary use of -X or --request, POST is already inferred.
+* Host localhost:3000 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying [::1]:3000...
+* Connected to localhost (::1) port 3000
+> POST /api/auth/sign-in/email HTTP/1.1
+> Host: localhost:3000
+> User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 54
+> 
+} [54 bytes data]
+* upload completely sent off: 54 bytes
+< HTTP/1.1 200 OK
+< X-DNS-Prefetch-Control: on
+< Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+< X-Content-Type-Options: nosniff
+< X-Frame-Options: DENY
+< X-XSS-Protection: 1; mode=block
+< Referrer-Policy: origin-when-cross-origin
+< Permissions-Policy: camera=(), microphone=(), geolocation=()
+< content-security-policy: default-src 'self'; script-src 'self' 'nonce-MmE2MjZmYTMtYmQ1Mi00YWU1LWJkMWEtYmQ1OTM1NTNiZTlk'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com https://avatars.githubusercontent.com https://github.com https://img.youtube.com https://i.ytimg.com; font-src 'self' data:; connect-src 'self' https://api.anthropic.com https://api.github.com https://*.sentry.io https://*.vercel-insights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+< x-nonce: MmE2MjZmYTMtYmQ1Mi00YWU1LWJkMWEtYmQ1OTM1NTNiZTlk
+< x-ratelimit-limit: 5
+< x-ratelimit-remaining: 4
+< x-ratelimit-reset: 1770607247
+< vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+< content-type: application/json
+< set-cookie: better-auth.session_token=p1zOvDGAJkIHrRo0zOjdxKX2bez2JRSX.v2CEvAfUgw%2F1xZSGphIAQlVHHThG7Unf%2Bl3o%2FH0U04w%3D; Max-Age=604800; Path=/; HttpOnly; SameSite=Lax
+< set-cookie: better-auth.session_data=eyJzZXNzaW9uIjp7InNlc3Npb24iOnsiZXhwaXJlc0F0IjoiMjAyNi0wMi0xNlQwMzoxOTo0Ny4wMDdaIiwidG9rZW4iOiJwMXpPdkRHQUprSUhyUm8wek9qZHhLWDJiZXoySlJTWCIsImNyZWF0ZWRBdCI6IjIwMjYtMDItMDlUMDM6MTk6NDcuMDA3WiIsInVwZGF0ZWRBdCI6IjIwMjYtMDItMDlUMDM6MTk6NDcuMDA3WiIsImlwQWRkcmVzcyI6IjAwMDA6MDAwMDowMDAwOjAwMDA6MDAwMDowMDAwOjAwMDA6MDAwMCIsInVzZXJBZ2VudCI6Ik1vemlsbGEvNS4wIChjb21wYXRpYmxlOyBNU0lFIDkuMDsgV2luZG93cyBOVCA2LjE7IFRyaWRlbnQvNS4wKSIsInVzZXJJZCI6InhLNm5LZnlzaTdRcDg4R1NDbTJnTGVCYVFvN25YeGxnIiwiaWQiOiJ1TDl0bnhub2VsdjRjWlNmcjVJVVFRN3YzQnhqeXVCNCJ9LCJ1c2VyIjp7Im5hbWUiOiJBZG1pbiBVc2VyIiwiZW1haWwiOiJhZG1pbkBleGFtcGxlLmNvbSIsImVtYWlsVmVyaWZpZWQiOmZhbHNlLCJpbWFnZSI6bnVsbCwiY3JlYXRlZEF0IjoiMjAyNi0wMi0wOVQwMzoxOTowOS44MTFaIiwidXBkYXRlZEF0IjoiMjAyNi0wMi0wOVQwMzoxOTowOS44MTFaIiwicm9sZSI6ImFkbWluIiwiYmFubmVkIjpmYWxzZSwiYmFuUmVhc29uIjpudWxsLCJiYW5FeHBpcmVzIjpudWxsLCJpZCI6InhLNm5LZnlzaTdRcDg4R1NDbTJnTGVCYVFvN25YeGxnIn0sInVwZGF0ZWRBdCI6MTc3MDYwNzE4NzAxMCwidmVyc2lvbiI6IjEifSwiZXhwaXJlc0F0IjoxNzcwNjA3NDg3MDEwLCJzaWduYXR1cmUiOiJPZ05oajJyRDNIWE8tTjlWbmNRYmNXak1CYng0dTd2QURXbThIYmhvYVNnIn0; Max-Age=300; Path=/; HttpOnly; SameSite=Lax
+< Date: Mon, 09 Feb 2026 03:19:47 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+< Transfer-Encoding: chunked
+< 
+100    54    0     0  100    54      0     61 --:--:-- --:--:-- --:--:--    61{ [348 bytes data]
+100   390    0   336  100    54    384     61 --:--:-- --:--:-- --:--:--   446
+* Connection #0 to host localhost left intact
+{"redirect":false,"token":"p1zOvDGAJkIHrRo0zOjdxKX2bez2JRSX","user":{"name":"Admin User","email":"admin@example.com","emailVerified":false,"image":null,"createdAt":"2026-02-09T03:19:09.811Z","updatedAt":"2026-02-09T03:19:09.811Z","role":"admin","banned":false,"banReason":null,"banExpires":null,"id":"xK6nKfysi7Qp88GSCm2gLeBaQo7nXxlg"}}

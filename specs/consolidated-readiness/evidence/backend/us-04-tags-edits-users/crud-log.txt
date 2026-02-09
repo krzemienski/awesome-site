@@ -1,0 +1,39 @@
+=== TASK 3.6: Tags, Edit Suggestions, Users CRUD Validation ===
+Date: 2026-02-09T03:55:58Z
+
+--- Tags: GET /api/admin/tags ---
+HTTP Status: 200
+{"success":true,"data":[]}
+
+--- Tags: POST /api/admin/tags (Create) ---
+HTTP Status: 201
+{"success":true,"data":{"id":5,"name":"test-validation-tag","slug":"test-validation-tag","description":null,"_count":{"resources":0}}}
+
+--- Tags: PUT /api/admin/tags/5 (Update) ---
+HTTP Status: 200
+{"success":true,"data":{"id":5,"name":"updated-validation-tag","slug":"updated-validation-tag","description":null,"_count":{"resources":0}}}
+
+--- Tags: DELETE /api/admin/tags/5 ---
+HTTP Status: 200
+{"success":true,"data":{"deleted":true}}
+
+--- Edit Suggestions: GET /api/admin/edits ---
+HTTP Status: 200
+{"success":true,"data":[{"id":2,"resourceId":1,"submittedById":"xQqc7MDQhtKn2mObd4UDmsn7i95Qg48y","status":"approved","editType":"correction","justification":"Expanding the description for clarity","proposedChanges":{"description":{"newValue":"Chrome extension that uses Eyevinn HTML player to play HLS and MPEG-DASH natively","oldValue":"Chrome extension that uses Eyevinn HTML player"}},"aiAnalysis":null,"reviewedById":"xQqc7MDQhtKn2mObd4UDmsn7i95Qg48y","reviewedAt":"2026-02-07T02:41:17.600Z","reviewFeedback":null,"createdAt":"2026-02-07T02:41:02.665Z","updatedAt":"2026-02-07T02:41:17.601Z","resource":{"id":1,"title":"Eyevinn/abr-player-chrome","url":"https://github.com/Eyevinn/abr-player-chrome"},"submittedBy":{"id":"xQqc7MDQhtKn2mObd4UDmsn7i95Qg48y","name":"AdminClean","email":"adminclean@test.com"}},{"id":1,"resourceId":2,"submittedById":"yqsBowdsu5laRRPmT9JOK35oaWGAVpSj","status":"approved","editType":"correction","justification":"Expanding title for clarity","proposedChanges":{"title":{"newValue":"IINA - Modern Media Player","oldValue":"iina/iina"}},"aiAnalysis":null,"reviewedById":"PZDSFoWyP4NyjXwJw3niOzOrqHQXZdHI","reviewedAt":"2026-02-06T22:20:20.578Z","reviewFeedback":null,"createdAt":"2026-02-06T22:20:19.924Z","updatedAt":"2026-02-06T22:20:20.578Z","resource":{"id":2,"title":"iina/iina","url":"https://github.com/iina/iina"},"submittedBy":{"id":"yqsBowdsu5laRRPmT9JOK35oaWGAVpSj","name":"Fav Tester 2","email":"favtest2@test.com"}}],"meta":{"total":2,"page":1,"limit":3,"hasMore":false}}
+
+--- Users: GET /api/admin/users ---
+HTTP Status: 200
+{"success":true,"data":[{"id":"xK6nKfysi7Qp88GSCm2gLeBaQo7nXxlg","name":"Admin User","email":"admin@example.com","image":null,"role":"admin","banned":false,"banReason":null,"banExpires":null,"createdAt":"2026-02-09T03:19:09.811Z","updatedAt":"2026-02-09T03:19:09.811Z"},{"id":"4uIhIZgUUewMIpyAT6siwdQdH0fSyCsg","name":"Admin","email":"admin2@test.local","image":null,"role":"admin","banned":false,"banReason":null,"banExpires":null,"createdAt":"2026-02-08T05:08:36.325Z","updatedAt":"2026-02-08T05:08:36.325Z"},{"id":"dADPkA6y7mM68NZwzf5KijoamGj05hEJ","name":"Test Admin","email":"admin@test.local","image":null,"role":"admin","banned":false,"banReason":null,"banExpires":null,"createdAt":"2026-02-07T09:22:38.958Z","updatedAt":"2026-02-07T09:22:38.958Z"}],"meta":{"total":14,"page":1,"limit":3,"hasMore":true}}
+
+--- S12: PUT /api/admin/users/xK6nKfysi7Qp88GSCm2gLeBaQo7nXxlg/role (self-role change) ---
+HTTP Status: 400
+{"success":false,"error":"Cannot change your own role","code":"SELF_ROLE_CHANGE"}
+
+--- S12: POST /api/admin/users/xK6nKfysi7Qp88GSCm2gLeBaQo7nXxlg/ban (self-ban) ---
+HTTP Status: 405
+
+
+--- S12: PUT /api/admin/users/.../ban (self-ban, correct method) ---
+HTTP Status: 400
+{"success":false,"error":"Cannot ban/unban yourself","code":"SELF_BAN"}
+
