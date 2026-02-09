@@ -10,6 +10,12 @@ export async function GET() {
         docs: "/about",
       },
     },
-    { status: 501 }
+    {
+      status: 410,
+      headers: {
+        Sunset: "2025-12-01",
+        Link: '</api/resources>; rel="successor-version"',
+      },
+    }
   )
 }

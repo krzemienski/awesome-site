@@ -9,6 +9,12 @@ export async function POST() {
         newEndpoint: "/api/journeys",
       },
     },
-    { status: 501 }
+    {
+      status: 410,
+      headers: {
+        Sunset: "2025-12-01",
+        Link: '</api/journeys>; rel="successor-version"',
+      },
+    }
   )
 }

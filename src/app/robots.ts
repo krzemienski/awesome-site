@@ -7,11 +7,6 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: [
-          "/",
-          "/api/resources",
-          "/api/categories",
-        ],
         disallow: [
           "/admin",
           "/profile",
@@ -19,6 +14,11 @@ export default function robots(): MetadataRoute.Robots {
           "/favorites",
           "/history",
           "/api/",
+        ],
+        allow: [
+          "/",
+          "/api/resources",
+          "/api/categories",
         ],
       },
     ],
