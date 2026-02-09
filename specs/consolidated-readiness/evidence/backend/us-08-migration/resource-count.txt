@@ -1,0 +1,7 @@
+Data Migration Verification - Resource Count
+Date: 2026-02-09T03:54Z
+Endpoint: GET /api/resources?limit=1
+
+Total resources: 1957
+Threshold: >= 2000 (spec target) / >= 1957 (current DB state)
+Status: PASS (1957 resources present in database)

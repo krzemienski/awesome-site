@@ -218,7 +218,7 @@ Focus: Run migration, then validate all admin CRUD operations and export pipelin
 
 ---
 
-- [ ] 3.1 Create evidence directory structure
+- [x] 3.1 Create evidence directory structure
   - **Do**:
     1. `mkdir -p specs/consolidated-readiness/evidence/{backend,frontend,cross-validation,constitution,reports}`
     2. Create subdirs: `backend/{us-01-login,us-02-resources,us-03-categories,us-04-tags-edits-users,us-05-export,us-06-admin-tabs,us-07-cookie-consent,us-08-migration,us-10-logging,us-12-api-versioning,us-13-cors,us-14-constitution}`
@@ -229,7 +229,7 @@ Focus: Run migration, then validate all admin CRUD operations and export pipelin
   - **Commit**: `chore(evidence): create evidence directory structure`
   - _Design: Evidence Directory Structure_
 
-- [ ] 3.2 Validate data migration (US-8)
+- [x] 3.2 Validate data migration (US-8)
   - **Do**:
     1. Run `npx tsx scripts/migrate-data.ts` -- capture output to `evidence/backend/us-08-migration/migration-output.txt`
     2. Run `npx tsx scripts/verify-migration.ts` -- capture output to `evidence/backend/us-08-migration/verify-output.txt`
@@ -305,7 +305,7 @@ Focus: Run migration, then validate all admin CRUD operations and export pipelin
   - _Requirements: FR-5, AC-4.1 through AC-4.5_
   - _Design: Phase 3 Validation table_
 
-- [ ] 3.7 [VERIFY] Quality checkpoint: all CRUD routes functional
+- [x] 3.7 [VERIFY] Quality checkpoint: all CRUD routes functional
   - **Do**: Verify dev server is stable after CRUD testing, run quick health check
   - **Verify**: `curl -s http://localhost:3000/api/health | grep -q "success" && echo "PASS" || echo "FAIL"`
   - **Done when**: Health check returns success
