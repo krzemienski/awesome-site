@@ -3,6 +3,7 @@ import {
   checkRateLimit,
   rateLimitHeaders,
 } from "@/lib/rate-limit"
+import { corsHeaders, handlePreflight } from "@/lib/cors"
 
 /**
  * Generate a per-request nonce for CSP script-src.
@@ -111,6 +112,20 @@ function applyCspHeaders(response: NextResponse, nonce: string, cspHeader: strin
   return response
 }
 
+/**
+ * Apply CORS headers to an API response when x-api-key is present.
+ */
+function applyCorsIfApiKey(request: NextRequest, response: NextResponse): NextResponse {
+  if (request.headers.has("x-api-key")) {
+    const origin = request.headers.get("origin")
+    const headers = corsHeaders(origin)
+    for (const [key, value] of Object.entries(headers)) {
+      response.headers.set(key, value)
+    }
+  }
+  return response
+}
+
 export default async function middleware(
   request: NextRequest
 ): Promise<NextResponse> {
@@ -131,6 +146,11 @@ export default async function middleware(
 
   // Anonymous rate limiting on API routes
   if (isApiRoute(pathname)) {
+    // CORS preflight handling for API-key authenticated requests
+    if (request.method === "OPTIONS") {
+      return handlePreflight(request)
+    }
+
     // Auth endpoint rate limiting (stricter than anonymous)
     if (pathname.startsWith("/api/auth/")) {
       const ip = getClientIp(request)
@@ -167,7 +187,7 @@ export default async function middleware(
       for (const [key, value] of Object.entries(authHeaders)) {
         authResponse.headers.set(key, value)
       }
-      return applyCspHeaders(authResponse, nonce, cspHeader)
+      return applyCspHeaders(applyCorsIfApiKey(request, authResponse), nonce, cspHeader)
     }
 
     const ip = getClientIp(request)
@@ -195,11 +215,11 @@ export default async function middleware(
 
     // Attach rate limit headers to successful API responses
     const response = NextResponse.next()
-    const headers = rateLimitHeaders(result)
-    for (const [key, value] of Object.entries(headers)) {
+    const rlHeaders = rateLimitHeaders(result)
+    for (const [key, value] of Object.entries(rlHeaders)) {
       response.headers.set(key, value)
     }
-    return applyCspHeaders(response, nonce, cspHeader)
+    return applyCspHeaders(applyCorsIfApiKey(request, response), nonce, cspHeader)
   }
 
   const { hasSession } = getSessionFromCookies(request)
