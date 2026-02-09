@@ -79,7 +79,7 @@ Focus: Fix 6 code gaps (login, cookie consent, pino, noUncheckedIndexedAccess, A
   - _Requirements: FR-11, AC-11.1, AC-11.2, AC-11.3_
   - _Design: noUncheckedIndexedAccess fix strategy_
 
-- [ ] 1.6 [VERIFY] Quality checkpoint: full build after TS strictness
+- [x] 1.6 [VERIFY] Quality checkpoint: full build after TS strictness
   - **Do**: Run build to confirm noUncheckedIndexedAccess fixes compile correctly
   - **Verify**: `cd /Users/nick/Desktop/awesome-site && npm run build`
   - **Done when**: Build succeeds with exit 0
