@@ -96,7 +96,7 @@ export function LoginForm() {
       <CardHeader className="flex flex-col items-center gap-3 text-center">
         <Terminal className="size-8 text-primary" />
         <h1 className="text-2xl font-bold font-heading text-primary tracking-wider">
-          AWESOME LISTS
+          AWESOME VIDEO
         </h1>
         <p className="text-sm text-muted-foreground font-heading">
           {"// Jack into the network."}

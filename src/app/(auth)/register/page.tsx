@@ -2,8 +2,8 @@ import type { Metadata } from "next"
 import { RegisterForm } from "@/components/auth/register-form"
 
 export const metadata: Metadata = {
-  title: "Create Account - Awesome List Curator",
-  description: "Create your free Awesome List Curator account",
+  title: "Create Account - Awesome Video Dashboard",
+  description: "Create your free Awesome Video Dashboard account",
 }
 
 export default function RegisterPage() {
