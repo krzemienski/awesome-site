@@ -124,7 +124,7 @@ Focus: Fix 6 code gaps (login, cookie consent, pino, noUncheckedIndexedAccess, A
   - _Requirements: FR-16, AC-17.4, AC-17.5, AC-17.6, AC-17.7_
   - _Design: Phase 1 step 5_
 
-- [ ] 1.10 [VERIFY] Phase 1 complete checkpoint
+- [x] 1.10 [VERIFY] Phase 1 complete checkpoint
   - **Do**: Run full local quality suite + verify login still works
   - **Verify**: `cd /Users/nick/Desktop/awesome-site && npm run lint && npm run typecheck && npm run build`
   - **Done when**: All three pass; login curl from 1.1 still returns 200
