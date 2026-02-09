@@ -120,6 +120,15 @@ export default async function middleware(
   const nonce = generateNonce()
   const cspHeader = buildCspHeader(nonce)
 
+  // API versioning: rewrite /api/v1/* to /api/* with version header
+  if (pathname.startsWith("/api/v1/")) {
+    const rewriteUrl = request.nextUrl.clone()
+    rewriteUrl.pathname = pathname.replace("/api/v1/", "/api/")
+    const response = NextResponse.rewrite(rewriteUrl)
+    response.headers.set("X-API-Version", "1")
+    return applyCspHeaders(response, nonce, cspHeader)
+  }
+
   // Anonymous rate limiting on API routes
   if (isApiRoute(pathname)) {
     // Auth endpoint rate limiting (stricter than anonymous)
