@@ -1,0 +1,4 @@
+=== GET /api/admin/link-health ===
+{"success":true,"data":{"totalChecked":0,"healthy":0,"broken":0,"timeout":0,"results":[],"startedAt":null,"completedAt":null}}
+HTTP_STATUS: 200
+

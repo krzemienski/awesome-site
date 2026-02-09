@@ -1,0 +1,11 @@
+=== POST /api/admin/export/validate ===
+
+--- Test 1: Empty body (expect 422 validation error) ---
+{"success":false,"error":"Missing required field: markdown (string)","code":"VALIDATION_ERROR"}
+HTTP_STATUS: 422
+
+--- Test 2: Valid markdown body (expect 200) ---
+{"success":true,"data":{"valid":false,"errors":[{"line":1,"rule":"has-description","message":"Missing description: expected a > blockquote after the title"}],"warnings":[]}}
+HTTP_STATUS: 200
+
+Note: /api/admin/export/validate is POST-only (validates awesome-list markdown). 422 on empty body is correct behavior.

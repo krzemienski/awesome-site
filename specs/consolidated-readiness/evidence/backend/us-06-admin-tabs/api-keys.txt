@@ -1,0 +1,4 @@
+=== GET /api/admin/api-keys ===
+{"success":true,"data":[{"id":"cmlbdpxm10000eiyppat90guj","keyPrefix":"ak_4e0d05f6d","name":"test-api-key","tier":"free","scopes":[],"lastUsedAt":null,"expiresAt":null,"revokedAt":"2026-02-06T21:10:27.708Z","createdAt":"2026-02-06T21:10:12.072Z","userId":"zvLab68cJbnqfxpZ0KmMJpbIeMiHMSW2","user":{"id":"zvLab68cJbnqfxpZ0KmMJpbIeMiHMSW2","name":"Admin","email":"admin2@test.com"}}],"meta":{"total":1,"page":1,"limit":20,"hasMore":false}}
+HTTP_STATUS: 200
+

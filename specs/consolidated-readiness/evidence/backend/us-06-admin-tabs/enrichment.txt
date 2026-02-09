@@ -1,0 +1,5 @@
+=== GET /api/admin/enrichment/jobs ===
+{"success":true,"data":[]}
+HTTP_STATUS: 200
+
+Note: /api/admin/enrichment is POST-only (triggers enrichment). /api/admin/enrichment/jobs is GET (lists jobs).

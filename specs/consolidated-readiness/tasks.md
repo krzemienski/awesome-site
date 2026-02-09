@@ -244,7 +244,7 @@ Focus: Run migration, then validate all admin CRUD operations and export pipelin
   - _Requirements: FR-8, AC-8.1 through AC-8.5_
   - _Design: Phase 3 step 11_
 
-- [ ] 3.3 Create validation scripts for login, export, CORS, API versioning
+- [x] 3.3 Create validation scripts for login, export, CORS, API versioning
   - **Do**:
     1. Create `scripts/validate-login.sh`: curl POST /api/auth/sign-in/email with credentials, verify 200 + cookie
     2. Create `scripts/validate-export.sh`: curl GET /api/admin/export?format=json, csv, and POST for markdown. Verify Content-Disposition and response size
@@ -327,7 +327,7 @@ Focus: Run migration, then validate all admin CRUD operations and export pipelin
   - _Requirements: FR-6, AC-5.1 through AC-5.5_
   - _Design: Phase 3 Validation table_
 
-- [ ] 3.9 Backend validate: Remaining admin tab APIs (US-6)
+- [x] 3.9 Backend validate: Remaining admin tab APIs (US-6)
   - **Do**:
     1. With session cookie, curl each tab's data endpoint:
        - GET /api/admin/stats (Overview)

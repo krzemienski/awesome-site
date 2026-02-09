@@ -1,0 +1,4 @@
+=== GET /api/admin/github/status ===
+{"success":true,"data":{"status":"idle","queueEntry":null}}
+HTTP_STATUS: 200
+
