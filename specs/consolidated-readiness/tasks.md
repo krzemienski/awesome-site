@@ -31,7 +31,7 @@ Focus: Fix 6 code gaps (login, cookie consent, pino, noUncheckedIndexedAccess, A
   - _Requirements: FR-1, AC-1.1, AC-1.2, AC-1.7_
   - _Design: Phase 1 step 1_
 
-- [ ] 1.2 Fix handleApiError S8 error leakage
+- [x] 1.2 Fix handleApiError S8 error leakage
   - **Do**:
     1. Open `src/lib/api-response.ts`
     2. Change `handleApiError` to return generic message for non-AppError 500s: replace `error instanceof Error ? error.message : "An unexpected error occurred"` with always `"An unexpected error occurred"`

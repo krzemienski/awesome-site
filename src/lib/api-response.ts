@@ -50,8 +50,7 @@ export function handleApiError(error: unknown): Response {
     return apiError(error.message, error.statusCode, error.code)
   }
 
-  const message =
-    error instanceof Error ? error.message : "An unexpected error occurred"
+  console.error("Unhandled API error:", error)
 
-  return apiError(message, 500, "INTERNAL_ERROR")
+  return apiError("An unexpected error occurred", 500, "INTERNAL_ERROR")
 }
