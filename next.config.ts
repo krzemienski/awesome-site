@@ -35,7 +35,7 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  serverExternalPackages: ["@prisma/client"],
+  serverExternalPackages: ["@prisma/client", "pino", "pino-pretty"],
 
   async headers() {
     return [

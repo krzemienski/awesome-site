@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
 import { nextCookies } from "better-auth/next-js"
 import { prisma } from "@/lib/prisma"
+import { logger } from "@/lib/logger"
 
 const socialProviders: Record<string, { clientId: string; clientSecret: string }> = {}
 
@@ -11,7 +12,7 @@ if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
   }
 } else {
-  console.warn("[auth] GitHub OAuth not configured - provider disabled")
+  logger.warn("[auth] GitHub OAuth not configured - provider disabled")
 }
 
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
@@ -20,7 +21,7 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   }
 } else {
-  console.warn("[auth] Google OAuth not configured - provider disabled")
+  logger.warn("[auth] Google OAuth not configured - provider disabled")
 }
 
 export const auth = betterAuth({

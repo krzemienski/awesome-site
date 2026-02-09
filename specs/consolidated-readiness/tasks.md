@@ -43,7 +43,7 @@ Focus: Fix 6 code gaps (login, cookie consent, pino, noUncheckedIndexedAccess, A
   - _Requirements: AC-14.1, S8_
   - _Design: handleApiError Fix section_
 
-- [ ] 1.3 Install pino and create structured logger (US-10)
+- [x] 1.3 Install pino and create structured logger (US-10)
   - **Do**:
     1. `npm install pino pino-pretty`
     2. Create `src/lib/logger.ts`: pino singleton with `pino-pretty` for dev, raw JSON for prod

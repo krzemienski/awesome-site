@@ -3,6 +3,7 @@ import { withAdmin } from "@/features/auth/auth-middleware"
 import { apiSuccess, handleApiError } from "@/lib/api-response"
 import { prisma } from "@/lib/prisma"
 import { parseAwesomeListMarkdown } from "@/features/github/markdown-parser"
+import { logger } from "@/lib/logger"
 
 const GITHUB_RAW_URL =
   "https://raw.githubusercontent.com/krzemienski/awesome-video/master/README.md"
@@ -254,7 +255,7 @@ export const POST = withAdmin(async (req: NextRequest) => {
       } catch (err) {
         // Skip individual resource errors and continue
         const message = err instanceof Error ? err.message : "Unknown error"
-        console.error(`Seed: failed to import ${resource.url}: ${message}`)
+        logger.error({ url: resource.url, err: message }, "Seed: failed to import resource")
         counts.skipped += 1
       }
     }

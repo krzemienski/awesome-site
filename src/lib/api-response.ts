@@ -1,4 +1,5 @@
 import { AppError } from "@/lib/api-error"
+import { logger } from "@/lib/logger"
 
 export interface PaginationMeta {
   total: number
@@ -50,7 +51,7 @@ export function handleApiError(error: unknown): Response {
     return apiError(error.message, error.statusCode, error.code)
   }
 
-  console.error("Unhandled API error:", error)
+  logger.error({ err: error }, "Unhandled API error")
 
   return apiError("An unexpected error occurred", 500, "INTERNAL_ERROR")
 }
