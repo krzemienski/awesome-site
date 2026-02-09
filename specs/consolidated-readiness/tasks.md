@@ -170,7 +170,7 @@ Focus: Middleware extensions for API versioning + CORS, plus static code audit f
   - **Done when**: Both commands exit 0
   - **Commit**: `chore(quality): pass checkpoint after API versioning and CORS` (only if fixes needed)
 
-- [ ] 2.4 Constitution compliance grep audit (US-14 static rules)
+- [x] 2.4 Constitution compliance grep audit (US-14 static rules)
   - **Do**:
     1. Create `scripts/validate-constitution.sh` with grep checks for:
        - A6: `grep -rn "from.*@prisma/client" src/app/api/ --include="*.ts"` -- should be 0 direct Prisma imports in routes
