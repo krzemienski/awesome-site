@@ -65,7 +65,7 @@ Focus: Fix 6 code gaps (login, cookie consent, pino, noUncheckedIndexedAccess, A
   - **Done when**: Both commands exit 0
   - **Commit**: `chore(quality): pass checkpoint after pino integration` (only if fixes needed)
 
-- [ ] 1.5 Enable noUncheckedIndexedAccess and fix type errors (US-11)
+- [x] 1.5 Enable noUncheckedIndexedAccess and fix type errors (US-11)
   - **Do**:
     1. Add `"noUncheckedIndexedAccess": true` to `compilerOptions` in `tsconfig.json`
     2. Run `npm run typecheck 2>&1 | head -200` to see error count and locations

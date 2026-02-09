@@ -107,6 +107,7 @@ function ModelBreakdown({
         <div className="flex flex-wrap gap-4">
           {models.map((model) => {
             const info = byModel[model]
+            if (!info) return null
             return (
               <div
                 key={model}

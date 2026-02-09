@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu } from "lucide-react"
+import { Menu, Terminal } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ThemeSwitcher } from "@/components/theme/theme-switcher"
@@ -18,6 +18,7 @@ const NAV_ITEMS = [
   { href: "/resources", label: "Resources" },
   { href: "/categories", label: "Categories" },
   { href: "/journeys", label: "Journeys" },
+  { href: "/about", label: "About" },
 ] as const
 
 export function TopBar() {
@@ -27,7 +28,7 @@ export function TopBar() {
 
   return (
     <>
-      <header className="fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="fixed top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <Container>
           <div className="flex h-16 items-center justify-between gap-4">
             {/* Left: hamburger + logo */}
@@ -44,9 +45,10 @@ export function TopBar() {
 
               <Link
                 href="/"
-                className="font-heading text-lg font-bold tracking-tight transition-colors hover:text-primary"
+                className="flex items-center gap-2 font-heading font-bold tracking-tight transition-colors hover:text-primary"
               >
-                Awesome Video
+                <Terminal className="size-4 text-primary" />
+                <span className="text-primary text-lg">AVD_SYS</span>
               </Link>
             </div>
 
@@ -63,10 +65,10 @@ export function TopBar() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                      "px-3 py-2 text-sm font-medium uppercase tracking-wider transition-colors font-heading",
                       isActive
-                        ? "bg-accent text-accent-foreground"
-                        : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+                        ? "text-primary border-b-2 border-primary"
+                        : "text-muted-foreground hover:text-foreground"
                     )}
                   >
                     {item.label}
@@ -76,11 +78,9 @@ export function TopBar() {
             </nav>
 
             {/* Right: search + theme + user */}
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <SearchTrigger onOpen={() => setSearchOpen(true)} />
-
               <ThemeSwitcher />
-
               <UserMenu />
             </div>
           </div>

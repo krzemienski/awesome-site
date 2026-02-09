@@ -84,7 +84,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const grouped = groupByKind(results)
   const kindOrder: SearchResultKind[] = ["resource", "category", "tag"]
   const activeGroups = kindOrder.filter(
-    (k) => grouped[k] && grouped[k].length > 0
+    (k) => (grouped[k]?.length ?? 0) > 0
   )
 
   return (
@@ -102,7 +102,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         {activeGroups.map((kind, idx) => {
-          const items = grouped[kind]
+          const items = grouped[kind] ?? []
           const Icon = KIND_ICON[kind]
 
           return (

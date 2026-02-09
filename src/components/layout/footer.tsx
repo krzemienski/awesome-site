@@ -1,64 +1,49 @@
 import Link from "next/link"
-import { Github, BookOpen } from "lucide-react"
 import { Container } from "@/components/layout/container"
-import { Separator } from "@/components/ui/separator"
 
 export function Footer() {
   return (
-    <footer className="border-t bg-background/95">
+    <footer className="border-t border-border bg-background">
       <Container>
         <div className="flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-col gap-1">
-            <p className="font-heading text-sm font-semibold">
-              Awesome Video Dashboard
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Curated collection of video streaming and development resources.
-            </p>
+          {/* System status */}
+          <div className="flex items-center gap-2 font-heading text-xs">
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-500 opacity-75" />
+              <span className="relative inline-flex size-2 rounded-full bg-green-500" />
+            </span>
+            <span className="uppercase tracking-wider text-green-500">
+              System Status: Operational
+            </span>
           </div>
 
-          <div className="flex items-center gap-4">
+          {/* Nav links */}
+          <div className="flex items-center gap-6">
             <Link
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              href="/terms"
+              className="font-heading text-xs uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
             >
-              <Github className="size-4" />
-              <span>GitHub</span>
+              Terms_of_Service
             </Link>
-            <Separator orientation="vertical" className="h-4" />
             <Link
-              href="/api-docs"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              href="/privacy"
+              className="font-heading text-xs uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
             >
-              <BookOpen className="size-4" />
-              <span>API Docs</span>
+              Privacy_Protocol
+            </Link>
+            <Link
+              href="/about"
+              className="font-heading text-xs uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Contact_Admin
             </Link>
           </div>
         </div>
 
-        <Separator />
-
-        <div className="flex flex-col gap-2 py-4 md:flex-row md:items-center md:justify-between">
-          <p className="text-center text-xs text-muted-foreground md:text-left">
-            &copy; {new Date().getFullYear()} Awesome Video Dashboard. All rights reserved.
+        <div className="border-t border-border py-4">
+          <p className="text-center font-heading text-xs uppercase tracking-wider text-muted-foreground">
+            &copy; {new Date().getFullYear()} AVD_SYS. All Rights Reserved.
           </p>
-          <div className="flex items-center justify-center gap-4">
-            <Link
-              href="/privacy"
-              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Privacy Policy
-            </Link>
-            <Separator orientation="vertical" className="h-3" />
-            <Link
-              href="/terms"
-              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Terms of Service
-            </Link>
-          </div>
         </div>
       </Container>
     </footer>

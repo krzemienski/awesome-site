@@ -381,7 +381,7 @@ export function SettingsTab() {
             <Slider
               value={[form["ai.temperature"]]}
               onValueChange={([val]) =>
-                updateField("ai.temperature", val)
+                updateField("ai.temperature", val ?? 0)
               }
               min={0}
               max={1}

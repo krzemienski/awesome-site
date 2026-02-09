@@ -121,6 +121,22 @@ function sortResources(
 }
 
 /**
+ * Escape square brackets in a markdown link title so they don't break
+ * the [title](url) syntax.
+ */
+function escapeTitle(title: string): string {
+  return title.replace(/\[/g, "\\[").replace(/\]/g, "\\]")
+}
+
+/**
+ * Encode characters in a URL that would break markdown link syntax.
+ * Parentheses and spaces in URLs break the (url) delimiter.
+ */
+function encodeUrl(url: string): string {
+  return url.replace(/\(/g, "%28").replace(/\)/g, "%29").replace(/ /g, "%20")
+}
+
+/**
  * Render resources as markdown list items.
  */
 function renderResources(
@@ -128,10 +144,12 @@ function renderResources(
 ): string[] {
   const sorted = sortResources(resources)
   return sorted.map((r) => {
+    const title = escapeTitle(r.title)
+    const url = encodeUrl(r.url)
     if (r.description) {
-      return `- [${r.title}](${r.url}) - ${r.description}`
+      return `- [${title}](${url}) - ${r.description}`
     }
-    return `- [${r.title}](${r.url})`
+    return `- [${title}](${url})`
   })
 }
 

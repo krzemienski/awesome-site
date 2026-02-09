@@ -44,7 +44,10 @@ async function withConcurrency<T, R>(
   async function worker(): Promise<void> {
     while (index < items.length) {
       const i = index++
-      results[i] = await fn(items[i])
+      const item = items[i]
+      if (item !== undefined) {
+        results[i] = await fn(item)
+      }
     }
   }
 

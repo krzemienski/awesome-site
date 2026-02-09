@@ -8,24 +8,23 @@ interface SearchTriggerProps {
 }
 
 /**
- * Button that opens the search dialog.
- * Displays "Search..." text with Cmd+K shortcut hint on desktop,
- * icon-only on mobile.
+ * Terminal-styled search trigger button.
+ * Desktop shows command-line style, mobile shows icon only.
  */
 export function SearchTrigger({ onOpen }: SearchTriggerProps) {
   return (
     <>
-      {/* Desktop: looks like a search input */}
+      {/* Desktop: terminal command style */}
       <Button
         variant="outline"
         size="sm"
-        className="hidden h-8 w-48 justify-start gap-2 text-muted-foreground lg:flex"
+        className="hidden h-8 w-56 justify-start gap-2 text-muted-foreground font-heading text-xs lg:flex"
         onClick={onOpen}
         aria-label="Search"
       >
         <Search className="size-3.5" />
-        <span className="text-xs">Search...</span>
-        <kbd className="pointer-events-none ml-auto hidden h-5 select-none items-center gap-0.5 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground sm:flex">
+        <span className="tracking-wider">Search database...</span>
+        <kbd className="pointer-events-none ml-auto hidden h-5 select-none items-center gap-0.5 border border-border bg-muted px-1.5 font-heading text-[10px] font-medium text-muted-foreground sm:flex">
           <span className="text-xs">&#8984;</span>K
         </kbd>
       </Button>

@@ -93,7 +93,7 @@ function checkTOCLinks(
   const sectionAnchors = new Set<string>()
   for (const line of lines) {
     const headingMatch = line.match(/^##\s+(.+)$/)
-    if (headingMatch) {
+    if (headingMatch?.[1]) {
       const name = headingMatch[1].trim()
       if (!/^Contents$/i.test(name)) {
         const anchor = name
@@ -108,6 +108,7 @@ function checkTOCLinks(
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
+    if (!line) continue
     if (/^##\s+Contents/i.test(line)) {
       inTOC = true
       continue
@@ -121,7 +122,7 @@ function checkTOCLinks(
       }
 
       const linkMatch = line.match(/^\s*-\s+\[([^\]]+)\]\(#([^)]+)\)/)
-      if (linkMatch) {
+      if (linkMatch?.[2]) {
         tocLinks.push({ anchor: linkMatch[2], lineNumber: i + 1 })
       }
     }
@@ -148,8 +149,10 @@ function checkHeadingHierarchy(
   let lastLevel = 1
 
   for (let i = 0; i < lines.length; i++) {
-    const match = lines[i].match(/^(#{1,6})\s+/)
-    if (match) {
+    const line = lines[i]
+    if (!line) continue
+    const match = line.match(/^(#{1,6})\s+/)
+    if (match?.[1]) {
       const level = match[1].length
       if (level > lastLevel + 1) {
         errors.push({
@@ -172,6 +175,7 @@ function checkResourceFormat(
 ): void {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
+    if (!line) continue
     const trimmed = line.trim()
 
     // Only check lines that look like list items with links
@@ -181,7 +185,7 @@ function checkResourceFormat(
 
     // Must match the resource pattern
     const match = trimmed.match(
-      /^[-*]\s+\[([^\]]+)\]\(([^)]+)\)(?:\s+[-–—]\s+.*)?$/
+      /^[-*]\s+\[((?:[^\]\\]|\\.)+)\]\(([^)]+)\)(?:\s+[-–—]\s+.*)?$/
     )
 
     if (!match) {
@@ -194,7 +198,7 @@ function checkResourceFormat(
       continue
     }
 
-    const url = match[2]
+    const url = match[2] ?? ""
     if (
       !url.startsWith("http://") &&
       !url.startsWith("https://") &&
@@ -220,13 +224,16 @@ function checkAlphabeticalOrder(
 
   const flushSection = () => {
     for (let j = 1; j < resourceTitles.length; j++) {
-      const prev = resourceTitles[j - 1].title.toLowerCase()
-      const curr = resourceTitles[j].title.toLowerCase()
+      const prevEntry = resourceTitles[j - 1]
+      const currEntry = resourceTitles[j]
+      if (!prevEntry || !currEntry) continue
+      const prev = prevEntry.title.toLowerCase()
+      const curr = currEntry.title.toLowerCase()
       if (prev.localeCompare(curr) > 0) {
         warnings.push({
-          line: resourceTitles[j].lineNumber,
+          line: currEntry.lineNumber,
           rule: "alphabetical-order",
-          message: `"${resourceTitles[j].title}" should come before "${resourceTitles[j - 1].title}" (alphabetical order)`,
+          message: `"${currEntry.title}" should come before "${prevEntry.title}" (alphabetical order)`,
         })
         break // One warning per section is enough
       }
@@ -236,6 +243,7 @@ function checkAlphabeticalOrder(
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
+    if (!line) continue
 
     // Detect heading -- flush previous section
     if (/^#{2,6}\s+/.test(line)) {
@@ -247,7 +255,7 @@ function checkAlphabeticalOrder(
     const match = line
       .trim()
       .match(/^[-*]\s+\[([^\]]+)\]\(([^)]+)\)/)
-    if (match && match[2].startsWith("http")) {
+    if (match?.[1] && match[2]?.startsWith("http")) {
       resourceTitles.push({ title: match[1], lineNumber: i + 1 })
     }
   }
@@ -267,8 +275,10 @@ function checkEmptySections(
     []
 
   for (let i = 0; i < lines.length; i++) {
-    const match = lines[i].match(/^(#{2,6})\s+(.+)$/)
-    if (match) {
+    const line = lines[i]
+    if (!line) continue
+    const match = line.match(/^(#{2,6})\s+(.+)$/)
+    if (match?.[1] && match[2]) {
       headings.push({
         level: match[1].length,
         lineNumber: i + 1,
@@ -279,20 +289,21 @@ function checkEmptySections(
 
   for (let h = 0; h < headings.length; h++) {
     const current = headings[h]
+    if (!current) continue
 
     // Skip TOC section
     if (/^Contents$/i.test(current.name)) {
       continue
     }
 
+    const nextHeading = headings[h + 1]
     const startLine = current.lineNumber
-    const endLine =
-      h + 1 < headings.length ? headings[h + 1].lineNumber : lines.length + 1
+    const endLine = nextHeading ? nextHeading.lineNumber : lines.length + 1
 
     // Check if there's any content between this heading and the next
     let hasContent = false
     for (let i = startLine; i < endLine - 1; i++) {
-      const trimmed = lines[i].trim()
+      const trimmed = lines[i]?.trim()
       if (trimmed && !trimmed.startsWith("#")) {
         hasContent = true
         break
@@ -301,9 +312,9 @@ function checkEmptySections(
 
     // A section is not empty if it has child headings
     const hasChildHeading =
-      h + 1 < headings.length &&
-      headings[h + 1].level > current.level &&
-      headings[h + 1].lineNumber <= endLine
+      nextHeading !== undefined &&
+      nextHeading.level > current.level &&
+      nextHeading.lineNumber <= endLine
 
     if (!hasContent && !hasChildHeading) {
       errors.push({

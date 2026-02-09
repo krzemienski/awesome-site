@@ -23,33 +23,33 @@ export function CategoryCard({ category }: CategoryCardProps) {
 
   return (
     <Link href={`/categories/${category.slug}`} className="group block">
-      <Card className="h-full transition-colors hover:border-primary/50 hover:bg-accent/5">
-        <CardHeader className="pb-0">
+      <Card className="h-full border-border transition-all hover:border-primary/60 hover:shadow-[0_0_12px_rgba(224,80,176,0.15)]">
+        <CardHeader className="pb-2">
           <div className="flex items-start justify-between">
             {category.icon ? (
-              <span className="text-3xl" aria-hidden="true">
+              <span className="text-2xl" aria-hidden="true">
                 {category.icon}
               </span>
             ) : (
-              <span className="text-3xl text-muted-foreground" aria-hidden="true">
-                #
+              <span className="text-2xl text-muted-foreground font-heading" aria-hidden="true">
+                &gt;_
               </span>
             )}
-            <Badge variant="secondary" className="text-xs">
-              {totalResources} {totalResources === 1 ? "resource" : "resources"}
+            <Badge className="text-xs font-heading">
+              {totalResources} {totalResources === 1 ? "item" : "items"}
             </Badge>
           </div>
-          <CardTitle className="text-lg group-hover:text-primary transition-colors">
+          <CardTitle className="text-sm font-bold uppercase tracking-wider font-heading group-hover:text-primary transition-colors">
             {category.name}
           </CardTitle>
         </CardHeader>
         <CardContent>
           {category.description ? (
-            <p className="text-sm text-muted-foreground line-clamp-2">
+            <p className="text-xs text-muted-foreground line-clamp-2 font-heading">
               {category.description}
             </p>
           ) : (
-            <p className="text-sm text-muted-foreground/60 italic">
+            <p className="text-xs text-muted-foreground/60 font-heading">
               {category.subcategories.length} subcategories
             </p>
           )}

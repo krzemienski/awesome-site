@@ -16,6 +16,7 @@ import {
   Send,
   Search,
   LogIn,
+  Terminal,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/providers/auth-provider"
@@ -74,18 +75,20 @@ export function AppSidebar() {
             <Link
               href="/"
               className={cn(
-                "flex items-center gap-2 font-bold text-lg",
+                "flex items-center gap-2 font-bold text-lg font-heading tracking-wider",
                 "group-data-[collapsible=icon]:hidden"
               )}
             >
-              Awesome Video
+              <Terminal className="size-5 text-primary" />
+              <span className="text-primary">AVD</span>
+              <span className="text-accent">_SYS</span>
             </Link>
             <Button
               variant="ghost"
               size="icon"
               className="size-8 shrink-0"
               onClick={() => setSearchOpen(true)}
-              aria-label="Search"
+              aria-label="Search database"
             >
               <Search className="size-4" />
             </Button>
@@ -97,7 +100,9 @@ export function AppSidebar() {
         <SidebarContent>
           {/* Navigation Group */}
           <SidebarGroup>
-            <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+            <SidebarGroupLabel className="font-heading text-[10px] uppercase tracking-widest text-muted-foreground">
+              Navigation
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {NAV_ITEMS.map((item) => (
@@ -107,8 +112,8 @@ export function AppSidebar() {
                       isActive={isActive(pathname, item.href)}
                       tooltip={item.label}
                     >
-                      <Link href={item.href}>
-                        <item.icon />
+                      <Link href={item.href} className="font-heading text-xs uppercase tracking-wider">
+                        <item.icon className="size-4" />
                         <span>{item.label}</span>
                       </Link>
                     </SidebarMenuButton>
@@ -122,7 +127,9 @@ export function AppSidebar() {
 
           {/* Categories Group */}
           <SidebarGroup>
-            <SidebarGroupLabel>Categories</SidebarGroupLabel>
+            <SidebarGroupLabel className="font-heading text-[10px] uppercase tracking-widest text-muted-foreground">
+              Categories
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <CategoryTree />
             </SidebarGroupContent>
@@ -132,7 +139,9 @@ export function AppSidebar() {
 
           {/* User Group */}
           <SidebarGroup>
-            <SidebarGroupLabel>User</SidebarGroupLabel>
+            <SidebarGroupLabel className="font-heading text-[10px] uppercase tracking-widest text-muted-foreground">
+              User
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {user ? (
@@ -143,8 +152,8 @@ export function AppSidebar() {
                         isActive={isActive(pathname, item.href)}
                         tooltip={item.label}
                       >
-                        <Link href={item.href}>
-                          <item.icon />
+                        <Link href={item.href} className="font-heading text-xs uppercase tracking-wider">
+                          <item.icon className="size-4" />
                           <span>{item.label}</span>
                         </Link>
                       </SidebarMenuButton>
@@ -153,8 +162,8 @@ export function AppSidebar() {
                 ) : (
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild tooltip="Sign In">
-                      <Link href="/login">
-                        <LogIn />
+                      <Link href="/login" className="font-heading text-xs uppercase tracking-wider">
+                        <LogIn className="size-4" />
                         <span>Sign In</span>
                       </Link>
                     </SidebarMenuButton>

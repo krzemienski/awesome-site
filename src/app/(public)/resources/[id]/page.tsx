@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
+import Link from "next/link"
 import {
   ExternalLink,
   Heart,
@@ -7,8 +8,10 @@ import {
   Tag as TagIcon,
   Brain,
   Star,
+  ArrowRight,
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import {
@@ -39,7 +42,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   try {
     const resource = await getResource(resourceId)
     return {
-      title: resource.title,
+      title: `${resource.title} | AVD_SYS`,
       description: resource.description?.slice(0, 160),
       openGraph: {
         title: resource.title,
@@ -105,7 +108,7 @@ export default async function ResourceDetailPage({ params }: PageProps) {
     : undefined
 
   return (
-    <div className="container mx-auto max-w-4xl space-y-6 px-4 py-8">
+    <div className="container mx-auto max-w-5xl space-y-6 px-4 py-8">
       <JsonLdScript
         data={articleJsonLd({
           title: resource.title,
@@ -121,154 +124,237 @@ export default async function ResourceDetailPage({ params }: PageProps) {
       <ViewTracker resourceId={resource.id} />
       <CategoryBreadcrumb items={breadcrumbItems} />
 
-      <div className="space-y-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">
+      {/* Two-column layout */}
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_300px]">
+        {/* Main content */}
+        <div className="space-y-6">
+          {/* Title and URL */}
+          <div className="space-y-3">
+            <h1 className="text-3xl font-bold tracking-tight font-heading">
               {resource.title}
             </h1>
             <a
               href={resource.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary inline-flex items-center gap-1.5 text-sm hover:underline"
+              className="text-accent inline-flex items-center gap-1.5 text-sm font-heading hover:underline"
             >
               {resource.url}
               <ExternalLink className="size-3.5" />
             </a>
           </div>
-          <div className="flex items-center gap-2">
+
+          {/* Metadata row */}
+          <div className="text-muted-foreground flex flex-wrap items-center gap-4 text-xs font-heading uppercase tracking-wider">
+            <span className="flex items-center gap-1">
+              <Calendar className="size-3.5" />
+              {new Date(resource.createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </span>
+            <span className="flex items-center gap-1">
+              <Heart className="size-3.5" />
+              {resource._count.favorites} favorites
+            </span>
             <Badge
               variant={resource.status === "approved" ? "default" : "secondary"}
+              className="font-heading text-[10px] uppercase tracking-wider"
             >
               {resource.status}
             </Badge>
           </div>
-        </div>
 
-        <div className="text-muted-foreground flex flex-wrap items-center gap-4 text-sm">
-          <span className="flex items-center gap-1">
-            <Calendar className="size-3.5" />
-            {new Date(resource.createdAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </span>
-          <span className="flex items-center gap-1">
-            <Heart className="size-3.5" />
-            {resource._count.favorites} favorite{resource._count.favorites === 1 ? "" : "s"}
-          </span>
-        </div>
-      </div>
+          <Separator className="border-border" />
 
-      <Separator />
-
-      <div className="prose prose-neutral dark:prose-invert max-w-none">
-        <p className="text-base leading-relaxed">{resource.description}</p>
-      </div>
-
-      {resource.tags.length > 0 && (
-        <div className="space-y-2">
-          <h2 className="flex items-center gap-2 text-sm font-semibold">
-            <TagIcon className="size-4" />
-            Tags
-          </h2>
-          <div className="flex flex-wrap gap-2">
-            {resource.tags.map(({ tag }) => (
-              <Badge key={tag.id} variant="outline">
-                {tag.name}
-              </Badge>
-            ))}
+          {/* Description */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-bold font-heading uppercase tracking-wider flex items-center gap-2">
+              About this Resource
+            </h2>
+            <p className="text-sm leading-relaxed font-heading text-muted-foreground">
+              {resource.description}
+            </p>
           </div>
-        </div>
-      )}
 
-      <div className="space-y-2">
-        <h2 className="text-sm font-semibold">Category</h2>
-        <div className="flex flex-wrap gap-2">
-          <Badge>{resource.category.name}</Badge>
-          {resource.subcategory && (
-            <Badge variant="secondary">{resource.subcategory.name}</Badge>
+          {/* Tags */}
+          {resource.tags.length > 0 && (
+            <div className="space-y-2">
+              <h3 className="flex items-center gap-2 text-xs font-bold font-heading uppercase tracking-wider">
+                <TagIcon className="size-3.5" />
+                Tags
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {resource.tags.map(({ tag }) => (
+                  <Badge
+                    key={tag.id}
+                    variant="outline"
+                    className="font-heading text-xs uppercase tracking-wider text-accent border-accent/30"
+                  >
+                    {tag.name}
+                  </Badge>
+                ))}
+              </div>
+            </div>
           )}
-          {resource.subSubcategory && (
-            <Badge variant="outline">{resource.subSubcategory.name}</Badge>
+
+          {/* Visit Website CTA */}
+          <Button
+            asChild
+            size="lg"
+            className="font-heading uppercase tracking-wider"
+          >
+            <a
+              href={resource.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit Website
+              <ArrowRight className="size-4" />
+            </a>
+          </Button>
+
+          <ResourceDetailActions resourceId={resource.id} />
+
+          {/* AI Enrichment */}
+          {isEnriched && (
+            <Card className="border-border">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-sm font-heading uppercase tracking-wider">
+                  <Brain className="size-4 text-primary" />
+                  AI Enrichment
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {difficulty && (
+                  <div className="flex items-center gap-2">
+                    <Star className="text-muted-foreground size-4" />
+                    <span className="text-xs font-heading uppercase tracking-wider">Difficulty:</span>
+                    <Badge className="font-heading text-xs">{difficulty}</Badge>
+                  </div>
+                )}
+                {keyTopics && keyTopics.length > 0 && (
+                  <div className="space-y-1.5">
+                    <span className="text-xs font-heading uppercase tracking-wider">Key Topics</span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {keyTopics.map((topic) => (
+                        <Badge key={topic} variant="outline" className="text-[10px] font-heading uppercase tracking-wider">
+                          {topic}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {suggestedTags && suggestedTags.length > 0 && (
+                  <div className="space-y-1.5">
+                    <span className="text-xs font-heading uppercase tracking-wider">Suggested Tags</span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {suggestedTags.map((tag) => (
+                        <Badge key={tag} variant="outline" className="text-[10px] font-heading uppercase tracking-wider">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           )}
+        </div>
+
+        {/* Sidebar - Specs */}
+        <div className="space-y-6">
+          <Card className="border-border">
+            <CardHeader>
+              <CardTitle className="text-sm font-heading uppercase tracking-wider">
+                Specs
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-1">
+                <span className="text-[10px] text-muted-foreground font-heading uppercase tracking-wider">
+                  Category
+                </span>
+                <div className="flex flex-wrap gap-1">
+                  <Badge className="font-heading text-[10px]">{resource.category.name}</Badge>
+                  {resource.subcategory && (
+                    <Badge variant="secondary" className="font-heading text-[10px]">
+                      {resource.subcategory.name}
+                    </Badge>
+                  )}
+                  {resource.subSubcategory && (
+                    <Badge variant="outline" className="font-heading text-[10px]">
+                      {resource.subSubcategory.name}
+                    </Badge>
+                  )}
+                </div>
+              </div>
+
+              {difficulty && (
+                <div className="space-y-1">
+                  <span className="text-[10px] text-muted-foreground font-heading uppercase tracking-wider">
+                    Difficulty
+                  </span>
+                  <Badge className="font-heading text-[10px]">{difficulty}</Badge>
+                </div>
+              )}
+
+              <div className="space-y-1">
+                <span className="text-[10px] text-muted-foreground font-heading uppercase tracking-wider">
+                  Added
+                </span>
+                <p className="text-xs font-heading">
+                  {new Date(resource.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </p>
+              </div>
+
+              <div className="space-y-1">
+                <span className="text-[10px] text-muted-foreground font-heading uppercase tracking-wider">
+                  Favorites
+                </span>
+                <p className="text-xs font-heading text-primary">
+                  {resource._count.favorites}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
-      <ResourceDetailActions resourceId={resource.id} />
-
-      {isEnriched && (
-        <Card>
+      {/* Related Resources */}
+      {relatedResources.length > 0 && (
+        <Card className="border-border">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base">
-              <Brain className="size-4" />
-              AI Enrichment
+            <CardTitle className="text-sm font-heading uppercase tracking-wider">
+              Related Resources
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            {difficulty && (
-              <div className="flex items-center gap-2">
-                <Star className="text-muted-foreground size-4" />
-                <span className="text-sm font-medium">Difficulty:</span>
-                <Badge variant="secondary">{difficulty}</Badge>
-              </div>
-            )}
-            {keyTopics && keyTopics.length > 0 && (
-              <div className="space-y-1">
-                <span className="text-sm font-medium">Key Topics</span>
-                <div className="flex flex-wrap gap-1.5">
-                  {keyTopics.map((topic) => (
-                    <Badge key={topic} variant="outline" className="text-xs">
-                      {topic}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            )}
-            {suggestedTags && suggestedTags.length > 0 && (
-              <div className="space-y-1">
-                <span className="text-sm font-medium">Suggested Tags</span>
-                <div className="flex flex-wrap gap-1.5">
-                  {suggestedTags.map((tag) => (
-                    <Badge key={tag} variant="outline" className="text-xs">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {relatedResources.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Related Resources</CardTitle>
-          </CardHeader>
           <CardContent>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {relatedResources.map((r) => (
-                <a
+                <Link
                   key={r.id}
                   href={`/resources/${r.id}`}
-                  className="flex flex-col gap-1 rounded-md border p-3 transition-colors hover:bg-accent/50"
+                  className="flex flex-col gap-2 border border-border p-3 transition-all hover:border-primary/60 hover:shadow-[0_0_8px_rgba(224,80,176,0.1)]"
                 >
-                  <span className="text-sm font-medium leading-tight">
+                  <span className="text-sm font-bold font-heading leading-tight line-clamp-1">
                     {r.title}
                   </span>
-                  <span className="text-muted-foreground flex items-center gap-2 text-xs">
-                    <Badge variant="secondary" className="text-xs">
+                  <span className="flex items-center gap-2 text-xs">
+                    <Badge variant="secondary" className="text-[10px] font-heading uppercase tracking-wider">
                       {r.category.name}
                     </Badge>
-                    <span className="flex items-center gap-0.5">
+                    <span className="flex items-center gap-0.5 text-muted-foreground font-heading">
                       <Heart className="size-3" />
                       {r.favoriteCount}
                     </span>
                   </span>
-                </a>
+                </Link>
               ))}
             </div>
           </CardContent>

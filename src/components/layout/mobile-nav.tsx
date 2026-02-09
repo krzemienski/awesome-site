@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation"
 import Link from "next/link"
-import { Home, FolderOpen, Layers, Route } from "lucide-react"
+import { Home, FolderOpen, Layers, Route, Info, Terminal } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   Sheet,
@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { href: "/resources", label: "Resources", icon: FolderOpen },
   { href: "/categories", label: "Categories", icon: Layers },
   { href: "/journeys", label: "Journeys", icon: Route },
+  { href: "/about", label: "About", icon: Info },
 ] as const
 
 interface MobileNavProps {
@@ -29,10 +30,11 @@ export function MobileNav({ open, onOpenChange }: MobileNavProps) {
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="left" className="w-72">
+      <SheetContent side="left" className="w-72 bg-background border-r border-border">
         <SheetHeader>
-          <SheetTitle className="font-heading text-lg">
-            Awesome Video
+          <SheetTitle className="flex items-center gap-2 font-heading text-lg">
+            <Terminal className="size-4 text-primary" />
+            <span className="text-primary">AVD_SYS</span>
           </SheetTitle>
           <SheetDescription className="sr-only">
             Site navigation menu
@@ -52,10 +54,10 @@ export function MobileNav({ open, onOpenChange }: MobileNavProps) {
                 href={item.href}
                 onClick={() => onOpenChange(false)}
                 className={cn(
-                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  "flex items-center gap-3 border-l-2 px-3 py-2 text-sm font-medium uppercase tracking-wider transition-colors font-heading",
                   isActive
-                    ? "bg-accent text-accent-foreground"
-                    : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+                    ? "border-primary text-primary bg-primary/5"
+                    : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground"
                 )}
               >
                 <item.icon className="size-4" />

@@ -151,6 +151,7 @@ export function parseAwesomeListMarkdown(markdown: string): ParseResult {
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
+    if (line === undefined) continue
     const lineNumber = i + 1
     const trimmed = line.trim()
 
@@ -174,7 +175,7 @@ export function parseAwesomeListMarkdown(markdown: string): ParseResult {
 
     // Parse headings
     const headingMatch = trimmed.match(/^(#{2,4})\s+(.+)$/)
-    if (headingMatch) {
+    if (headingMatch?.[1] && headingMatch[2]) {
       const level = headingMatch[1].length
       const name = headingMatch[2].trim()
 

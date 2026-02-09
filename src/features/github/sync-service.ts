@@ -129,21 +129,24 @@ async function resolveCategoryPath(
   subcategoryId: number | null
   subSubcategoryId: number | null
 }> {
-  if (categoryPath.length === 0) {
+  const first = categoryPath[0]
+  if (!first) {
     throw new AppError("Resource has no category path", 422, "MISSING_CATEGORY")
   }
 
-  const categoryId = await ensureCategory(categoryPath[0])
+  const categoryId = await ensureCategory(first)
   let subcategoryId: number | null = null
   let subSubcategoryId: number | null = null
 
-  if (categoryPath.length >= 2) {
-    subcategoryId = await ensureSubcategory(categoryPath[1], categoryId)
+  const second = categoryPath[1]
+  if (second) {
+    subcategoryId = await ensureSubcategory(second, categoryId)
   }
 
-  if (categoryPath.length >= 3 && subcategoryId !== null) {
+  const third = categoryPath[2]
+  if (third && subcategoryId !== null) {
     subSubcategoryId = await ensureSubSubcategory(
-      categoryPath[2],
+      third,
       subcategoryId
     )
   }
