@@ -5,8 +5,6 @@ import { prisma } from "@/lib/prisma"
 import { parseAwesomeListMarkdown } from "@/features/github/markdown-parser"
 import { logger } from "@/lib/logger"
 
-const GITHUB_RAW_URL =
-  "https://raw.githubusercontent.com/krzemienski/awesome-video/master/README.md"
 
 /**
  * Generate a URL-friendly slug from a name.
@@ -164,6 +162,8 @@ export const POST = withAdmin(async (req: NextRequest) => {
       unknown
     >
     const clearExisting = body.clearExisting === true
+    const repoOwner = (body.repoOwner as string) || "krzemienski"
+    const repoName = (body.repoName as string) || "awesome-video"
 
     // Clear existing data in dependency order if requested
     if (clearExisting) {
@@ -178,7 +178,8 @@ export const POST = withAdmin(async (req: NextRequest) => {
     }
 
     // Fetch awesome-list markdown from GitHub
-    const response = await fetch(GITHUB_RAW_URL)
+    const githubRawUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/master/README.md`
+    const response = await fetch(githubRawUrl)
     if (!response.ok) {
       throw new Error(
         `Failed to fetch awesome-list: ${response.status} ${response.statusText}`
@@ -276,7 +277,7 @@ export const POST = withAdmin(async (req: NextRequest) => {
         resources: counts.resources,
         skipped: counts.skipped,
       },
-      source: "krzemienski/awesome-video",
+      source: `${repoOwner}/${repoName}`,
       clearExisting,
     })
   } catch (error) {

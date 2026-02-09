@@ -91,15 +91,19 @@ export function ExportTab() {
       }
     },
     onSuccess: (result) => {
-      const url = URL.createObjectURL(result.blob)
-      const link = document.createElement("a")
-      link.href = url
-      link.download = result.filename
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      URL.revokeObjectURL(url)
-      toast.success("Export downloaded successfully")
+      try {
+        const url = URL.createObjectURL(result.blob)
+        const link = document.createElement("a")
+        link.href = url
+        link.download = result.filename
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        URL.revokeObjectURL(url)
+        toast.success("Export downloaded successfully")
+      } catch (error) {
+        toast.error("Export download failed")
+      }
     },
     onError: () => {
       toast.error("Export failed. Please try again.")

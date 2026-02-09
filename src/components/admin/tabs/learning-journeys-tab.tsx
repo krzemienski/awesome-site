@@ -19,6 +19,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { toast } from "sonner"
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -72,7 +73,7 @@ export function LearningJourneysTab() {
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false)
   const [deletingId, setDeletingId] = React.useState<number | null>(null)
 
-  // Fetch all journeys (admin sees all statuses)
+  // Fetch all journeys via admin API
   const {
     data: journeysData,
     isLoading,
@@ -80,14 +81,10 @@ export function LearningJourneysTab() {
   } = useQuery<Journey[]>({
     queryKey: ["admin", "journeys"],
     queryFn: async () => {
-      // Use the public endpoint but admin will eventually see all.
-      // For now, fetch all via a broader query. Since no admin list endpoint exists,
-      // we fetch published + draft + archived by using the public API.
-      // Admin API routes are for CRUD only, list uses public route.
-      const res = await fetch("/api/journeys?limit=200")
+      const res = await fetch("/api/admin/journeys?limit=200")
       if (!res.ok) throw new Error("Failed to fetch journeys")
       const json = await res.json()
-      return json.data?.items ?? json.data ?? []
+      return json.data ?? []
     },
     staleTime: 60_000,
   })
@@ -119,6 +116,7 @@ export function LearningJourneysTab() {
       setDialogOpen(false)
       setEditingJourney(null)
     },
+    onError: () => toast.error("Failed to create learning journey"),
   })
 
   // Update mutation
@@ -147,6 +145,7 @@ export function LearningJourneysTab() {
       setDialogOpen(false)
       setEditingJourney(null)
     },
+    onError: () => toast.error("Failed to update learning journey"),
   })
 
   // Delete mutation
@@ -166,6 +165,7 @@ export function LearningJourneysTab() {
       setDeleteDialogOpen(false)
       setDeletingId(null)
     },
+    onError: () => toast.error("Failed to delete learning journey"),
   })
 
   // Toggle featured mutation
@@ -185,6 +185,7 @@ export function LearningJourneysTab() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "journeys"] })
     },
+    onError: () => toast.error("Failed to toggle featured status"),
   })
 
   // Toggle status mutation
@@ -204,6 +205,7 @@ export function LearningJourneysTab() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "journeys"] })
     },
+    onError: () => toast.error("Failed to update journey status"),
   })
 
   function handleCreate() {

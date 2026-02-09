@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
 import {
   Square,
   AlertTriangle,
@@ -60,7 +61,7 @@ interface EnrichmentJob {
   readonly skippedItems: number
   readonly startedAt: string | null
   readonly completedAt: string | null
-  readonly errorLog: readonly ErrorLogEntry[]
+  readonly errorLog: readonly ErrorLogEntry[] | null
   readonly createdAt: string
   readonly updatedAt: string
 }
@@ -253,7 +254,7 @@ function JobErrorLog({ errorLog }: { readonly errorLog: readonly ErrorLogEntry[]
 
 function JobHistoryRow({ job }: { readonly job: EnrichmentJob }) {
   const [isOpen, setIsOpen] = React.useState(false)
-  const errorCount = Array.isArray(job.errorLog) ? job.errorLog.length : 0
+  const errorCount = job.errorLog?.length ?? 0
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen} asChild>
@@ -297,7 +298,7 @@ function JobHistoryRow({ job }: { readonly job: EnrichmentJob }) {
         {isOpen && (
           <TableRow>
             <TableCell colSpan={9} className="bg-muted/30 p-4">
-              <JobErrorLog errorLog={Array.isArray(job.errorLog) ? job.errorLog : []} />
+              <JobErrorLog errorLog={job.errorLog ?? []} />
             </TableCell>
           </TableRow>
         )}
@@ -360,6 +361,9 @@ export function EnrichmentTab() {
       queryClient.invalidateQueries({ queryKey: ["admin", "enrichment", "jobs"] })
       setStartDialogOpen(false)
     },
+    onError: () => {
+      toast.error("Failed to start enrichment job")
+    },
   })
 
   // Cancel enrichment mutation
@@ -378,6 +382,9 @@ export function EnrichmentTab() {
       queryClient.invalidateQueries({ queryKey: ["admin", "enrichment", "jobs"] })
       setCancelDialogOpen(false)
       setCancelJobId(null)
+    },
+    onError: () => {
+      toast.error("Failed to cancel enrichment job")
     },
   })
 

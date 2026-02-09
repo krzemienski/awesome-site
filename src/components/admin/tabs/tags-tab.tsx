@@ -4,6 +4,7 @@ import * as React from "react"
 import type { ColumnDef } from "@tanstack/react-table"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { Trash2, Merge, Check, X } from "lucide-react"
+import { toast } from "sonner"
 
 import { DataTable, DataTableColumnHeader } from "@/components/admin/data-table"
 import { Badge } from "@/components/ui/badge"
@@ -77,7 +78,7 @@ export function TagsTab() {
       invalidate()
       setDeleteTarget(null)
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Delete failed")
+      toast.error(err instanceof Error ? err.message : "Delete failed")
     } finally {
       setIsDeleting(false)
     }
@@ -113,7 +114,7 @@ export function TagsTab() {
       setEditingId(null)
       setEditName("")
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Rename failed")
+      toast.error(err instanceof Error ? err.message : "Rename failed")
     } finally {
       setIsSavingRename(false)
     }
@@ -152,7 +153,7 @@ export function TagsTab() {
       setMergeDialogOpen(false)
       setSelectedRows([])
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Merge failed")
+      toast.error(err instanceof Error ? err.message : "Merge failed")
     } finally {
       setIsMerging(false)
     }

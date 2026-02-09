@@ -171,7 +171,7 @@ function InfoCards({ job }: { readonly job: JobWithFindings }) {
           <div className="mt-1 flex items-center gap-2">
             <Search className="size-4 text-muted-foreground" />
             <span className="text-sm font-medium">
-              {job._count.findings}
+              {job._count?.findings ?? 0}
             </span>
           </div>
         </CardContent>
@@ -402,7 +402,7 @@ export function JobDetailPanel({ jobId }: JobDetailPanelProps) {
       <ConfigCard config={job.config} />
 
       <FindingsList
-        findings={job.findings}
+        findings={job.findings ?? []}
         onApply={handleApply}
         onDismiss={handleDismiss}
         isApplying={applyMutation.isPending}

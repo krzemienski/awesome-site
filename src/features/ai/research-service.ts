@@ -383,6 +383,7 @@ export async function getJob(id: number) {
       findings: {
         orderBy: { createdAt: "desc" },
       },
+      _count: { select: { findings: true } },
     },
   })
 

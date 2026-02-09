@@ -13,6 +13,9 @@ import {
   Eye,
   Download,
   Activity,
+  FolderTree,
+  Tag,
+  Map,
 } from "lucide-react"
 import { StatCard } from "@/components/admin/stat-card"
 import { Button } from "@/components/ui/button"
@@ -27,6 +30,11 @@ interface DashboardStats {
   readonly activeUsers: number
   readonly pendingEdits: number
   readonly enrichedResources: number
+  readonly totalCategories?: number
+  readonly totalSubcategories?: number
+  readonly totalSubSubcategories?: number
+  readonly totalTags?: number
+  readonly totalJourneys?: number
 }
 
 interface AuditLogEntry {
@@ -127,7 +135,7 @@ export function OverviewTab() {
     <div className="space-y-6">
       <h1 className="font-heading text-2xl font-bold">Overview</h1>
 
-      {/* Stats Grid */}
+      {/* Stats Grid - Row 1 */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         <StatCard
           label="Total Resources"
@@ -161,9 +169,28 @@ export function OverviewTab() {
         />
       </div>
 
+      {/* Stats Grid - Row 2 */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <StatCard
+          label="Total Categories"
+          value={stats.totalCategories ?? 0}
+          icon={<FolderTree className="size-4" />}
+        />
+        <StatCard
+          label="Total Tags"
+          value={stats.totalTags ?? 0}
+          icon={<Tag className="size-4" />}
+        />
+        <StatCard
+          label="Total Journeys"
+          value={stats.totalJourneys ?? 0}
+          icon={<Map className="size-4" />}
+        />
+      </div>
+
       {/* Quick Actions */}
       <div className="flex flex-wrap gap-3">
-        <Button variant="outline" disabled>
+        <Button variant="outline" onClick={() => navigateToTab("enrichment")}>
           <Play className="mr-2 size-4" />
           Start Enrichment
         </Button>
@@ -174,7 +201,7 @@ export function OverviewTab() {
           <Eye className="mr-2 size-4" />
           View Pending
         </Button>
-        <Button variant="outline" disabled>
+        <Button variant="outline" onClick={() => navigateToTab("export")}>
           <Download className="mr-2 size-4" />
           Export
         </Button>

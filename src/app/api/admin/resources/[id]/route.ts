@@ -5,6 +5,7 @@ import type { AuthenticatedRouteContext } from "@/features/auth/auth-types"
 import { prisma } from "@/lib/prisma"
 import { updateResourceSchema } from "@/features/resources/resource-schemas"
 import { createAuditLog } from "@/features/admin/audit-service"
+import { ResourceStatus } from "@/generated/prisma/client"
 
 export const PUT = withAdmin(
   async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
@@ -109,6 +110,61 @@ export const PUT = withAdmin(
           status: updated.status,
           categoryId: updated.categoryId,
         },
+      })
+
+      return apiSuccess(updated)
+    } catch (error) {
+      return handleApiError(error)
+    }
+  }
+)
+
+export const PATCH = withAdmin(
+  async (req: NextRequest, ctx: AuthenticatedRouteContext) => {
+    try {
+      const { id } = (await ctx.params) as { id: string }
+      const resourceId = Number(id)
+
+      if (isNaN(resourceId)) {
+        return apiError("Invalid resource ID", 400, "INVALID_ID")
+      }
+
+      const existing = await prisma.resource.findUnique({
+        where: { id: resourceId },
+        select: { id: true, title: true, url: true, status: true },
+      })
+
+      if (!existing) {
+        return apiError("Resource not found", 404, "NOT_FOUND")
+      }
+
+      const body = await req.json()
+      const { status } = body
+
+      if (!status || typeof status !== "string") {
+        return apiError("Status is required", 400, "INVALID_STATUS")
+      }
+
+      const validStatuses = Object.values(ResourceStatus)
+      if (!validStatuses.includes(status as ResourceStatus)) {
+        return apiError("Invalid status value", 400, "INVALID_STATUS")
+      }
+
+      const updated = await prisma.resource.update({
+        where: { id: resourceId },
+        data: { status: status as ResourceStatus },
+      })
+
+      await createAuditLog({
+        resourceId,
+        action: "update",
+        performedById: ctx.user.id,
+        previousState: {
+          title: existing.title,
+          url: existing.url,
+          status: existing.status,
+        },
+        newState: { status: updated.status },
       })
 
       return apiSuccess(updated)

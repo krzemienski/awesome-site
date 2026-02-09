@@ -4,6 +4,7 @@ import * as React from "react"
 import type { ColumnDef } from "@tanstack/react-table"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { MoreHorizontal, Plus, Pencil, Trash2 } from "lucide-react"
+import { toast } from "sonner"
 
 import { DataTable, DataTableColumnHeader } from "@/components/admin/data-table"
 import { Badge } from "@/components/ui/badge"
@@ -70,13 +71,13 @@ export function CategoriesTab() {
         method: "DELETE",
       })
       if (!res.ok) {
-        const body = await res.json()
+        const body = await res.json().catch(() => ({}))
         throw new Error(body.error ?? "Failed to delete category")
       }
       invalidate()
       setDeleteTarget(null)
     } catch (err) {
-      alert(err instanceof Error ? err.message : "Delete failed")
+      toast.error(err instanceof Error ? err.message : "Delete failed")
     } finally {
       setIsDeleting(false)
     }

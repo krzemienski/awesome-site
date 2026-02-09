@@ -92,7 +92,7 @@ export function JobListItem({
         <span>
           {formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}
         </span>
-        <span>{job._count.findings} findings</span>
+        <span>{job._count?.findings ?? 0} findings</span>
       </div>
     </button>
   )

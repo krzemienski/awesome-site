@@ -153,7 +153,7 @@ function DetailsCell({
               <span className="text-muted-foreground text-xs font-medium">
                 Previous:
               </span>
-              <pre className="bg-muted mt-1 overflow-auto rounded p-2 text-xs">
+              <pre className="bg-muted mt-1 max-h-32 overflow-auto rounded p-2 text-xs">
                 {JSON.stringify(previousState, null, 2)}
               </pre>
             </div>
@@ -163,7 +163,7 @@ function DetailsCell({
               <span className="text-muted-foreground text-xs font-medium">
                 New:
               </span>
-              <pre className="bg-muted mt-1 overflow-auto rounded p-2 text-xs">
+              <pre className="bg-muted mt-1 max-h-32 overflow-auto rounded p-2 text-xs">
                 {JSON.stringify(newState, null, 2)}
               </pre>
             </div>

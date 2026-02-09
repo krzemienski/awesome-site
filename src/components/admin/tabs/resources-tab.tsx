@@ -121,6 +121,7 @@ export function ResourcesTab() {
   )
   const [selectedRows, setSelectedRows] = React.useState<AdminResource[]>([])
   const [bulkDeleteOpen, setBulkDeleteOpen] = React.useState(false)
+  const [pendingAction, setPendingAction] = React.useState<number | null>(null)
 
   React.useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(search), 500)
@@ -135,10 +136,10 @@ export function ResourcesTab() {
     const params = new URLSearchParams()
     params.set("page", String(page + 1))
     params.set("limit", String(pageSize))
-    if (statusFilter) params.set("status", statusFilter)
-    if (categoryFilter) params.set("categoryId", categoryFilter)
+    if (statusFilter && statusFilter !== "all") params.set("status", statusFilter)
+    if (categoryFilter && categoryFilter !== "all") params.set("categoryId", categoryFilter)
     if (debouncedSearch) params.set("search", debouncedSearch)
-    if (enrichedFilter) params.set("enriched", enrichedFilter)
+    if (enrichedFilter && enrichedFilter !== "all") params.set("enriched", enrichedFilter)
     return params.toString()
   }, [page, pageSize, statusFilter, categoryFilter, debouncedSearch, enrichedFilter])
 
@@ -161,15 +162,34 @@ export function ResourcesTab() {
   }
 
   async function handleApprove(id: number) {
-    await fetch(`/api/resources/${id}/approve`, { method: "PUT" })
-    invalidateResources()
+    setPendingAction(id)
+    try {
+      const res = await fetch(`/api/resources/${id}/approve`, { method: "PUT" })
+      if (!res.ok) throw new Error("Failed to approve resource")
+      toast.success("Resource approved successfully")
+      invalidateResources()
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to approve resource")
+    } finally {
+      setPendingAction(null)
+    }
   }
 
   async function handleReject(id: number) {
-    await fetch(`/api/resources/${id}/reject`, { method: "PUT" })
-    invalidateResources()
+    setPendingAction(id)
+    try {
+      const res = await fetch(`/api/resources/${id}/reject`, { method: "PUT" })
+      if (!res.ok) throw new Error("Failed to reject resource")
+      toast.success("Resource rejected successfully")
+      invalidateResources()
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to reject resource")
+    } finally {
+      setPendingAction(null)
+    }
   }
 
+  // Note: This is a soft-delete that sets status to "rejected", not a hard delete
   async function handleDelete(id: number) {
     await fetch(`/api/admin/resources/${id}`, { method: "DELETE" })
     invalidateResources()
@@ -345,13 +365,19 @@ export function ResourcesTab() {
                 Edit
               </DropdownMenuItem>
               {r.status === "pending" && (
-                <DropdownMenuItem onClick={() => handleApprove(r.id)}>
+                <DropdownMenuItem
+                  onClick={() => handleApprove(r.id)}
+                  disabled={pendingAction === r.id}
+                >
                   <CheckCircle className="mr-2 size-4" />
                   Approve
                 </DropdownMenuItem>
               )}
               {r.status === "pending" && (
-                <DropdownMenuItem onClick={() => handleReject(r.id)}>
+                <DropdownMenuItem
+                  onClick={() => handleReject(r.id)}
+                  disabled={pendingAction === r.id}
+                >
                   <XCircle className="mr-2 size-4" />
                   Reject
                 </DropdownMenuItem>
@@ -361,7 +387,7 @@ export function ResourcesTab() {
                 className="text-destructive"
               >
                 <Trash2 className="mr-2 size-4" />
-                Delete
+                Reject & Archive
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

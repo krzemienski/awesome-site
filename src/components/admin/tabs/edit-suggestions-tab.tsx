@@ -9,6 +9,7 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react"
+import { toast } from "sonner"
 
 import { DataTable, DataTableColumnHeader } from "@/components/admin/data-table"
 import { Badge } from "@/components/ui/badge"
@@ -261,7 +262,11 @@ export function EditSuggestionsTab() {
       if (!res.ok) throw new Error("Failed to approve edit")
       return res.json()
     },
-    onSuccess: () => invalidateEdits(),
+    onSuccess: () => {
+      toast.success("Edit suggestion approved successfully")
+      invalidateEdits()
+    },
+    onError: () => toast.error("Failed to approve edit suggestion"),
   })
 
   const rejectMutation = useMutation({
@@ -281,10 +286,12 @@ export function EditSuggestionsTab() {
       return res.json()
     },
     onSuccess: () => {
+      toast.success("Edit suggestion rejected successfully")
       invalidateEdits()
       setRejectDialogOpen(false)
       setRejectingEditId(null)
     },
+    onError: () => toast.error("Failed to reject edit suggestion"),
   })
 
   function toggleRow(id: number) {

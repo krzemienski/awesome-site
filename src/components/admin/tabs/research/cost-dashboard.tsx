@@ -33,13 +33,23 @@ const MODEL_COLORS: Record<string, string> = {
   opus: "hsl(var(--chart-3))",
 }
 
+function getModelColor(model: string): string {
+  if (MODEL_COLORS[model]) {
+    return MODEL_COLORS[model]
+  }
+  // Fallback: cycle through chart colors for unknown models
+  const knownModelCount = Object.keys(MODEL_COLORS).length
+  const chartIndex = (knownModelCount % 5) + 1
+  return `hsl(var(--chart-${chartIndex}))`
+}
+
 function buildChartConfig(models: readonly string[]): ChartConfig {
   return Object.fromEntries(
     models.map((model) => [
       model,
       {
         label: model.charAt(0).toUpperCase() + model.slice(1),
-        color: MODEL_COLORS[model] ?? "hsl(var(--chart-4))",
+        color: getModelColor(model),
       },
     ])
   )
@@ -116,8 +126,7 @@ function ModelBreakdown({
                 <div
                   className="size-3 rounded-full"
                   style={{
-                    backgroundColor:
-                      MODEL_COLORS[model] ?? "hsl(var(--chart-4))",
+                    backgroundColor: getModelColor(model),
                   }}
                 />
                 <div className="text-sm">

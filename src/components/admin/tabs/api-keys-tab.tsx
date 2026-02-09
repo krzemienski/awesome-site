@@ -26,6 +26,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ConfirmDialog } from "@/components/shared/confirm-dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { toast } from "sonner"
 
 interface AdminApiKey {
   readonly id: string
@@ -146,6 +156,7 @@ export function ApiKeysTab() {
       queryClient.invalidateQueries({ queryKey: ["admin-api-keys"] })
       setRevokeTarget(null)
     },
+    onError: () => toast.error("Failed to revoke API key"),
   })
 
   const tierChangeMutation = useMutation({
@@ -172,6 +183,7 @@ export function ApiKeysTab() {
       setTierChangeTarget(null)
       setNewTier("")
     },
+    onError: () => toast.error("Failed to change API key tier"),
   })
 
   function openTierChange(key: AdminApiKey) {
@@ -364,7 +376,7 @@ export function ApiKeysTab() {
 
       {/* Tier change dialog */}
       {tierChangeTarget && (
-        <ConfirmDialog
+        <Dialog
           open={!!tierChangeTarget}
           onOpenChange={(open) => {
             if (!open) {
@@ -372,20 +384,56 @@ export function ApiKeysTab() {
               setNewTier("")
             }
           }}
-          title="Change API Key Tier"
-          description={`Change tier for "${tierChangeTarget.name}" from ${tierChangeTarget.tier} to:`}
-          confirmLabel="Update Tier"
-          variant="default"
-          isLoading={tierChangeMutation.isPending}
-          onConfirm={() => {
-            if (tierChangeTarget && newTier && newTier !== tierChangeTarget.tier) {
-              tierChangeMutation.mutate({
-                keyId: tierChangeTarget.id,
-                tier: newTier,
-              })
-            }
-          }}
-        />
+        >
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Change API Key Tier</DialogTitle>
+              <DialogDescription>
+                Change tier for "{tierChangeTarget.name}" from {tierChangeTarget.tier}
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-2">
+              <Label htmlFor="new-tier">New Tier</Label>
+              <Select value={newTier} onValueChange={setNewTier}>
+                <SelectTrigger id="new-tier">
+                  <SelectValue placeholder="Select tier" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="free">Free</SelectItem>
+                  <SelectItem value="basic">Basic</SelectItem>
+                  <SelectItem value="standard">Standard</SelectItem>
+                  <SelectItem value="premium">Premium</SelectItem>
+                  <SelectItem value="enterprise">Enterprise</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setTierChangeTarget(null)
+                  setNewTier("")
+                }}
+                disabled={tierChangeMutation.isPending}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  if (tierChangeTarget && newTier && newTier !== tierChangeTarget.tier) {
+                    tierChangeMutation.mutate({
+                      keyId: tierChangeTarget.id,
+                      tier: newTier,
+                    })
+                  }
+                }}
+                disabled={tierChangeMutation.isPending || !newTier || newTier === tierChangeTarget.tier}
+              >
+                {tierChangeMutation.isPending ? "Updating..." : "Update Tier"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   )

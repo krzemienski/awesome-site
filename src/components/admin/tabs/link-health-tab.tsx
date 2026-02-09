@@ -204,6 +204,20 @@ function buildColumns(
       enableSorting: false,
     },
     {
+      accessorKey: "error",
+      header: "Error",
+      cell: ({ row }) => {
+        const error = row.original.error
+        if (!error) return <span className="text-muted-foreground text-xs">-</span>
+        return (
+          <span className="max-w-[200px] truncate text-xs text-red-600" title={error}>
+            {error}
+          </span>
+        )
+      },
+      enableSorting: false,
+    },
+    {
       id: "actions",
       header: "Action",
       cell: ({ row }) => {
@@ -219,7 +233,7 @@ function buildColumns(
             className="text-destructive hover:text-destructive"
           >
             <Ban className="mr-1 size-3" />
-            Disable
+            Archive
           </Button>
         )
       },
@@ -274,6 +288,8 @@ export function LinkHealthTab() {
 
   // Track whether a check is in progress for polling
   const [isChecking, setIsChecking] = React.useState(false)
+  // Safety limit: stop polling after 5 minutes (60 refetches @ 5s interval)
+  const refetchCountRef = React.useRef(0)
 
   // Fetch existing results with history
   const {
@@ -287,6 +303,17 @@ export function LinkHealthTab() {
       if (!res.ok) throw new Error("Failed to fetch link health results")
       const json = (await res.json()) as ApiResponse<LinkHealthReportWithHistory>
       if (!json.data) throw new Error("No link health data returned")
+
+      // Increment refetch counter
+      if (isChecking) {
+        refetchCountRef.current += 1
+        // Safety limit: stop after 60 refetches (5 minutes)
+        if (refetchCountRef.current >= 60) {
+          setIsChecking(false)
+          refetchCountRef.current = 0
+        }
+      }
+
       return json.data
     },
     refetchInterval: isChecking ? 5000 : false,
@@ -303,9 +330,11 @@ export function LinkHealthTab() {
     },
     onMutate: () => {
       setIsChecking(true)
+      refetchCountRef.current = 0
     },
     onSuccess: (data) => {
       setIsChecking(false)
+      refetchCountRef.current = 0
       queryClient.invalidateQueries({ queryKey: ["admin", "link-health"] })
       toast.success(
         `Check complete: ${data.healthy} healthy, ${data.broken} broken`
@@ -313,6 +342,7 @@ export function LinkHealthTab() {
     },
     onError: () => {
       setIsChecking(false)
+      refetchCountRef.current = 0
       toast.error("Link check failed")
     },
   })
@@ -323,14 +353,17 @@ export function LinkHealthTab() {
       const res = await fetch(`/api/admin/resources/${resourceId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "disabled" }),
+        body: JSON.stringify({ status: "archived" }),
       })
-      if (!res.ok) throw new Error("Failed to disable resource")
+      if (!res.ok) throw new Error("Failed to archive resource")
       return res.json()
     },
     onSuccess: () => {
-      toast.success("Resource disabled")
+      toast.success("Resource archived")
       queryClient.invalidateQueries({ queryKey: ["admin", "link-health"] })
+    },
+    onError: () => {
+      toast.error("Failed to archive resource")
     },
   })
 

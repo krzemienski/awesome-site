@@ -170,7 +170,7 @@ export function ResearchTab() {
 
   const { completedCount, totalFindings, hasActiveJob } = useMemo(() => ({
     completedCount: jobs.filter((j) => j.status === "completed").length,
-    totalFindings: jobs.reduce((sum, j) => sum + j._count.findings, 0),
+    totalFindings: jobs.reduce((sum, j) => sum + (j._count?.findings ?? 0), 0),
     hasActiveJob: jobs.some(
       (j) => j.status === "processing" || j.status === "pending"
     ),

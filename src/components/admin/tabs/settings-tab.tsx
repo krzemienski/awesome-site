@@ -71,6 +71,10 @@ const DEFAULT_SETTINGS: SettingsState = {
 function mergeWithDefaults(
   raw: Record<string, unknown>
 ): SettingsState {
+  // Ensure raw is an object
+  if (!raw || typeof raw !== "object") {
+    return DEFAULT_SETTINGS
+  }
   return {
     "site.name": (raw["site.name"] as string) ?? DEFAULT_SETTINGS["site.name"],
     "site.description":
@@ -324,7 +328,7 @@ export function SettingsTab() {
             ))}
             {form["domain.allowlist"].length === 0 && (
               <p className="text-sm text-muted-foreground">
-                No domains configured. All domains will be allowed.
+                No domain restrictions configured. All origins are permitted for API access.
               </p>
             )}
           </div>

@@ -38,8 +38,17 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ConfirmDialog } from "@/components/shared/confirm-dialog"
 import { Label } from "@/components/ui/label"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Textarea } from "@/components/ui/textarea"
+import { toast } from "sonner"
 
 interface AdminUser {
   readonly id: string
@@ -98,7 +107,7 @@ export function UsersTab() {
   const [pageSize, setPageSize] = React.useState(20)
   const [search, setSearch] = React.useState("")
   const [debouncedSearch, setDebouncedSearch] = React.useState("")
-  const [roleFilter, setRoleFilter] = React.useState("")
+  const [roleFilter, setRoleFilter] = React.useState("all")
 
   const [profileUser, setProfileUser] = React.useState<AdminUser | null>(null)
   const [sheetOpen, setSheetOpen] = React.useState(false)
@@ -157,6 +166,7 @@ export function UsersTab() {
       return res.json()
     },
     onSuccess: invalidateUsers,
+    onError: () => toast.error("Failed to change user role"),
   })
 
   const banMutation = useMutation({
@@ -186,6 +196,7 @@ export function UsersTab() {
       setBanTarget(null)
       setBanReason("")
     },
+    onError: () => toast.error("Failed to ban/unban user"),
   })
 
   function handleRoleChange(user: AdminUser, newRole: string) {
@@ -389,17 +400,43 @@ export function UsersTab() {
         toolbarContent={toolbarContent}
       />
 
-      {/* Ban Confirm Dialog */}
-      <ConfirmDialog
-        open={banDialogOpen}
-        onOpenChange={setBanDialogOpen}
-        title={`Ban ${banTarget?.name ?? "user"}?`}
-        description="This will prevent the user from accessing the platform. You can unban them later."
-        confirmLabel="Ban User"
-        variant="destructive"
-        isLoading={banMutation.isPending}
-        onConfirm={handleBanConfirm}
-      />
+      {/* Ban Dialog with Reason Input */}
+      <Dialog open={banDialogOpen} onOpenChange={setBanDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Ban {banTarget?.name ?? "user"}?</DialogTitle>
+            <DialogDescription>
+              This will prevent the user from accessing the platform. You can unban them later.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2">
+            <Label htmlFor="ban-reason">Ban Reason (optional)</Label>
+            <Textarea
+              id="ban-reason"
+              placeholder="Enter reason for banning this user..."
+              value={banReason}
+              onChange={(e) => setBanReason(e.target.value)}
+              rows={3}
+            />
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setBanDialogOpen(false)}
+              disabled={banMutation.isPending}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleBanConfirm}
+              disabled={banMutation.isPending}
+            >
+              {banMutation.isPending ? "Banning..." : "Ban User"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Profile Side Sheet */}
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>

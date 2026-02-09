@@ -279,6 +279,19 @@ export function GithubSyncTab() {
   // ── Save config mutation ──
   const saveConfigMutation = useMutation({
     mutationFn: async () => {
+      // Validate token format if provided
+      if (token.trim().length > 0) {
+        const tokenPrefixes = ["ghp_", "github_pat_", "gho_", "ghu_", "ghs_", "ghr_"]
+        const hasValidPrefix = tokenPrefixes.some((prefix) =>
+          token.startsWith(prefix)
+        )
+        if (!hasValidPrefix) {
+          toast.warning(
+            "Token doesn't match expected GitHub format (ghp_*, github_pat_*, etc.). Saving anyway - verify if issues occur."
+          )
+        }
+      }
+
       const res = await fetch("/api/admin/github/config", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -486,7 +499,7 @@ export function GithubSyncTab() {
             <div className="space-y-0.5">
               <Label htmlFor="sync-enabled">Auto-sync enabled</Label>
               <p className="text-muted-foreground text-xs">
-                Automatically sync on a schedule (when implemented).
+                Automatic scheduling coming soon.
               </p>
             </div>
             <Switch

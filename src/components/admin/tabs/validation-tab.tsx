@@ -167,7 +167,7 @@ export function ValidationTab() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({}),
       })
-      if (!exportRes.ok) throw new Error("Failed to fetch markdown for validation")
+      if (!exportRes.ok) throw new Error("Failed to fetch markdown export")
       const exportJson = (await exportRes.json()) as {
         data: { markdown: string }
       }
@@ -178,11 +178,13 @@ export function ValidationTab() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ markdown: exportJson.data.markdown }),
       })
-      if (!res.ok) throw new Error("Validation request failed")
+      if (!res.ok) throw new Error("Validation service error")
       const json = (await res.json()) as ValidateResponse
       return json.data
     },
-    onError: () => toast.error("Validation failed"),
+    onError: (error: Error) => {
+      toast.error(error.message || "Validation failed")
+    },
   })
 
   const allIssues = validateMutation.data
