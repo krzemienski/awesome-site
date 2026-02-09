@@ -204,7 +204,7 @@ Focus: Middleware extensions for API versioning + CORS, plus static code audit f
   - _Requirements: AC-14.1, AC-14.2, AC-14.3_
   - _Design: Phase 2 step 10_
 
-- [ ] 2.6 [VERIFY] Phase 2 complete checkpoint
+- [x] 2.6 [VERIFY] Phase 2 complete checkpoint
   - **Do**: Full quality suite + verify API versioning and CORS work
   - **Verify**: `cd /Users/nick/Desktop/awesome-site && npm run lint && npm run typecheck && npm run build`
   - **Done when**: All pass. Evidence files exist in `evidence/backend/us-14-constitution/`
