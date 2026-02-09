@@ -10,6 +10,9 @@ import { VariationSwitcher } from "@/components/variation/variation-switcher"
 import { Toaster } from "@/components/ui/sonner"
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { CookieConsentProvider } from "@/components/cookie-consent/cookie-consent-context"
+import { CookieConsentBanner } from "@/components/cookie-consent/cookie-consent-banner"
+import { CookieConsentGate } from "@/components/cookie-consent/cookie-consent-gate"
 import { QueryProvider } from "@/providers/query-provider"
 import { AuthProvider } from "@/providers/auth-provider"
 import "./globals.css"
@@ -74,8 +77,13 @@ export default async function RootLayout({
                   <main className="min-h-screen">{children}</main>
                   <VariationSwitcher />
                   <Toaster />
-                  <Analytics />
-                  <SpeedInsights />
+                  <CookieConsentProvider>
+                    <CookieConsentGate>
+                      <Analytics />
+                      <SpeedInsights />
+                    </CookieConsentGate>
+                    <CookieConsentBanner />
+                  </CookieConsentProvider>
                 </VariationProvider>
               </Suspense>
             </ThemeProvider>
