@@ -85,7 +85,7 @@ Focus: Fix 6 code gaps (login, cookie consent, pino, noUncheckedIndexedAccess, A
   - **Done when**: Build succeeds with exit 0
   - **Commit**: `chore(quality): pass build checkpoint after noUncheckedIndexedAccess` (only if fixes needed)
 
-- [ ] 1.7 Create cookie consent banner (US-7)
+- [x] 1.7 Create cookie consent banner (US-7)
   - **Do**:
     1. Create `src/components/cookie-consent/cookie-consent-context.tsx`: React context with `consent: "pending" | "accepted" | "rejected"`, `accept()`, `reject()` functions. Read/write `localStorage("cookie-consent")`
     2. Create `src/components/cookie-consent/cookie-consent-banner.tsx`: `"use client"` component, fixed-bottom banner when consent === "pending". Accept/Reject buttons. Styled with shadcn Card + Button
@@ -98,7 +98,7 @@ Focus: Fix 6 code gaps (login, cookie consent, pino, noUncheckedIndexedAccess, A
   - _Requirements: FR-7, AC-7.1, AC-7.2, AC-7.3, AC-7.4_
   - _Design: Cookie Consent Component Flow_
 
-- [ ] 1.8 Lazy-load ReactQueryDevtools (US-17 AC-17.1)
+- [x] 1.8 Lazy-load ReactQueryDevtools (US-17 AC-17.1)
   - **Do**:
     1. Open `src/providers/query-provider.tsx`
     2. Replace direct `import { ReactQueryDevtools }` with `React.lazy(() => import("@tanstack/react-query-devtools").then(m => ({ default: m.ReactQueryDevtools })))`
@@ -111,7 +111,7 @@ Focus: Fix 6 code gaps (login, cookie consent, pino, noUncheckedIndexedAccess, A
   - _Requirements: AC-17.1_
   - _Design: Technical Decisions table_
 
-- [ ] 1.9 Production infrastructure fixes batch (US-17)
+- [x] 1.9 Production infrastructure fixes batch (US-17)
   - **Do**:
     1. Fix `public/robots.txt`: create if missing with Disallow lines before Allow lines for same paths
     2. Create `src/app/api/cron/cleanup-view-history/route.ts`: DELETE handler that removes ViewHistory entries older than 90 days. Protected with `x-cron-secret` header check
